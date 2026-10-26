@@ -119,6 +119,8 @@ offset_left = 23.0
 offset_top = 121.0
 offset_right = 296.0
 offset_bottom = 177.0
+scale = Vector2(0.6, 0.6)
+pivot_offset = Vector2(136.5, 56)
 texture = ExtResource("5_dialog")
 
 [node name="Text" type="Label" parent="HintBox"]
