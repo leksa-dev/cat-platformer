@@ -1,7 +1,7 @@
 extends "res://scenes/ui/menu_list.gd"
-# Pause menu (Esc / P / Options): WZNÓW, OPCJE, OD NOWA, MENU. The orange plank marks the choice.
+# Pause menu (Esc / P / Options): WZNÓW, OPCJE, OD NOWA, DEV, MENU. The orange plank marks the choice.
 
-const BUTTONS_Y := [42, 63, 82, 103]  # button centres in pause_panel.png (layout.json)
+const BUTTONS_Y := [42, 63, 82, 102, 123]  # button centres in pause_panel5.png (4-plank art + one copied plank)
 
 var _in_options := false
 
@@ -55,21 +55,22 @@ func _open_dev() -> void:
 
 func back_from_dev() -> void:
 	visible = true
-	_show_options()
+	_show_main()
+	select(3)
 
 
 func _show_main() -> void:
 	_in_options = false
-	_set_items(["WZNÓW", "OPCJE", "OD NOWA", "MENU"])  # "MENU GŁÓWNE" doesn't fit the plank
+	_set_items(["WZNÓW", "OPCJE", "OD NOWA", "DEV", "MENU"])  # "MENU GŁÓWNE" doesn't fit the plank
 
 
 func _show_options() -> void:
 	_in_options = true
-	_set_items([fullscreen_text(), music_text(), "DEV", "WRÓĆ"])
+	_set_items([fullscreen_text(), music_text(), "WRÓĆ"])
 
 
 func _set_items(texts: Array) -> void:
-	var labels := [$Panel/Item0, $Panel/Item1, $Panel/Item2, $Panel/Item3]
+	var labels := [$Panel/Item0, $Panel/Item1, $Panel/Item2, $Panel/Item3, $Panel/Item4]
 	items.clear()
 	for i in labels.size():
 		labels[i].text = texts[i] if i < texts.size() else ""
@@ -94,8 +95,7 @@ func _on_chosen(index: int) -> void:
 				Game.toggle_music()
 				$Panel/Item1.text = music_text()
 				select(1)
-			2: _open_dev()
-			3: _show_main()
+			2: _show_main()
 		return
 	match index:
 		0: _close()
@@ -103,6 +103,7 @@ func _on_chosen(index: int) -> void:
 		2:
 			_close()
 			get_tree().reload_current_scene()
-		3:
+		3: _open_dev()
+		4:
 			visible = false
 			Game.go_to_menu()

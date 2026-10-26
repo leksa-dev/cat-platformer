@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/ui/hud.gd" id="1_hud"]
 [ext_resource type="Texture2D" path="res://assets/game/hp_frame.png" id="2_frame"]
-[ext_resource type="Texture2D" path="res://assets/game/ui/pause_panel.png" id="3_panel"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/pause_panel5.png" id="3_panel"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/button_hi.png" id="4_hi"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/dialog.png" id="5_dialog"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/banner.png" id="6_banner"]
@@ -103,9 +103,9 @@ color = Color(0, 0, 0, 0.45)
 
 [node name="Panel" type="TextureRect" parent="Pause"]
 offset_left = 104
-offset_top = 31
+offset_top = 21
 offset_right = 215
-offset_bottom = 149
+offset_bottom = 159
 texture = ExtResource("3_panel")
 
 [node name="Highlight" type="TextureRect" parent="Pause/Panel"]
@@ -145,9 +145,16 @@ horizontal_alignment = 1
 
 [node name="Item3" type="Label" parent="Pause/Panel"]
 offset_left = 12
-offset_top = 95
+offset_top = 94
 offset_right = 101
-offset_bottom = 111
+offset_bottom = 110
+horizontal_alignment = 1
+
+[node name="Item4" type="Label" parent="Pause/Panel"]
+offset_left = 12
+offset_top = 115
+offset_right = 101
+offset_bottom = 131
 horizontal_alignment = 1
 
 [node name="Dev" type="Control" parent="."]
