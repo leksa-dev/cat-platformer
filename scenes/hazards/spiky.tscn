@@ -1,0 +1,14 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/hazards/hazard.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/beach/cactus_a.png" id="2_t"]
+
+[node name="Spiky" type="Node2D"]
+script = ExtResource("1_s")
+hit_size = Vector2(8, 12)
+hit_offset = Vector2(0, -6)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_t")
+centered = false
+offset = Vector2(-6, -16)

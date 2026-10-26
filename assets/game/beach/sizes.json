@@ -1,0 +1,157 @@
+{
+ "palm_a": [
+  68,
+  87
+ ],
+ "palm_b": [
+  38,
+  87
+ ],
+ "palm_c": [
+  45,
+  68
+ ],
+ "palm_d": [
+  41,
+  83
+ ],
+ "palm_small": [
+  20,
+  42
+ ],
+ "bar": [
+  81,
+  65
+ ],
+ "beach_set": [
+  40,
+  30
+ ],
+ "coconut": [
+  16,
+  16,
+  5
+ ],
+ "cactus_a": [
+  13,
+  16
+ ],
+ "cactus_b": [
+  12,
+  16
+ ],
+ "cactus_c": [
+  13,
+  17
+ ],
+ "cactus_d": [
+  9,
+  11
+ ],
+ "cactus_e": [
+  8,
+  11
+ ],
+ "cactus_f": [
+  8,
+  11
+ ],
+ "cactus_g": [
+  11,
+  10
+ ],
+ "bush_palm": [
+  16,
+  12
+ ],
+ "flower_red": [
+  10,
+  9
+ ],
+ "bush_flower": [
+  18,
+  12
+ ],
+ "bush_fern": [
+  19,
+  13
+ ],
+ "fern_tall": [
+  12,
+  13
+ ],
+ "fern_b": [
+  13,
+  12
+ ],
+ "rock_big": [
+  22,
+  15
+ ],
+ "log": [
+  16,
+  9
+ ],
+ "rock_s": [
+  14,
+  8
+ ],
+ "shell_pink": [
+  9,
+  9
+ ],
+ "shell_orange": [
+  8,
+  7
+ ],
+ "shell_c": [
+  8,
+  7
+ ],
+ "coral": [
+  10,
+  8
+ ],
+ "cat_drink": [
+  15,
+  13,
+  8
+ ],
+ "cat_surf": [
+  21,
+  16,
+  6
+ ],
+ "background": [
+  1280,
+  180
+ ],
+ "rock_sand": [
+  18,
+  18
+ ],
+ "rock_pillar": [
+  14,
+  21
+ ],
+ "cactus_big_a": [
+  24,
+  30
+ ],
+ "cactus_big_b": [
+  23,
+  30
+ ],
+ "cactus_big_c": [
+  23,
+  31
+ ],
+ "cactus_big_d": [
+  16,
+  21
+ ],
+ "cactus_big_g": [
+  21,
+  20
+ ]
+}

@@ -1,0 +1,247 @@
+[gd_scene format=4]
+
+[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_level"]
+[ext_resource type="TileSet" path="res://scenes/level/tileset.tres" id="2_tiles"]
+[ext_resource type="PackedScene" path="res://scenes/player/cat.tscn" id="3_cat"]
+[ext_resource type="PackedScene" path="res://scenes/objects/goal.tscn" id="4_goal"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="5_hud"]
+[ext_resource type="Texture2D" path="res://assets/game/background.png" id="6_bg"]
+[ext_resource type="Texture2D" path="res://assets/game/leaf.png" id="7_leaf"]
+[ext_resource type="PackedScene" path="res://scenes/objects/tree.tscn" id="8_tree"]
+[ext_resource type="PackedScene" path="res://scenes/objects/vine.tscn" id="9_vine"]
+[ext_resource type="PackedScene" path="res://scenes/objects/catnip.tscn" id="10_catnip"]
+[ext_resource type="PackedScene" path="res://scenes/objects/water.tscn" id="11_water"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/berry_bush.png" id="d_berry_bush"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/bush_b.png" id="d_bush_b"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/bush_c.png" id="d_bush_c"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/bush_flowers.png" id="d_bush_flowers"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/flower_white.png" id="d_flower_white"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/flowers_white.png" id="d_flowers_white"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/flowers_yellow.png" id="d_flowers_yellow"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_a.png" id="d_grass_a"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_b.png" id="d_grass_b"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_c.png" id="d_grass_c"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_d.png" id="d_grass_d"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_e.png" id="d_grass_e"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_f.png" id="d_grass_f"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/grass_g.png" id="d_grass_g"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/mushroom.png" id="d_mushroom"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/mushroom_red.png" id="d_mushroom_red"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/rock_a.png" id="d_rock_a"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/rock_big.png" id="d_rock_big"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/rock_s1.png" id="d_rock_s1"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/rock_s2.png" id="d_rock_s2"]
+[ext_resource type="Texture2D" path="res://assets/game/deco/stump.png" id="d_stump"]
+
+[node name="Level01" type="Node2D"]
+script = ExtResource("1_level")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Sky" type="Sprite2D" parent="Background"]
+texture_repeat = 2
+texture = ExtResource("6_bg")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 180)
+
+[node name="Ground" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAA0AAAALAAAABwABAA0AAAATAAAACwACAA0AAAAFAAAAAQADAA0AAAAAAAAAAwAEAA0AAAAAAAAAAwAFAA0AAAAAAAAAAwAGAA0AAAAAAAAAAwAHAA0AAAAAAAAAAwAIAA0AAAAAAAAAAwAJAA0AAAAAAAAAAwAKAA0AAAAAAAAAAwALAA0AAAAAAAAAAwAMAA0AAAAAAAAAAwANAA0AAAAEAAAAAwAOAA0AAAAGAAAAAQAAAA4AAAANAAAABwAAAA8AAAANAAAABgABAA4AAAATAAAACwABAA8AAAAPAAAACgACAA4AAAAHAAAAAQACAA8AAAAHAAAAAAADAA4AAAABAAAAAwADAA8AAAAKAAAAAgAEAA4AAAABAAAAAwAEAA8AAAAKAAAAAgAFAA4AAAABAAAAAwAFAA8AAAABAAAAAgAGAA4AAAABAAAAAwAGAA8AAAABAAAAAgAHAA4AAAABAAAAAwAHAA8AAAABAAAAAgAIAA4AAAABAAAAAwAIAA8AAAABAAAAAgAJAA4AAAAJAAAAAwAJAA8AAAABAAAAAgAKAA4AAAAKAAAAAwAKAA8AAAABAAAAAgALAA4AAAABAAAAAwALAA8AAAABAAAAAgAMAA4AAAABAAAAAwAMAA8AAAAKAAAAAgANAA4AAAABAAAAAwANAA8AAAABAAAAAgAOAA4AAAAIAAAAAQAOAA8AAAAIAAAAAAARAA0AAAAFAAAAAQASAA0AAAAAAAAAAwATAA0AAAAAAAAAAwAUAA0AAAAAAAAAAwAVAA0AAAAAAAAAAwARAA4AAAAHAAAAAQARAA8AAAAHAAAAAAASAA4AAAABAAAAAwASAA8AAAAJAAAAAgATAA4AAAAJAAAAAwATAA8AAAAJAAAAAgAUAA4AAAABAAAAAwAUAA8AAAAJAAAAAgAVAA4AAAABAAAAAwAVAA8AAAAJAAAAAgAWAAwAAAAFAAAAAQAXAAwAAAAAAAAAAwAYAAwAAAAAAAAAAwAZAAwAAAAEAAAAAwAaAAwAAAAAAAAAAwAbAAwAAAAAAAAAAwAcAAwAAAAAAAAAAwAdAAwAAAAGAAAAAQAWAA0AAAAKAAAAAwAWAA4AAAABAAAAAwAWAA8AAAAKAAAAAgAXAA0AAAABAAAAAwAXAA4AAAABAAAAAwAXAA8AAAABAAAAAgAYAA0AAAABAAAAAwAYAA4AAAAKAAAAAwAYAA8AAAABAAAAAgAZAA0AAAABAAAAAwAZAA4AAAABAAAAAwAZAA8AAAABAAAAAgAaAA0AAAABAAAAAwAaAA4AAAAKAAAAAwAaAA8AAAABAAAAAgAbAA0AAAABAAAAAwAbAA4AAAAJAAAAAwAbAA8AAAABAAAAAgAcAA0AAAAKAAAAAwAcAA4AAAAKAAAAAwAcAA8AAAABAAAAAgAdAA0AAAAIAAAAAQAdAA4AAAAIAAAAAQAdAA8AAAAIAAAAAAAeAAsAAAANAAAABAAfAAsAAAAPAAAADAAgAAsAAAALAAAACAAiAAoAAAALAAAABAAjAAoAAAACAAAADAAkAAoAAAAMAAAACAAmAA0AAAAFAAAAAQAnAA0AAAAAAAAAAwAoAA0AAAAAAAAAAwApAA0AAAAAAAAAAwAqAA0AAAAAAAAAAwArAA0AAAAAAAAAAwAsAA0AAAAAAAAAAwAtAA0AAAAAAAAAAwAuAA0AAAAAAAAAAwAvAA0AAAAAAAAAAwAwAA0AAAAAAAAAAwAxAA0AAAAAAAAAAwAyAA0AAAAAAAAAAwAzAA0AAAAAAAAAAwA0AA0AAAAGAAAAAQA1AA0A//////////82AA0A//////////83AA0A//////////84AA0A//////////85AA0A//////////86AA0AAAAFAAAAAQA7AA0AAAAGAAAAAQAmAA4AAAAHAAAAAQAmAA8AAAAHAAAAAAAnAA4AAAABAAAAAwAnAA8AAAABAAAAAgAoAA4AAAAJAAAAAwAoAA8AAAABAAAAAgApAA4AAAABAAAAAwApAA8AAAABAAAAAgAqAA4AAAAJAAAAAwAqAA8AAAABAAAAAgArAA4AAAABAAAAAwArAA8AAAABAAAAAgAsAA4AAAAKAAAAAwAsAA8AAAABAAAAAgAtAA4AAAABAAAAAwAtAA8AAAABAAAAAgAuAA4AAAABAAAAAwAuAA8AAAABAAAAAgAvAA4AAAABAAAAAwAvAA8AAAABAAAAAgAwAA4AAAABAAAAAwAwAA8AAAABAAAAAgAxAA4AAAABAAAAAwAxAA8AAAABAAAAAgAyAA4AAAABAAAAAwAyAA8AAAAKAAAAAgAzAA4AAAABAAAAAwAzAA8AAAAKAAAAAgA0AA4AAAAIAAAAAQA0AA8AAAAKAAAAAgA1AA4A//////////81AA8AAAAAAAAAAgA2AA4A//////////82AA8AAAAAAAAAAgA3AA4A//////////83AA8AAAAAAAAAAgA4AA4A//////////84AA8AAAAAAAAAAgA5AA4A//////////85AA8AAAADAAAAAgA6AA4AAAAHAAAAAQA6AA8AAAABAAAAAgA7AA4AAAAIAAAAAQA7AA8AAAAIAAAAAAAsAAQAAAACAAAABQAsAAUAAAAOAAAABwAsAAYAAAAPAAAABwAsAAcAAAAPAAAABwAsAAgAAAASAAAABwAsAAkAAAAMAAAABwAsAAoAAAAPAAAABgAtAAQAAAAOAAAACQAtAAUAAAAOAAAACwAtAAYAAAACAAAACwAtAAcAAAAMAAAACwAtAAgAAAASAAAACwAtAAkAAAALAAAACwAtAAoAAAANAAAACgAxAAMAAAAOAAAABQAxAAQAAAAMAAAABwAxAAUAAAALAAAABwAxAAYAAAARAAAABwAxAAcAAAALAAAABwAxAAgAAAANAAAABwAxAAkAAAAMAAAABwAxAAoAAAAMAAAABwAxAAsAAAAMAAAABwAxAAwAAAACAAAABgAyAAMAAAAMAAAACQAyAAQAAAACAAAACwAyAAUAAAANAAAACwAyAAYAAAATAAAACwAyAAcAAAACAAAACwAyAAgAAAAOAAAACwAyAAkAAAANAAAACwAyAAoAAAACAAAACwAyAAsAAAAQAAAACwAyAAwAAAAUAAAACgA/AA0A//////////9AAA0A//////////9BAA0AAAAFAAAAAQBCAA0AAAADAAAAAwBDAA0AAAAAAAAAAwBEAA0AAAADAAAAAwBFAA0AAAAEAAAAAwBGAA0AAAAAAAAAAwBHAA0AAAADAAAAAwBIAA0AAAAAAAAAAwBJAA0AAAAAAAAAAwBKAA0AAAAAAAAAAwBLAA0AAAAAAAAAAwBMAA0AAAAAAAAAAwBNAA0AAAAAAAAAAwBOAA0AAAAAAAAAAwBPAA0AAAADAAAAAwBQAA0AAAADAAAAAwBRAA0AAAAAAAAAAwBSAA0AAAAAAAAAAwBTAA0AAAAEAAAAAwBUAA0AAAADAAAAAwBVAA0AAAAAAAAAAwBWAA0AAAADAAAAAwBXAA0AAAAGAAAAAQBYAA0AAAANAAAABwBZAA0AAAAUAAAACwA/AA4A//////////8/AA8A//////////9AAA4A//////////9AAA8A//////////9BAA4AAAAHAAAAAQBBAA8AAAAHAAAAAABCAA4AAAAJAAAAAwBCAA8AAAABAAAAAgBDAA4AAAABAAAAAwBDAA8AAAABAAAAAgBEAA4AAAABAAAAAwBEAA8AAAABAAAAAgBFAA4AAAABAAAAAwBFAA8AAAABAAAAAgBGAA4AAAABAAAAAwBGAA8AAAABAAAAAgBHAA4AAAAJAAAAAwBHAA8AAAABAAAAAgBIAA4AAAABAAAAAwBIAA8AAAAJAAAAAgBJAA4AAAABAAAAAwBJAA8AAAAKAAAAAgBKAA4AAAAJAAAAAwBKAA8AAAAJAAAAAgBLAA4AAAABAAAAAwBLAA8AAAABAAAAAgBMAA4AAAABAAAAAwBMAA8AAAAKAAAAAgBNAA4AAAABAAAAAwBNAA8AAAABAAAAAgBOAA4AAAABAAAAAwBOAA8AAAAJAAAAAgBPAA4AAAABAAAAAwBPAA8AAAABAAAAAgBQAA4AAAABAAAAAwBQAA8AAAABAAAAAgBRAA4AAAAJAAAAAwBRAA8AAAAKAAAAAgBSAA4AAAABAAAAAwBSAA8AAAABAAAAAgBTAA4AAAABAAAAAwBTAA8AAAABAAAAAgBUAA4AAAAKAAAAAwBUAA8AAAABAAAAAgBVAA4AAAABAAAAAwBVAA8AAAABAAAAAgBWAA4AAAABAAAAAwBWAA8AAAAKAAAAAgBXAA4AAAAIAAAAAQBXAA8AAAAIAAAAAABYAA4AAAACAAAABwBYAA8AAAASAAAABgBZAA4AAAAWAAAACwBZAA8AAAARAAAACgAAAAAAAAALAAAABQAAAAEAAAALAAAABwAAAAIAAAANAAAABwAAAAMAAAANAAAABwAAAAQAAAARAAAABwAAAAUAAAACAAAABwAAAAYAAAAMAAAABwAAAAcAAAAQAAAABwAAAAgAAAAPAAAABwAAAAkAAAAVAAAABwAAAAoAAAANAAAABwAAAAsAAAAVAAAABwAAAAwAAAANAAAABwABAAAAAAALAAAACQABAAEAAAAOAAAACwABAAIAAAASAAAACwABAAMAAAAMAAAACwABAAQAAAAOAAAACwABAAUAAAANAAAACwABAAYAAAAPAAAACwABAAcAAAAQAAAACwABAAgAAAAOAAAACwABAAkAAAAMAAAACwABAAoAAAALAAAACwABAAsAAAAPAAAACwABAAwAAAACAAAACwBYAAAAAAASAAAABQBYAAEAAAAOAAAABwBYAAIAAAASAAAABwBYAAMAAAARAAAABwBYAAQAAAAOAAAABwBYAAUAAAALAAAABwBYAAYAAAAUAAAABwBYAAcAAAALAAAABwBYAAgAAAASAAAABwBYAAkAAAAUAAAABwBYAAoAAAALAAAABwBYAAsAAAAPAAAABwBYAAwAAAANAAAABwBZAAAAAAASAAAACQBZAAEAAAAOAAAACwBZAAIAAAAMAAAACwBZAAMAAAALAAAACwBZAAQAAAAUAAAACwBZAAUAAAALAAAACwBZAAYAAAAOAAAACwBZAAcAAAANAAAACwBZAAgAAAAPAAAACwBZAAkAAAAPAAAACwBZAAoAAAASAAAACwBZAAsAAAACAAAACwBZAAwAAAACAAAACwAwAAMA//////////8wAAQA//////////8wAAUA//////////8wAAYA//////////8wAAcA//////////8wAAgA//////////8wAAkA//////////8wAAoA//////////8wAAsA//////////8wAAwA//////////9QAAgAAAACAAAACABPAAgAAAALAAAADABOAAgAAAAQAAAADABNAAgAAAAMAAAADABMAAgAAAALAAAABAA=")
+tile_set = ExtResource("2_tiles")
+
+[node name="Decor" type="Node2D" parent="."]
+
+[node name="grass_b_0" type="Sprite2D" parent="Decor"]
+position = Vector2(44, 209)
+texture = ExtResource("d_grass_b")
+centered = false
+offset = Vector2(-7, -9)
+
+[node name="flowers_white_1" type="Sprite2D" parent="Decor"]
+position = Vector2(104, 209)
+texture = ExtResource("d_flowers_white")
+centered = false
+offset = Vector2(-10, -12)
+
+[node name="mushroom_red_2" type="Sprite2D" parent="Decor"]
+position = Vector2(177, 209)
+texture = ExtResource("d_mushroom_red")
+centered = false
+offset = Vector2(-3, -7)
+
+[node name="rock_a_3" type="Sprite2D" parent="Decor"]
+position = Vector2(286, 209)
+texture = ExtResource("d_rock_a")
+centered = false
+offset = Vector2(-6, -10)
+
+[node name="grass_c_4" type="Sprite2D" parent="Decor"]
+position = Vector2(318, 209)
+texture = ExtResource("d_grass_c")
+centered = false
+offset = Vector2(-6, -8)
+
+[node name="bush_flowers_5" type="Sprite2D" parent="Decor"]
+position = Vector2(372, 193)
+texture = ExtResource("d_bush_flowers")
+centered = false
+offset = Vector2(-8, -11)
+
+[node name="rock_s2_6" type="Sprite2D" parent="Decor"]
+position = Vector2(420, 193)
+texture = ExtResource("d_rock_s2")
+centered = false
+offset = Vector2(-4, -6)
+
+[node name="flower_white_7" type="Sprite2D" parent="Decor"]
+position = Vector2(452, 193)
+texture = ExtResource("d_flower_white")
+centered = false
+offset = Vector2(-3, -8)
+
+[node name="grass_f_8" type="Sprite2D" parent="Decor"]
+position = Vector2(504, 177)
+texture = ExtResource("d_grass_f")
+centered = false
+offset = Vector2(-4, -7)
+
+[node name="flower_white_9" type="Sprite2D" parent="Decor"]
+position = Vector2(566, 161)
+texture = ExtResource("d_flower_white")
+centered = false
+offset = Vector2(-3, -8)
+
+[node name="bush_b_10" type="Sprite2D" parent="Decor"]
+position = Vector2(624, 209)
+texture = ExtResource("d_bush_b")
+centered = false
+offset = Vector2(-9, -11)
+
+[node name="stump_11" type="Sprite2D" parent="Decor"]
+position = Vector2(662, 209)
+texture = ExtResource("d_stump")
+centered = false
+offset = Vector2(-6, -12)
+
+[node name="grass_d_12" type="Sprite2D" parent="Decor"]
+position = Vector2(698, 209)
+texture = ExtResource("d_grass_d")
+centered = false
+offset = Vector2(-5, -8)
+
+[node name="mushroom_13" type="Sprite2D" parent="Decor"]
+position = Vector2(758, 209)
+texture = ExtResource("d_mushroom")
+centered = false
+offset = Vector2(-3, -7)
+
+[node name="rock_big_14" type="Sprite2D" parent="Decor"]
+position = Vector2(828, 209)
+texture = ExtResource("d_rock_big")
+centered = false
+offset = Vector2(-7, -11)
+
+[node name="bush_c_17" type="Sprite2D" parent="Decor"]
+position = Vector2(1144, 209)
+texture = ExtResource("d_bush_c")
+centered = false
+offset = Vector2(-9, -11)
+
+[node name="grass_f_18" type="Sprite2D" parent="Decor"]
+position = Vector2(1172, 209)
+texture = ExtResource("d_grass_f")
+centered = false
+offset = Vector2(-4, -7)
+
+[node name="rock_s1_19" type="Sprite2D" parent="Decor"]
+position = Vector2(1238, 209)
+texture = ExtResource("d_rock_s1")
+centered = false
+offset = Vector2(-4, -6)
+
+[node name="berry_bush_20" type="Sprite2D" parent="Decor"]
+position = Vector2(1302, 209)
+texture = ExtResource("d_berry_bush")
+centered = false
+offset = Vector2(-6, -13)
+
+[node name="flowers_white_21" type="Sprite2D" parent="Decor"]
+position = Vector2(1342, 209)
+texture = ExtResource("d_flowers_white")
+centered = false
+offset = Vector2(-10, -12)
+
+[node name="grass_g_22" type="Sprite2D" parent="Decor"]
+position = Vector2(1372, 209)
+texture = ExtResource("d_grass_g")
+centered = false
+offset = Vector2(-4, -7)
+
+[node name="mushroom_red_23" type="Sprite2D" parent="Decor"]
+position = Vector2(1394, 209)
+texture = ExtResource("d_mushroom_red")
+centered = false
+offset = Vector2(-3, -7)
+
+[node name="grass_a_24" type="Sprite2D" parent="Decor"]
+position = Vector2(1230, 129)
+texture = ExtResource("d_grass_a")
+centered = false
+offset = Vector2(-7, -8)
+
+[node name="flower_white_25" type="Sprite2D" parent="Decor"]
+position = Vector2(1284, 129)
+texture = ExtResource("d_flower_white")
+centered = false
+offset = Vector2(-3, -8)
+
+[node name="Tree1" parent="." instance=ExtResource("8_tree")]
+position = Vector2(152, 208)
+
+[node name="Tree1b" parent="." instance=ExtResource("8_tree")]
+position = Vector2(200, 208)
+
+[node name="Tree2" parent="." instance=ExtResource("8_tree")]
+position = Vector2(1088, 208)
+
+[node name="Vine" parent="." instance=ExtResource("9_vine")]
+position = Vector2(1208, 120)
+
+[node name="Catnip1" parent="." instance=ExtResource("10_catnip")]
+position = Vector2(228, 208)
+
+[node name="Catnip2" parent="." instance=ExtResource("10_catnip")]
+position = Vector2(950, 208)
+
+[node name="Spawn" type="Marker2D" parent="."]
+position = Vector2(72, 208)
+
+[node name="Goal" parent="." instance=ExtResource("4_goal")]
+position = Vector2(1256, 128)
+
+[node name="Cat" parent="." instance=ExtResource("3_cat")]
+
+[node name="Leaves" type="CPUParticles2D" parent="."]
+amount = 14
+lifetime = 8.0
+preprocess = 8.0
+local_coords = false
+texture = ExtResource("7_leaf")
+emission_shape = 3
+emission_rect_extents = Vector2(220, 4)
+direction = Vector2(-1, 1)
+spread = 25.0
+gravity = Vector2(0, 6)
+initial_velocity_min = 10.0
+initial_velocity_max = 25.0
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.6
+
+[node name="Water" parent="." instance=ExtResource("11_water")]
+position = Vector2(848, 208)
+
+[node name="HUD" parent="." instance=ExtResource("5_hud")]

@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/crow/crow.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/crow.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(12, 10)
+
+[node name="Crow" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_s")
+water_behavior = 2
+max_hp = 2
+flying = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -13)
+texture = ExtResource("2_tex")
+hframes = 23
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("shape")

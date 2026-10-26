@@ -1,0 +1,189 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://assets/game/hp_frame.png" id="2_frame"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/pause_panel.png" id="3_panel"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/button_hi.png" id="4_hi"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/dialog.png" id="5_dialog"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/banner.png" id="6_banner"]
+[ext_resource type="Script" path="res://scenes/ui/pause.gd" id="7_pause"]
+[ext_resource type="Script" path="res://scenes/ui/dev.gd" id="8_dev"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/arrow.png" id="9_arrow"]
+
+[sub_resource type="StyleBoxEmpty" id="hp_bg"]
+
+[sub_resource type="StyleBoxFlat" id="hp_fill"]
+bg_color = Color(0.85, 0.2, 0.25, 1)
+
+[node name="HUD" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_hud")
+
+[node name="Lives" type="HBoxContainer" parent="."]
+offset_left = 62.0
+offset_top = 6.0
+theme_override_constants/separation = 2
+
+[node name="HPFrame" type="TextureRect" parent="."]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 58.0
+offset_bottom = 18.0
+texture = ExtResource("2_frame")
+
+[node name="HP" type="ProgressBar" parent="."]
+offset_left = 20.0
+offset_top = 8.0
+offset_right = 53.0
+offset_bottom = 13.0
+theme_override_styles/background = SubResource("hp_bg")
+theme_override_styles/fill = SubResource("hp_fill")
+max_value = 6.0
+step = 1.0
+value = 6.0
+show_percentage = false
+
+[node name="DevBadge" type="Label" parent="."]
+modulate = Color(1, 0.45, 0.45, 1)
+offset_left = 200.0
+offset_top = 3.0
+offset_right = 316.0
+offset_bottom = 19.0
+horizontal_alignment = 2
+
+[node name="Banner" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = 116.0
+offset_top = 22.0
+offset_right = 204.0
+offset_bottom = 48.0
+texture = ExtResource("6_banner")
+
+[node name="Text" type="Label" parent="Banner"]
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 84.0
+offset_bottom = 22.0
+horizontal_alignment = 1
+
+[node name="Message" type="TextureRect" parent="."]
+visible = false
+offset_left = 23.0
+offset_top = 62.0
+offset_right = 296.0
+offset_bottom = 118.0
+texture = ExtResource("5_dialog")
+
+[node name="Title" type="Label" parent="Message"]
+offset_left = 62
+offset_top = 9
+offset_right = 250
+offset_bottom = 25
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Message"]
+modulate = Color(0.85, 0.8, 0.7, 1)
+offset_left = 62
+offset_top = 26
+offset_right = 250
+offset_bottom = 42
+horizontal_alignment = 1
+
+[node name="Pause" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("7_pause")
+
+[node name="Dim" type="ColorRect" parent="Pause"]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.45)
+
+[node name="Panel" type="TextureRect" parent="Pause"]
+offset_left = 104
+offset_top = 31
+offset_right = 215
+offset_bottom = 149
+texture = ExtResource("3_panel")
+
+[node name="Highlight" type="TextureRect" parent="Pause/Panel"]
+offset_left = 11
+offset_right = 101
+offset_bottom = 19.0
+texture = ExtResource("4_hi")
+
+[node name="Title" type="Label" parent="Pause/Panel"]
+offset_left = 10.0
+offset_top = 4
+offset_right = 101.0
+offset_bottom = 20
+text = "PAUZA"
+horizontal_alignment = 1
+
+[node name="Item0" type="Label" parent="Pause/Panel"]
+offset_left = 12
+offset_top = 34
+offset_right = 101
+offset_bottom = 50
+horizontal_alignment = 1
+
+[node name="Item1" type="Label" parent="Pause/Panel"]
+offset_left = 12
+offset_top = 55
+offset_right = 101
+offset_bottom = 71
+horizontal_alignment = 1
+
+[node name="Item2" type="Label" parent="Pause/Panel"]
+offset_left = 12
+offset_top = 74
+offset_right = 101
+offset_bottom = 90
+horizontal_alignment = 1
+
+[node name="Item3" type="Label" parent="Pause/Panel"]
+offset_left = 12
+offset_top = 95
+offset_right = 101
+offset_bottom = 111
+horizontal_alignment = 1
+
+[node name="Dev" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("8_dev")
+
+[node name="Dim" type="ColorRect" parent="Dev"]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="Panel" type="ColorRect" parent="Dev"]
+offset_left = 75.0
+offset_top = 8.0
+offset_right = 245.0
+offset_bottom = 172.0
+color = Color(0.22, 0.13, 0.08, 0.95)
+
+[node name="Title" type="Label" parent="Dev/Panel"]
+modulate = Color(1, 0.45, 0.45, 1)
+offset_right = 170.0
+offset_bottom = 18.0
+text = "DEV"
+horizontal_alignment = 1
+
+[node name="List" type="VBoxContainer" parent="Dev/Panel"]
+offset_left = 10.0
+offset_top = 18.0
+offset_right = 160.0
+offset_bottom = 160.0
+theme_override_constants/separation = 0
+
+[node name="Arrow" type="TextureRect" parent="Dev"]
+offset_right = 6.0
+offset_bottom = 7.0
+texture = ExtResource("9_arrow")

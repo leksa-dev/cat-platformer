@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/hazards/coconut.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/beach/coconut.png" id="2_t"]
+
+[node name="Coconut" type="Node2D"]
+z_index = 1
+script = ExtResource("1_s")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("2_t")
+hframes = 5

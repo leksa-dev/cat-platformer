@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://s4eaoo0ow6s2"]
+
+[ext_resource type="PackedScene" path="res://scenes/player/cat.tscn" id="1_cat"]
+
+[sub_resource type="RectangleShape2D" id="shape_floor"]
+size = Vector2(800, 20)
+
+[sub_resource type="RectangleShape2D" id="shape_plat"]
+size = Vector2(60, 8)
+
+[sub_resource type="RectangleShape2D" id="shape_wall"]
+size = Vector2(16, 120)
+
+[node name="Main" type="Node2D" unique_id=1712099133]
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=826545249]
+position = Vector2(400, 190)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=244055069]
+shape = SubResource("shape_floor")
+
+[node name="Polygon2D" type="Polygon2D" parent="Floor" unique_id=1309677951]
+color = Color(0.35, 0.55, 0.3, 1)
+polygon = PackedVector2Array(-400, -10, 400, -10, 400, 10, -400, 10)
+
+[node name="Platform1" type="StaticBody2D" parent="." unique_id=215785298]
+position = Vector2(180, 150)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform1" unique_id=610342571]
+shape = SubResource("shape_plat")
+
+[node name="Polygon2D" type="Polygon2D" parent="Platform1" unique_id=1299354793]
+color = Color(0.55, 0.4, 0.25, 1)
+polygon = PackedVector2Array(-30, -4, 30, -4, 30, 4, -30, 4)
+
+[node name="Platform2" type="StaticBody2D" parent="." unique_id=1265435197]
+position = Vector2(280, 115)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform2" unique_id=314685924]
+shape = SubResource("shape_plat")
+
+[node name="Polygon2D" type="Polygon2D" parent="Platform2" unique_id=1949802207]
+color = Color(0.55, 0.4, 0.25, 1)
+polygon = PackedVector2Array(-30, -4, 30, -4, 30, 4, -30, 4)
+
+[node name="Wall" type="StaticBody2D" parent="." unique_id=570512576]
+position = Vector2(500, 120)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall" unique_id=215180697]
+shape = SubResource("shape_wall")
+
+[node name="Polygon2D" type="Polygon2D" parent="Wall" unique_id=2122187274]
+color = Color(0.5, 0.5, 0.55, 1)
+polygon = PackedVector2Array(-8, -60, 8, -60, 8, 60, -8, 60)
+
+[node name="Wall2" type="StaticBody2D" parent="." unique_id=1701725331]
+position = Vector2(560, 120)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2" unique_id=1800546302]
+shape = SubResource("shape_wall")
+
+[node name="Polygon2D" type="Polygon2D" parent="Wall2" unique_id=1187149265]
+color = Color(0.5, 0.5, 0.55, 1)
+polygon = PackedVector2Array(-8, -60, 8, -60, 8, 60, -8, 60)
+
+[node name="Cat" parent="." unique_id=792956540 instance=ExtResource("1_cat")]
+position = Vector2(60, 170)

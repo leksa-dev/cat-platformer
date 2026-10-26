@@ -1,0 +1,13 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/hazards/fish.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/beach/fish.png" id="2_t"]
+
+[node name="Fish" type="Node2D"]
+z_index = 2
+script = ExtResource("1_s")
+hit_size = Vector2(9, 6)
+hit_offset = Vector2(0, 0)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_t")

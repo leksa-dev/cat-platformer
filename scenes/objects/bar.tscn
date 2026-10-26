@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/bar.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/beach/bar.png" id="2_t"]
+
+[sub_resource type="RectangleShape2D" id="counter"]
+size = Vector2(40, 16)
+
+[node name="Bar" type="Node2D"]
+script = ExtResource("1_s")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_t")
+centered = false
+offset = Vector2(-40, -65)
+
+[node name="Counter" type="Area2D" parent="."]
+collision_layer = 0
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Counter"]
+position = Vector2(0, -8)
+shape = SubResource("counter")

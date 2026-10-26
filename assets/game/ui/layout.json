@@ -1,0 +1,25 @@
+{
+ "menu_rows_y": [
+  63,
+  99,
+  136
+ ],
+ "menu_sign_x": 208,
+ "pause_title_y": 12,
+ "pause_buttons_y": [
+  42,
+  63,
+  82,
+  103
+ ],
+ "pause_button_x": [
+  12,
+  101
+ ],
+ "dialog_text_box": [
+  62,
+  7,
+  250,
+  42
+ ]
+}

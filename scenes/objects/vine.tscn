@@ -1,0 +1,20 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/game/vine.png" id="1_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape_vine"]
+size = Vector2(10, 92)
+
+[node name="Vine" type="Area2D"]
+collision_layer = 2
+collision_mask = 0
+monitoring = false
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_tex")
+centered = false
+offset = Vector2(-7, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 38)
+shape = SubResource("shape_vine")

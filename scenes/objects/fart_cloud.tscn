@@ -1,0 +1,24 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/fart_cloud.gd" id="1_cloud"]
+[ext_resource type="Texture2D" path="res://assets/game/fart.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape_cloud"]
+size = Vector2(16, 14)
+
+[node name="FartCloud" type="Node2D"]
+z_index = 1
+script = ExtResource("1_cloud")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")
+hframes = 16
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("shape_cloud")
