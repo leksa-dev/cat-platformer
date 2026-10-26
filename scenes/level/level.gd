@@ -8,6 +8,7 @@ extends Node2D
 
 var _death_y := 0.0
 var _bg_time := 0.0
+var _bg_base_y := 0.0  # camera centre y with the cat on the ground (bottom limit): vertical parallax is measured from it
 var _cam: Camera2D
 
 
@@ -23,6 +24,9 @@ func _ready() -> void:
 	cam.limit_bottom = rect.end.y * tile.y
 	_death_y = cam.limit_bottom + 32
 	_add_edge_walls(cam.limit_left, cam.limit_right)
+	_bg_base_y = cam.limit_bottom - get_viewport().get_visible_rect().size.y / 2
+	for layer in $Background.get_children():
+		layer.set_meta("y0", layer.position.y)
 	cat.position = $Spawn.position if Game.checkpoint == Vector2.INF else Game.checkpoint
 	Game.play_music(music)
 	cam.reset_smoothing()  # otherwise the camera glides in from the map origin after every respawn
@@ -48,6 +52,8 @@ func _process(delta: float) -> void:
 	for layer in $Background.get_children():
 		if layer is Sprite2D:
 			layer.region_rect.position.x = center.x * layer.get_meta("scroll", background_scroll) + _bg_time * layer.get_meta("drift", 0.0)
+			# vertical: "vscroll" 1 = stays on the world's horizon when the camera climbs (islands), 0 = fixed on screen (sky)
+			layer.position.y = layer.get_meta("y0") - (center.y - _bg_base_y) * layer.get_meta("vscroll", 0.0)
 	$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down
 
 
