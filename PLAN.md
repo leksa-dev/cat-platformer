@@ -44,7 +44,8 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - [~] **9. Obrażenia i śmierć**
   - [x] pasek HP kota w HUD (ramka z `hud.png`), odrzut i 1 s nietykalności po trafieniu, HP 0 = utrata życia
   - [x] checkpointy (flagi): po utracie życia kot wraca do ostatniej flagi
-  - [ ] animacja „hurt” kota, kolce
+  - [x] nowy kot (`assets/new_cat.png` → `assets/game/cat.png`, 68 klatek): chód, bieg, skok, opadanie, lądowanie, dash, pierd, wspinaczka, oberwanie, śmierć, zawracanie, zabawa włóczką po 6 s bezczynności, picie
+  - [ ] kolce
 - [x] **10. Dźwięk** — 23 efekty retro i 2 podkłady chiptune (las: menu + poziom 1, plaża: poziom 2), wygenerowane w `assets/game/audio/`; głośność muzyki i efektów w opcjach
 - [x] **11. Menu i ekrany** — menu główne (GRAJ / OPCJE / WYJŚCIE), pauza (WZNÓW / OPCJE / OD NOWA / MENU), komunikaty w okienku z kotem, tabliczka „POZIOM N”, pikselowy font z polskimi znakami (`assets/game/ui/font.fnt`)
 - [~] **12. Więcej poziomów**

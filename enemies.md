@@ -62,11 +62,11 @@ Platformówka 2D z pomarańczowym kotem. Wrogowie mają różne sposoby poruszan
 | Parametr | Wartość |
 |---|---:|
 | HP | 3 |
-| Prędkość patrolu / pościgu | 40 / 75 px/s |
+| Prędkość patrolu / pościgu | 30 / 55 px/s |
 | Zasięg wykrywania | 80 px |
 | Zasięg ataku | 14 px |
 | Ugryzienie | 1 (wyjątek: słabsze niż inne ataki) |
-| Przygotowanie / cooldown | 0,25 s / 1,2 s |
+| Przygotowanie / cooldown | 0,4 s / 1,8 s |
 
 **Animacje:** `idle`, `run`, `attack`, `hurt`, `death`.
 

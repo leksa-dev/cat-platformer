@@ -229,14 +229,6 @@ offset_right = 215
 offset_bottom = 159
 texture = ExtResource("3_panel")
 
-[node name="Highlight" type="TextureRect" parent="Summary/Panel"]
-expand_mode = 1
-offset_left = 11
-offset_top = 114.0
-offset_right = 101
-offset_bottom = 133.0
-texture = ExtResource("4_hi")
-
 [node name="Title" type="Label" parent="Summary/Panel"]
 offset_left = 10.0
 offset_top = 4
@@ -321,7 +313,6 @@ stretch_mode = 5
 layout_mode = 2
 
 [node name="Grade" type="Label" parent="Summary/Panel"]
-modulate = Color(0.3, 0.15, 0.04, 1)
 offset_left = 12
 offset_top = 115
 offset_right = 101

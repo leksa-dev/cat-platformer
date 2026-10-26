@@ -68,17 +68,32 @@ var _surf_air := false
 var _surf_time := 0.0
 var _drink_time := -1.0  # seconds into the drink at the bar, < 0 when not drinking
 var _drank := false
+var _land_time := 1.0  # since touching the ground
+var _turn_time := 1.0  # since turning around on the ground
+var _idle_time := 0.0
+var _hurt_time := 1.0
+var _die_time := 0.0
+var _was_on_floor := true
 
-const ANIMS := {"idle": [0, 4, 5.0], "run": [4, 4, 12.0], "wall": [12, 4, 8.0]}  # first frame, count, fps
+# frames in cat.png (cut from assets/new_cat.png): first frame, count, fps
+const ANIMS := {"idle": [0, 4, 5.0], "yarn": [5, 6, 6.0], "walk": [11, 8, 12.0], "run": [19, 8, 14.0],
+	"fall": [33, 4, 10.0], "land": [37, 4, 20.0], "hurt": [58, 4, 10.0], "climb": [54, 3, 8.0]}
+const JUMP := 27  # 6 frames: crouch, take-off, rising, apex, descending, touch-down
+const DASH := [41, 5]
+const WALL := 53  # cat against a post on its right
+const DEAD := [62, 4, 5.0]
+const TURN := 66  # 2 frames
+const YARN_AFTER := 6.0  # seconds standing still before the cat plays with its yarn
+const DIE_TIME := 1.0  # death animation before the life is lost
 # fart attack: [sheet frame, duration in 1/30 s, faces away from the target?]
-# ready, start turn (facing target) -> back view, butt pose -> fart with the butt to the target -> back view -> idle
-const FART_SEQ := [[16, 2, false], [17, 2, false], [18, 2, false], [19, 2, false], [20, 10, true], [18, 3, false], [22, 2, false]]
+# ready -> back view, shaking -> butt pose with the spark (butt to the target) -> recover
+const FART_SEQ := [[46, 2, false], [47, 3, false], [48, 3, false], [49, 4, false], [50, 6, true], [51, 3, false], [52, 3, false]]
 const FART_RELEASE := 9  # 1/30 s ticks in: the squint frame, when the cloud comes out
 const FART_CLOUD := preload("res://scenes/objects/fart_cloud.tscn")
 # sprite sheets: [texture, frames, sprite y so the feet stay on the ground]
-const SHEET_CAT := [preload("res://assets/game/cat.png"), 23, -8.0]
+const SHEET_CAT := [preload("res://assets/game/cat.png"), 68, -56.0 / 6]
 const SHEET_SURF := [preload("res://assets/game/beach/cat_surf.png"), 6, -8.0]  # idle, get on, surf 1-2, jump, land
-const SHEET_DRINK := [preload("res://assets/game/beach/cat_drink.png"), 8, -7.0]  # ... sit, drink, happy (healed)
+const SHEET_DRINK := [preload("res://assets/game/beach/cat_drink.png"), 6, -40.0 / 6]  # stand, coconut, sip x2, put down, happy (healed)
 const DRINK_FPS := 6.0
 
 @onready var visual: Node2D = $Visual
@@ -114,9 +129,9 @@ func take_damage(amount: int, from: Vector2) -> void:
 	if _surfing:
 		_surf_air = true  # knocked up off the wave, lands back on the board
 	_shake = 0.2
+	_hurt_time = 0.0
 	if hp <= 0:
-		_dying = true
-		Game.lose_life()
+		_die()
 
 
 func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the invulnerability paces it
@@ -126,9 +141,18 @@ func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the i
 	Game.hp_changed.emit(hp, max_hp)
 	Game.sfx("hurt", 0.06, -6.0)
 	_hurt_invuln = hurt_invuln_time
+	_hurt_time = 0.0
 	if hp <= 0:
-		_dying = true
-		Game.lose_life()
+		_die()
+
+
+func _die() -> void:  # the death animation plays, then the life goes
+	_dying = true
+	_die_time = 0.0
+	_climbing = false
+	_fart_time = -1.0
+	_drink_time = -1.0
+	_set_sheet(SHEET_CAT)
 
 
 func bounce() -> void:  # after stomping an enemy
@@ -173,7 +197,16 @@ func _physics_process(delta: float) -> void:
 		global_position += velocity * delta
 		if dir.x:
 			visual.scale.x = signf(dir.x)
-		sprite.frame = 8
+		sprite.frame = JUMP + 2
+		return
+	if _dying:
+		_die_time += delta
+		velocity.x = move_toward(velocity.x, 0, friction * delta)
+		velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
+		move_and_slide()
+		sprite.frame = DEAD[0] + mini(int(_die_time * DEAD[2]), DEAD[1] - 1)
+		if _die_time >= DIE_TIME and _die_time - delta < DIE_TIME:
+			Game.lose_life()
 		return
 	_coyote = coyote_time if is_on_floor() else _coyote - delta
 	_buffer = jump_buffer if Input.is_action_just_pressed("jump") else _buffer - delta
@@ -231,7 +264,8 @@ func _physics_process(delta: float) -> void:
 			if is_on_floor() and (v_in > 0 or Input.get_axis("left", "right")):
 				_climbing = false  # reached the ground: walk off
 			_anim_time += delta
-			sprite.frame = 12 + (int(_anim_time * 8) % 4 if velocity else 0)
+			var climb: Array = ANIMS["climb"]
+			sprite.frame = climb[0] + (int(_anim_time * climb[2]) % climb[1] if velocity else 0)
 			return
 	set_collision_mask_value(CROWN_LAYER, true)
 
@@ -255,7 +289,7 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2(visual.scale.x * dash_speed, 0)  # no gravity mid-dash
 		fall_speed = velocity.y
 		move_and_slide()
-		sprite.frame = 6
+		sprite.frame = DASH[0] + clampi(int((1.0 - _dash_left / dash_time) * DASH[1]), 0, DASH[1] - 1)
 		_spawn_ghost()
 		return
 
@@ -300,6 +334,8 @@ func _physics_process(delta: float) -> void:
 		var dir := Input.get_axis("left", "right") if _fart_time < 0 else 0.0
 		if dir:
 			velocity.x = move_toward(velocity.x, dir * run_speed * _boost(catnip_speed_mult) * (water_speed_mult if _in_water else 1.0), acceleration * delta)
+			if signf(dir) != visual.scale.x and is_on_floor():
+				_turn_time = 0.0
 			visual.scale.x = signf(dir)
 		else:
 			velocity.x = move_toward(velocity.x, 0, friction * delta)
@@ -357,14 +393,14 @@ func _update_drink(delta: float) -> void:
 	fall_speed = velocity.y
 	move_and_slide()
 	var frame := int(_drink_time * DRINK_FPS)
-	if frame >= 7 and not _drank:  # the happy frame
+	if frame >= 5 and not _drank:  # the happy frame
 		_drank = true
 		heal(max_hp)
-	if frame >= 8 + 2:  # hold the happy pose a moment
+	if frame >= 6 + 2:  # hold the happy pose a moment
 		_drink_time = -1.0
 		_set_sheet(SHEET_CAT)
 		return
-	sprite.frame = mini(frame, 7)
+	sprite.frame = mini(frame, 5)
 
 
 func _on_crown() -> bool:
@@ -451,18 +487,44 @@ func _spawn_ghost() -> void:
 
 
 func _animate(delta: float, sliding: bool) -> void:
+	var on_floor := is_on_floor()
+	if on_floor and not _was_on_floor:
+		_land_time = 0.0
+	_was_on_floor = on_floor
+	_land_time += delta
+	_turn_time += delta
+	_hurt_time += delta
+	_anim_time += delta
+	_idle_time = _idle_time + delta if on_floor and absf(velocity.x) <= 5 and _fart_time < 0 else 0.0
 	if _fart_time >= 0:
 		return  # _update_fart drives the frames
-	if _in_water and not is_on_floor():
-		_anim_time += delta
-		sprite.frame = 9 + int(_anim_time * 6) % 2  # paddling
-		return
-	if sliding:
-		visual.scale.x = get_wall_normal().x  # wall frames have the wall on the cat's left
-	elif not is_on_floor():
-		# jump frames picked by vertical speed: take-off, rising, apex, falling
-		sprite.frame = 8 + (0 if velocity.y < -100 else 1 if velocity.y < 0 else 2 if velocity.y < 100 else 3)
-		return
-	var anim: Array = ANIMS["wall" if sliding else "run" if absf(velocity.x) > 5 else "idle"]
-	_anim_time += delta
-	sprite.frame = anim[0] + int(_anim_time * anim[2]) % anim[1]
+	if _hurt_time < 0.4:
+		_play("hurt")
+	elif _in_water and not on_floor:
+		_play("walk", 0.5)  # paddling
+	elif sliding:
+		visual.scale.x = -get_wall_normal().x  # the wall frame has the post on the cat's right
+		sprite.frame = WALL
+	elif not on_floor:
+		# jump frames picked by vertical speed: take-off, rising, apex, then the falling loop
+		if velocity.y < 100:
+			sprite.frame = JUMP + (1 if velocity.y < -100 else 2 if velocity.y < 0 else 3)
+		else:
+			_play("fall")
+	elif _turn_time < 0.12:
+		sprite.frame = TURN + int(_turn_time / 0.06)
+	elif absf(velocity.x) > 5:
+		_play("run" if absf(velocity.x) > run_speed * 0.7 else "walk")
+	elif _land_time < 0.2:
+		sprite.frame = ANIMS["land"][0] + mini(int(_land_time * ANIMS["land"][2]), 3)
+	elif _idle_time > YARN_AFTER + 0.3:
+		_play("yarn")  # loops the playing frames
+	elif _idle_time > YARN_AFTER:
+		sprite.frame = ANIMS["yarn"][0] - 1  # lies down once
+	else:
+		_play("idle")
+
+
+func _play(anim: String, speed := 1.0) -> void:
+	var a: Array = ANIMS[anim]
+	sprite.frame = a[0] + int(_anim_time * a[2] * speed) % a[1]

@@ -2,14 +2,14 @@ extends "res://scenes/enemies/enemy.gd"
 # Patrols, turns at edges/walls/water, chases the cat on its level, barks under it when the cat is up a tree,
 # winds up and bites. Can't climb or swim.
 
-@export var patrol_speed := 40.0
-@export var chase_speed := 75.0  # slower than the cat (90), so running away works
-@export var detect_range := 80.0
+@export var patrol_speed := 30.0
+@export var chase_speed := 55.0  # well below the cat (90), so running away works
+@export var detect_range := 64.0
 @export var patrol_radius := 40.0  # patrols this far either side of where it was placed
 @export var attack_range := 14.0
-@export var windup := 0.25
+@export var windup := 0.4
 @export var bite_time := 0.15
-@export var cooldown := 1.2
+@export var cooldown := 1.8
 @export var bite_damage := 1  # lighter than the other enemies' attacks (2)
 
 enum { PATROL, CHASE, BARK, WINDUP, BITE }
