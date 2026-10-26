@@ -1,7 +1,7 @@
 @tool
 extends Node2D
 # Something that switches on and off on a cycle (fire from a pipe, sparks from a cable): flickers as a warning,
-# then hurts the cat inside `hit_rect` while on. `phase` offsets the cycle so neighbours don't fire together.
+# then hurts the cat (and enemies) inside `hit_rect` while on. `phase` offsets the cycle so neighbours don't fire together.
 
 @export var on_time := 1.2
 @export var off_time := 1.8
@@ -45,7 +45,9 @@ func _hurt_cat() -> void:
 	var query := PhysicsShapeQueryParameters2D.new()
 	query.shape = shape
 	query.transform = Transform2D(0, global_position + hit_rect.get_center())
-	query.collision_mask = 1
+	query.collision_mask = 1 | 8  # the cat, and enemies (layer 4) get burnt too
 	for result in get_world_2d().direct_space_state.intersect_shape(query):
 		if result.collider.is_in_group("player"):
 			result.collider.take_damage(damage, global_position)
+		elif result.collider.has_method("hurt"):
+			result.collider.hurt(damage, global_position)
