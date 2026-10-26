@@ -116,5 +116,4 @@ func _physics_process(_delta: float) -> void:
 			cat.velocity = Vector2.ZERO
 			return
 		set_physics_process(false)
-		Game.hurt_taken(cat.hp)  # a fall costs the rest of the bar
 		Game.lose_life()

@@ -3,10 +3,12 @@ extends "res://scenes/hazards/hazard.gd"
 
 @export var speed := 45.0
 @export var patrol_radius := 48.0
+@export var turn_delay := 0.8  # seconds it keeps going after the cat jumped over it, before it turns back
 
 var _dir := -1.0
 var _home := 0.0
 var _t := 0.0
+var _turn := 0.0  # time spent wanting to turn around
 var _min_x := -INF  # its stretch of sea (the surf zone it swims in): never onto land
 var _max_x := INF
 
@@ -26,7 +28,10 @@ func _move(delta: float) -> void:
 	_t += delta
 	var cat: Node2D = get_tree().get_first_node_in_group("player")
 	if cat and absf(cat.global_position.x - global_position.x) < 96:
-		_dir = signf(cat.global_position.x - global_position.x)  # spotted: go for it
+		var want := signf(cat.global_position.x - global_position.x)  # spotted: go for it
+		_turn = _turn + delta if want != _dir else 0.0
+		if _turn >= turn_delay:
+			_dir = want
 	elif absf(position.x - _home) > patrol_radius:
 		_dir = signf(_home - position.x)
 	position.x = clampf(position.x + _dir * speed * delta, _min_x, _max_x)

@@ -16,6 +16,7 @@ signal hit(body: Node2D)  # a scratch connected; nothing listens until enemies e
 @export var wall_jump_push := 140.0
 @export var wall_jump_lock := 0.15  # ignore left/right briefly so the cat actually leaves the wall
 @export var climb_speed := 50.0
+@export var regrab_delay := 0.3  # seconds before the cat can grab the tree it just jumped/dashed off
 @export var climb_top_hop := 0.6  # fraction of jump_velocity when climbing off the top
 @export var dash_speed := 220.0
 @export var dash_time := 0.15
@@ -47,7 +48,8 @@ var _lock := 0.0
 var _anim_time := 0.0
 var _climbing := false
 var _top_hopped := false  # no re-grab after hopping off the top until "up" is released, or it loops
-var _released := []  # climbables jumped/dashed off, ignored until the cat stops overlapping them
+var _released := []  # climbables jumped/dashed off: no re-grab until regrab_delay passes, the cat lands/swims or leaves them
+var _released_time := 0.0
 var _dash_left := -1.0  # > 0 while dashing, then counts down through the cooldown
 var _can_dash := true  # one dash per air time; refilled on floor, wall or climbable
 var _catnip_left := 0.0
@@ -100,7 +102,6 @@ func _ready() -> void:
 func take_damage(amount: int, from: Vector2) -> void:
 	if _hurt_invuln > 0 or _dying or Game.god_mode:
 		return
-	Game.hurt_taken(mini(amount, hp))
 	hp = maxi(hp - amount, 0)
 	Game.hp_changed.emit(hp, max_hp)
 	Game.sfx("hurt")
@@ -121,7 +122,6 @@ func take_damage(amount: int, from: Vector2) -> void:
 func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the invulnerability paces it
 	if _hurt_invuln > 0 or _dying or Game.god_mode:
 		return
-	Game.hurt_taken(mini(amount, hp))
 	hp = maxi(hp - amount, 0)
 	Game.hp_changed.emit(hp, max_hp)
 	Game.sfx("hurt", 0.06, -6.0)
@@ -193,6 +193,9 @@ func _physics_process(delta: float) -> void:
 	var v_in := Input.get_axis("up", "down")
 	# climbables the cat just jumped/dashed off can't be re-grabbed until it has left them; others can
 	var areas := climb_sensor.get_overlapping_areas()
+	_released_time += delta
+	if _released_time >= regrab_delay or is_on_floor() or water_sensor.has_overlapping_areas():
+		_released.clear()
 	_released = _released.filter(func(a): return areas.has(a))
 	var can_climb := areas.any(func(a): return not _released.has(a))
 	if v_in >= 0:
@@ -212,9 +215,11 @@ func _physics_process(delta: float) -> void:
 			_climbing = false  # jump off; the normal jump code below sees the buffer, coyote lets it fire
 			_coyote = coyote_time
 			_released = areas
+			_released_time = 0.0
 		elif Input.is_action_just_pressed("dash"):
 			_climbing = false  # dash off the tree; the dash code below fires it
 			_released = areas
+			_released_time = 0.0
 		else:
 			set_collision_mask_value(CROWN_LAYER, false)
 			velocity = Vector2(0, v_in * climb_speed)  # ladder-style: no sideways drift off a narrow vine

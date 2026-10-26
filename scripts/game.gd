@@ -26,7 +26,6 @@ const SAVE := "user://save.cfg"  # progress written after each finished level (c
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen
-var damage := {}  # level index -> HP lost there (falls count as a full bar)
 var killed := {}  # level index -> names of the enemies killed there
 var enemies := {}  # level index -> how many enemies the level has
 
@@ -107,24 +106,20 @@ func level_complete() -> void:
 	_on_confirm = _load_level if level_index < LEVELS.size() else func(): get_tree().change_scene_to_file(VICTORY)
 
 
-# Grade: the average of three shares - pickups taken (coins, 1ups, diamonds), health kept (two full bars lost = 0)
-# and enemies killed. S from 95 %, then a step down every 10 %.
+# Grade: the average of two shares - pickups taken (coins, 1ups, diamonds) and enemies killed.
+# S from 95 %, then a step down every 10 %.
 func level_stats(level: int) -> Dictionary:
 	var items: Array = collected.get(level, [])
 	var c := items.filter(func(i): return i.begins_with("Coin")).size()
 	var l := items.filter(func(i): return i.begins_with("Life")).size()
 	var d := items.filter(func(i): return i.begins_with("Diamond")).size()
 	var pickups := float(c + l + d) / (COINS_PER_LEVEL + LIVES_PER_LEVEL + DIAMONDS_PER_LEVEL)
-	var health := clampf(1.0 - damage.get(level, 0) / 12.0, 0.0, 1.0)
 	var total: int = enemies.get(level, 0)
-	var kills := 1.0 if total == 0 else minf(killed.get(level, []).size() / float(total), 1.0)
-	var score := (pickups + health + kills) / 3.0 * 100.0
+	var k := mini(killed.get(level, []).size(), total)
+	var kills := 1.0 if total == 0 else k / float(total)
+	var score := (pickups + kills) / 2.0 * 100.0
 	var grade := "S" if score >= 95 else "A" if score >= 85 else "B" if score >= 75 else "C" if score >= 65 else "D"
-	return {"level": level, "coins": c, "lives": l, "diamonds": d, "score": score, "grade": grade}
-
-
-func hurt_taken(amount: int) -> void:
-	damage[level_index] = damage.get(level_index, 0) + amount
+	return {"level": level, "coins": c, "lives": l, "diamonds": d, "kills": k, "enemies": total, "score": score, "grade": grade}
 
 
 func enemy_killed(enemy: String) -> void:
@@ -242,7 +237,6 @@ func load_level(index: int) -> void:
 	get_tree().paused = false
 	level_index = index
 	collected.erase(index)  # jumping to a level replays it from scratch
-	damage.erase(index)
 	killed.erase(index)
 	_load_level()
 
@@ -264,7 +258,7 @@ func continue_game() -> void:
 	_load_level()
 
 
-const SAVED := ["level_index", "lives", "collected", "damage", "killed", "enemies", "run_time"]
+const SAVED := ["level_index", "lives", "collected", "killed", "enemies", "run_time"]
 
 
 func _save() -> void:
@@ -283,7 +277,6 @@ func _restart() -> void:
 	lives = START_LIVES
 	level_index = 0
 	collected.clear()
-	damage.clear()
 	killed.clear()
 	run_time = 0.0
 	DirAccess.remove_absolute(SAVE)  # new game or game over: the old progress is gone
