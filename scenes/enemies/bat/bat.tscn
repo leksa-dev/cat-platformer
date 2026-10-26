@@ -1,0 +1,26 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/bat/bat.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl3/bat.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(12, 9)
+
+[node name="Bat" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_s")
+water_behavior = 2
+max_hp = 2
+flying = true
+anim_fps = 10.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.28, 0.28)
+position = Vector2(0, -7)
+texture = ExtResource("2_tex")
+hframes = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("shape")

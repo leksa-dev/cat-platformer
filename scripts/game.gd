@@ -6,7 +6,7 @@ signal hint(text: String)  # tip in the dialog box at the bottom, fades on its o
 
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
-const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn"]
+const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn"]
 
 var lives := START_LIVES
 # dev menu toggles (persist across level reloads)

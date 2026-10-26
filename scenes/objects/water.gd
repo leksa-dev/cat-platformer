@@ -11,6 +11,7 @@ extends Area2D
 		body_texture = value
 		_build()
 @export var swimmable := true  # false for the sea, where the cat surfs instead
+@export var damage := 0  # toxic sludge: HP lost per sting while the cat is in it
 
 @export var width_tiles := 5:
 	set(value):
@@ -26,10 +27,19 @@ func _ready() -> void:
 	_build()
 
 
+func _physics_process(_delta: float) -> void:
+	if damage > 0 and not Engine.is_editor_hint():
+		for body in get_overlapping_bodies():
+			if body.is_in_group("player"):
+				body.sting(damage)
+
+
 func _build() -> void:
 	if not is_inside_tree():
 		return
 	collision_layer = 16 if swimmable else 0
+	collision_mask = 1 if damage > 0 else 0
+	monitoring = damage > 0
 	for child in get_children():
 		child.free()
 	var size := Vector2(width_tiles, depth_tiles) * 16.0

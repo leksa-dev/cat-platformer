@@ -117,6 +117,18 @@ func take_damage(amount: int, from: Vector2) -> void:
 		Game.lose_life()
 
 
+func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the invulnerability paces it
+	if _hurt_invuln > 0 or _dying or Game.god_mode:
+		return
+	hp = maxi(hp - amount, 0)
+	Game.hp_changed.emit(hp, max_hp)
+	Game.sfx("hurt", 0.06, -6.0)
+	_hurt_invuln = hurt_invuln_time
+	if hp <= 0:
+		_dying = true
+		Game.lose_life()
+
+
 func bounce() -> void:  # after stomping an enemy
 	velocity.y = jump_velocity * 0.8
 	_can_dash = true
@@ -204,6 +216,9 @@ func _physics_process(delta: float) -> void:
 		else:
 			set_collision_mask_value(CROWN_LAYER, false)
 			velocity = Vector2(0, v_in * climb_speed)  # ladder-style: no sideways drift off a narrow vine
+			for a in areas:
+				if a.is_in_group("ladder"):  # ladders: climb the rungs in the middle, not an edge
+					velocity.x = clampf((a.global_position.x - global_position.x) / delta, -120.0, 120.0)
 			fall_speed = velocity.y
 			move_and_slide()
 			if is_on_floor() and (v_in > 0 or Input.get_axis("left", "right")):

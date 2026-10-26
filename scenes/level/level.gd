@@ -72,7 +72,8 @@ func _process(delta: float) -> void:
 			layer.region_rect.position.x = (center.x * layer.get_meta("scroll", background_scroll) + _bg_time * layer.get_meta("drift", 0.0)) / layer.scale.x
 			# vertical: "vscroll" 1 = stays on the world's horizon when the camera climbs (islands), 0 = fixed on screen (sky)
 			layer.position.y = layer.get_meta("y0") - (center.y - _bg_base_y) * layer.get_meta("vscroll", 0.0)
-	$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down
+	if has_node("Leaves"):
+		$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down
 
 
 func _physics_process(_delta: float) -> void:
