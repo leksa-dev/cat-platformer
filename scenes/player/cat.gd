@@ -30,8 +30,9 @@ signal hit(body: Node2D)  # a scratch connected; nothing listens until enemies e
 @export var hurt_invuln_time := 1.0
 @export var hurt_knockback := Vector2(120, -150)
 @export var scratch_damage := 1
-@export var surf_speed := 110.0  # the wave carries the cat right
-@export var surf_steer := 40.0  # left/right slows down / speeds up
+@export var surf_speed := 110.0  # top speed on the board, either way
+@export var surf_accel := 300.0
+@export var surf_drift := 25.0  # with no input the wave drifts the cat gently right
 @export var surf_jump_mult := 0.65  # lower jumps from the board (~1 tile)
 @export var water_speed_mult := 0.5
 @export var water_gravity_mult := 0.25
@@ -302,8 +303,10 @@ func _surf(delta: float, wave: Area2D) -> void:
 		_set_sheet(SHEET_SURF)
 	_surf_time += delta
 	var surface := wave.global_position.y - 1  # 1 px above the shore's top edge, or the board snags on its corner
-	velocity.x = surf_speed + Input.get_axis("left", "right") * surf_steer
-	visual.scale.x = 1.0
+	var dir := Input.get_axis("left", "right")
+	velocity.x = move_toward(velocity.x, dir * surf_speed if dir else surf_drift, surf_accel * delta)
+	if dir:
+		visual.scale.x = signf(dir)
 	if _surf_air:
 		velocity.y = minf(velocity.y + gravity * delta, max_fall_speed)
 		if Input.is_action_just_released("jump") and velocity.y < 0:
