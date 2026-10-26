@@ -74,10 +74,20 @@ var _idle_time := 0.0
 var _hurt_time := 1.0
 var _die_time := 0.0
 var _was_on_floor := true
+var _climb_time := 0.0  # since grabbing the climbable
+var _jump_off_time := 1.0  # since leaping off a climbable
+var _climb_fall := false  # slid off the end of a climbable: falling pose until landing
+var _scratch_time := 1.0  # since the flurry started
 
 # frames in cat.png (cut from assets/new_cat.png): first frame, count, fps
 const ANIMS := {"idle": [0, 4, 5.0], "yarn": [5, 6, 6.0], "walk": [11, 8, 12.0], "run": [19, 8, 14.0],
-	"fall": [33, 4, 10.0], "land": [37, 4, 20.0], "hurt": [58, 4, 10.0], "climb": [54, 3, 8.0]}
+	"fall": [33, 4, 10.0], "land": [37, 4, 20.0], "hurt": [58, 4, 10.0],
+	# from assets/cat_scratch_climb.png
+	"climb_up": [82, 8, 12.0], "climb_down": [90, 8, 12.0], "climb_idle": [98, 4, 5.0], "fall_climb": [115, 4, 10.0]}
+const SCRATCH_GROUND := 68  # 8 frames: ready, wind-up, 4 swipes, recover x2
+const SCRATCH_AIR := 76  # 6 frames: ready, wind-up, 3 swipes, recover
+const REACH_UP := 102  # 4 frames grabbing a climbable, then REACH_DOWN (4) when grabbing it going down
+const JUMP_OFF := 110  # 5 frames leaping off a climbable, to the right
 const JUMP := 27  # 6 frames: crouch, take-off, rising, apex, descending, touch-down
 const DASH := [41, 5]
 const WALL := 53  # cat against a post on its right
@@ -91,7 +101,7 @@ const FART_SEQ := [[46, 2, false], [47, 3, false], [48, 3, false], [49, 4, false
 const FART_RELEASE := 9  # 1/30 s ticks in: the squint frame, when the cloud comes out
 const FART_CLOUD := preload("res://scenes/objects/fart_cloud.tscn")
 # sprite sheets: [texture, frames, sprite y so the feet stay on the ground]
-const SHEET_CAT := [preload("res://assets/game/cat.png"), 68, -56.0 / 6]
+const SHEET_CAT := [preload("res://assets/game/cat.png"), 119, -70.0 / 6]
 const SHEET_SURF := [preload("res://assets/game/beach/cat_surf.png"), 6, -8.0]  # idle, get on, surf 1-2, jump, land
 const SHEET_DRINK := [preload("res://assets/game/beach/cat_drink.png"), 6, -40.0 / 6]  # stand, coconut, sip x2, put down, happy (healed)
 const DRINK_FPS := 6.0
@@ -237,16 +247,21 @@ func _physics_process(delta: float) -> void:
 	var grab := v_in < 0 or (v_in > 0 and (not is_on_floor() or _on_crown()))
 	if not _climbing and can_climb and grab and not _top_hopped and _fart_time < 0:
 		_climbing = true
+		_climb_time = 0.0
+		_climb_fall = false
 	if _climbing:
 		_can_dash = true
 		if not can_climb:  # climbed past an end
 			_climbing = false
+			_climb_fall = v_in >= 0  # off the bottom of a vine: fall pose
+			_climb_time = 0.0
 			if v_in < 0:
 				velocity.y = jump_velocity * climb_top_hop
 				_top_hopped = true
 		elif _buffer > 0:
 			_climbing = false  # jump off; the normal jump code below sees the buffer, coyote lets it fire
 			_coyote = coyote_time
+			_jump_off_time = 0.0
 			_released = areas
 			_released_time = 0.0
 		elif Input.is_action_just_pressed("dash"):
@@ -264,8 +279,11 @@ func _physics_process(delta: float) -> void:
 			if is_on_floor() and (v_in > 0 or Input.get_axis("left", "right")):
 				_climbing = false  # reached the ground: walk off
 			_anim_time += delta
-			var climb: Array = ANIMS["climb"]
-			sprite.frame = climb[0] + (int(_anim_time * climb[2]) % climb[1] if velocity else 0)
+			_climb_time += delta
+			if _climb_time < 0.2:  # reaching for the trunk
+				sprite.frame = (REACH_UP if v_in <= 0 else REACH_UP + 4) + int(_climb_time * 20)
+			else:
+				_play("climb_up" if velocity.y < 0 else "climb_down" if velocity.y > 0 else "climb_idle")
 			return
 	set_collision_mask_value(CROWN_LAYER, true)
 
@@ -439,6 +457,8 @@ func _boost(mult: float) -> float:
 
 
 func _scratch() -> void:
+	if _scratch_cd < -0.1:  # a new flurry, not the next swipe of a held one
+		_scratch_time = 0.0
 	_scratch_cd = scratch_interval
 	Game.sfx("scratch", 0.15, -3.0)
 	claws.scale.y = -claws.scale.y  # alternate paws
@@ -494,17 +514,30 @@ func _animate(delta: float, sliding: bool) -> void:
 	_land_time += delta
 	_turn_time += delta
 	_hurt_time += delta
+	_jump_off_time += delta
+	_scratch_time += delta
 	_anim_time += delta
+	if on_floor:
+		_climb_fall = false
 	_idle_time = _idle_time + delta if on_floor and absf(velocity.x) <= 5 and _fart_time < 0 else 0.0
 	if _fart_time >= 0:
 		return  # _update_fart drives the frames
 	if _hurt_time < 0.4:
 		_play("hurt")
+	elif _scratch_cd > -0.1:  # wind-up once, then swipes while the attack is held
+		var first := SCRATCH_GROUND if on_floor else SCRATCH_AIR
+		var swipes := 4 if on_floor else 3
+		sprite.frame = first + 1 if _scratch_time < 0.05 else first + 2 + int(_scratch_time * 30) % swipes
 	elif _in_water and not on_floor:
 		_play("walk", 0.5)  # paddling
 	elif sliding:
 		visual.scale.x = -get_wall_normal().x  # the wall frame has the post on the cat's right
 		sprite.frame = WALL
+	elif not on_floor and _jump_off_time < 0.35:
+		sprite.frame = JUMP_OFF + mini(int(_jump_off_time * 14), 4)
+	elif not on_floor and _climb_fall:
+		_climb_time += delta
+		sprite.frame = ANIMS["fall_climb"][0] + mini(int(_climb_time * 10), 3)
 	elif not on_floor:
 		# jump frames picked by vertical speed: take-off, rising, apex, then the falling loop
 		if velocity.y < 100:
