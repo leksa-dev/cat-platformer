@@ -7,6 +7,7 @@ extends Node2D
 @export var music := "forest"  # assets/game/audio/music_<name>.wav
 @export var backdrop: Texture2D  # dark earth tiled below backdrop_top, so pits don't show the sky/forest layers
 @export var backdrop_top := 236.0
+@export var camera_bottom := 0.0  # px: lowest point the camera shows; 0 = the bottom of the painted tiles
 
 var _death_y := 0.0
 var _bg_time := 0.0
@@ -25,6 +26,8 @@ func _ready() -> void:
 	# no top limit: the sky is open, and the cat can climb/jump above the highest tile
 	cam.limit_bottom = int(rect.end.y * tile.y)
 	_death_y = cam.limit_bottom + 32
+	if camera_bottom > 0:
+		cam.limit_bottom = int(camera_bottom)  # less ground under the cat on screen; the death line stays under the tiles
 	_add_edge_walls(cam.limit_left, cam.limit_right)
 	if backdrop:
 		_add_backdrop(cam.limit_left, cam.limit_right, _death_y)

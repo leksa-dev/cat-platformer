@@ -1,5 +1,5 @@
 extends "res://scenes/hazards/hazard.gd"
-# Jumps out of the sea in an arc every few seconds, then dives back. Harmless while under water.
+# Jumps out of the sea in an arc every few seconds, then dives back. Scenery: never hurts the cat.
 
 @export var leap_velocity := Vector2(30, -230)
 @export var gravity := 600.0
@@ -27,7 +27,6 @@ func _move(delta: float) -> void:
 			_vel = leap_velocity
 			position = _home
 			visible = true
-			active = true
 		return
 	_vel.y += gravity * delta
 	position += _vel * delta
