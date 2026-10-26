@@ -33,6 +33,12 @@ func _ready() -> void:
 		layer.set_meta("y0", layer.position.y)
 	cat.position = $Spawn.position if Game.checkpoint == Vector2.INF else Game.checkpoint
 	Game.play_music(music)
+	var count := 0
+	for n in get_children():
+		if n is Enemy:
+			count += 1
+			n.died.connect(Game.enemy_killed.bind(n.name))
+	Game.enemies[Game.level_index] = count
 	cam.reset_smoothing()  # otherwise the camera glides in from the map origin after every respawn
 
 
@@ -110,4 +116,5 @@ func _physics_process(_delta: float) -> void:
 			cat.velocity = Vector2.ZERO
 			return
 		set_physics_process(false)
+		Game.hurt_taken(cat.hp)  # a fall costs the rest of the bar
 		Game.lose_life()

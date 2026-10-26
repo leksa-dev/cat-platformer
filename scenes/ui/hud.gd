@@ -8,6 +8,7 @@ func _ready() -> void:
 	Game.hp_changed.connect(_on_hp_changed)
 	Game.hint.connect(_on_hint)
 	Game.pickups_changed.connect(refresh_hearts)
+	Game.level_done.connect(_on_level_done)
 	refresh_hearts()
 	update_dev_badge()
 	_show_banner("POZIOM %d" % (Game.level_index + 1))
@@ -61,7 +62,25 @@ func _on_hp_changed(hp: int, max_hp: int) -> void:
 	$HP.value = hp
 
 
+func _on_level_done(stats: Dictionary) -> void:
+	$Summary/Panel/Title.text = "POZIOM %d" % (stats.level + 1)
+	$Summary/Panel/Row0/Count.text = "%d/%d" % [stats.coins, Game.COINS_PER_LEVEL]
+	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.LIVES_PER_LEVEL]
+	$Summary/Panel/Row2/Count.text = "%d/%d" % [stats.diamonds, Game.DIAMONDS_PER_LEVEL]
+	$Summary/Panel/Grade.text = "OCENA: " + stats.grade
+	$Summary.visible = true
+	var grade: Label = $Summary/Panel/Grade
+	grade.scale = Vector2.ONE * 2.5  # stamped on
+	grade.modulate.a = 0.0
+	var tween := create_tween().set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	tween.tween_interval(0.5)
+	tween.tween_property(grade, "modulate:a", 1.0, 0.05)
+	tween.parallel().tween_property(grade, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+
+
 func _on_message(text: String) -> void:  # "title\nhint"; empty hides
+	if text == "":
+		$Summary.visible = false
 	refresh_hearts()  # game over never reloads the level, so hearts must update here
 	var lines := text.split("\n")
 	$Message/Title.text = lines[0]

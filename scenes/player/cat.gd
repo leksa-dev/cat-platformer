@@ -100,6 +100,7 @@ func _ready() -> void:
 func take_damage(amount: int, from: Vector2) -> void:
 	if _hurt_invuln > 0 or _dying or Game.god_mode:
 		return
+	Game.hurt_taken(mini(amount, hp))
 	hp = maxi(hp - amount, 0)
 	Game.hp_changed.emit(hp, max_hp)
 	Game.sfx("hurt")
@@ -120,6 +121,7 @@ func take_damage(amount: int, from: Vector2) -> void:
 func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the invulnerability paces it
 	if _hurt_invuln > 0 or _dying or Game.god_mode:
 		return
+	Game.hurt_taken(mini(amount, hp))
 	hp = maxi(hp - amount, 0)
 	Game.hp_changed.emit(hp, max_hp)
 	Game.sfx("hurt", 0.06, -6.0)

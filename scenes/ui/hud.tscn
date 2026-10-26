@@ -1,6 +1,7 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/hud.gd" id="1_hud"]
+[ext_resource type="Texture2D" path="res://assets/game/heart.png" id="0_heart"]
 [ext_resource type="Texture2D" path="res://assets/game/hp_frame.png" id="2_frame"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/pause_panel5.png" id="3_panel"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/button_hi.png" id="4_hi"]
@@ -10,6 +11,7 @@
 [ext_resource type="Script" path="res://scenes/ui/dev.gd" id="8_dev"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/arrow.png" id="9_arrow"]
 [ext_resource type="Texture2D" path="res://assets/game/coin.png" id="10_coin"]
+[ext_resource type="Texture2D" path="res://assets/game/diamond_blue.png" id="11_gem"]
 
 [sub_resource type="StyleBoxEmpty" id="hp_bg"]
 
@@ -198,6 +200,118 @@ offset_top = 115
 offset_right = 101
 offset_bottom = 131
 horizontal_alignment = 1
+
+[node name="Summary" type="Control" parent="."]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Dim" type="ColorRect" parent="Summary"]
+offset_right = 320.0
+offset_bottom = 180.0
+color = Color(0, 0, 0, 0.45)
+
+[node name="Panel" type="TextureRect" parent="Summary"]
+expand_mode = 1
+offset_left = 104
+offset_top = 21
+offset_right = 215
+offset_bottom = 159
+texture = ExtResource("3_panel")
+
+[node name="Highlight" type="TextureRect" parent="Summary/Panel"]
+expand_mode = 1
+offset_left = 11
+offset_top = 93.0
+offset_right = 101
+offset_bottom = 112.0
+texture = ExtResource("4_hi")
+
+[node name="Title" type="Label" parent="Summary/Panel"]
+offset_left = 10.0
+offset_top = 4
+offset_right = 101.0
+offset_bottom = 20
+horizontal_alignment = 1
+
+[node name="Row0" type="HBoxContainer" parent="Summary/Panel"]
+offset_left = 12.0
+offset_top = 34.0
+offset_right = 101.0
+offset_bottom = 50.0
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Summary/Panel/Row0"]
+custom_minimum_size = Vector2(10, 9)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("10_coin")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Count" type="Label" parent="Summary/Panel/Row0"]
+layout_mode = 2
+
+[node name="Row1" type="HBoxContainer" parent="Summary/Panel"]
+offset_left = 12.0
+offset_top = 55.0
+offset_right = 101.0
+offset_bottom = 71.0
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Summary/Panel/Row1"]
+custom_minimum_size = Vector2(10, 9)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("0_heart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Count" type="Label" parent="Summary/Panel/Row1"]
+layout_mode = 2
+
+[node name="Row2" type="HBoxContainer" parent="Summary/Panel"]
+offset_left = 12.0
+offset_top = 74.0
+offset_right = 101.0
+offset_bottom = 90.0
+alignment = 1
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Summary/Panel/Row2"]
+custom_minimum_size = Vector2(10, 9)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("11_gem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Count" type="Label" parent="Summary/Panel/Row2"]
+layout_mode = 2
+
+[node name="Grade" type="Label" parent="Summary/Panel"]
+modulate = Color(0.3, 0.15, 0.04, 1)
+offset_left = 12
+offset_top = 94
+offset_right = 101
+offset_bottom = 110
+pivot_offset = Vector2(44, 8)
+horizontal_alignment = 1
+
+[node name="Hint" type="Label" parent="Summary/Panel"]
+offset_left = 12
+offset_top = 116
+offset_right = 101
+offset_bottom = 130
+theme_override_font_sizes/font_size = 10
+text = "Spacja / ✕ - dalej"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Dev" type="Control" parent="."]
 layout_mode = 3

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/secret/warp.tscn" id="x_warp"]
 [ext_resource type="PackedScene" path="res://scenes/objects/secret/elevator.tscn" id="x_elevator"]
 [ext_resource type="PackedScene" path="res://scenes/objects/secret/berry_bush.tscn" id="x_bush"]
+[ext_resource type="PackedScene" path="res://scenes/objects/diamond.tscn" id="x_diamond"]
 [ext_resource type="Texture2D" path="res://assets/game/backdrop_sand.png" id="bd_tex"]
 [ext_resource type="PackedScene" path="res://scenes/objects/hint.tscn" id="h_hint"]
 [ext_resource type="Script" path="res://scenes/level/level.gd" id="r0"]
@@ -874,6 +875,22 @@ position = Vector2(3664, 128)
 
 [node name="Coin10" parent="." instance=ExtResource("x_coin")]
 position = Vector2(3816, 248)
+
+[node name="Diamond1" parent="." instance=ExtResource("x_diamond")]
+position = Vector2(2072, 128)
+gem = 0
+
+[node name="Diamond2" parent="." instance=ExtResource("x_diamond")]
+position = Vector2(1288, 200)
+gem = 1
+
+[node name="Diamond3" parent="." instance=ExtResource("x_diamond")]
+position = Vector2(2600, 256)
+gem = 2
+
+[node name="Diamond4" parent="." instance=ExtResource("x_diamond")]
+position = Vector2(4072, 192)
+gem = 3
 
 [node name="Life1" parent="." instance=ExtResource("x_life")]
 position = Vector2(4040, 160)

@@ -4,11 +4,14 @@ signal message(text: String)  # empty text hides the message
 signal hp_changed(hp: int, max_hp: int)  # cat health bar
 signal hint(text: String)  # tip in the dialog box at the bottom, fades on its own
 signal pickups_changed  # coin collected or life gained: the HUD redraws its counters
+signal level_done(stats: Dictionary)  # end-of-level board: counts and grade
 
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
 const VICTORY := "res://scenes/ui/victory.tscn"
 const COINS_PER_LEVEL := 10
+const DIAMONDS_PER_LEVEL := 4
+const LIVES_PER_LEVEL := 2  # 1ups hidden in each level
 const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn"]
 
 var lives := START_LIVES
@@ -19,6 +22,9 @@ var music_on := true  # OPCJE > MUZYKA turns it off
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen
+var damage := {}  # level index -> HP lost there (falls count as a full bar)
+var killed := {}  # level index -> names of the enemies killed there
+var enemies := {}  # level index -> how many enemies the level has
 
 const AUDIO := "res://assets/game/audio/%s.wav"
 var _players: Array[AudioStreamPlayer] = []
@@ -76,12 +82,39 @@ func lose_life() -> void:
 
 
 func level_complete() -> void:
+	var stats := level_stats(level_index)
 	level_index += 1
 	sfx("level_complete", 0.0)
-	if level_index < LEVELS.size():
-		_show("Poziom ukończony!\nSpacja / ✕ - dalej", _load_level)
-	else:
-		get_tree().change_scene_to_file.call_deferred(VICTORY)
+	get_tree().paused = true
+	level_done.emit(stats)
+	_on_confirm = _load_level if level_index < LEVELS.size() else func(): get_tree().change_scene_to_file(VICTORY)
+
+
+# Grade: the average of three shares - pickups taken (coins, 1ups, diamonds), health kept (two full bars lost = 0)
+# and enemies killed. S from 95 %, then a step down every 10 %.
+func level_stats(level: int) -> Dictionary:
+	var items: Array = collected.get(level, [])
+	var c := items.filter(func(i): return i.begins_with("Coin")).size()
+	var l := items.filter(func(i): return i.begins_with("Life")).size()
+	var d := items.filter(func(i): return i.begins_with("Diamond")).size()
+	var pickups := float(c + l + d) / (COINS_PER_LEVEL + LIVES_PER_LEVEL + DIAMONDS_PER_LEVEL)
+	var health := clampf(1.0 - damage.get(level, 0) / 12.0, 0.0, 1.0)
+	var total: int = enemies.get(level, 0)
+	var kills := 1.0 if total == 0 else minf(killed.get(level, []).size() / float(total), 1.0)
+	var score := (pickups + health + kills) / 3.0 * 100.0
+	var grade := "S" if score >= 95 else "A" if score >= 85 else "B" if score >= 75 else "C" if score >= 65 else "D"
+	return {"level": level, "coins": c, "lives": l, "diamonds": d, "score": score, "grade": grade}
+
+
+func hurt_taken(amount: int) -> void:
+	damage[level_index] = damage.get(level_index, 0) + amount
+
+
+func enemy_killed(enemy: String) -> void:
+	if not killed.has(level_index):
+		killed[level_index] = []
+	if not killed[level_index].has(enemy):  # enemies come back after a lost life: count each one once
+		killed[level_index].append(enemy)
 
 
 func is_collected(item: String) -> bool:
@@ -95,11 +128,11 @@ func collect(item: String) -> void:
 	pickups_changed.emit()
 
 
-func coins(level := -1) -> int:  # coins taken in one level, or in all of them
+func coins(level := -1, prefix := "Coin") -> int:  # coins (or other pickups) taken in one level, or in all of them
 	var n := 0
 	for i in collected:
 		if level < 0 or i == level:
-			n += collected[i].filter(func(item): return item.begins_with("Coin")).size()
+			n += collected[i].filter(func(item): return item.begins_with(prefix)).size()
 	return n
 
 
@@ -174,6 +207,8 @@ func load_level(index: int) -> void:
 	get_tree().paused = false
 	level_index = index
 	collected.erase(index)  # jumping to a level replays it from scratch
+	damage.erase(index)
+	killed.erase(index)
 	_load_level()
 
 
@@ -190,6 +225,8 @@ func _restart() -> void:
 	lives = START_LIVES
 	level_index = 0
 	collected.clear()
+	damage.clear()
+	killed.clear()
 	run_time = 0.0
 	_load_level()
 
