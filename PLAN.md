@@ -43,12 +43,15 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] 🐸 żabol — skacze, pływa w basenie, język z własnym hitboxem; można na niego skoczyć
 - [~] **9. Obrażenia i śmierć**
   - [x] pasek HP kota w HUD (ramka z `hud.png`), odrzut i 1 s nietykalności po trafieniu, HP 0 = utrata życia
-  - [ ] animacja „hurt” kota, kolce, checkpointy
+  - [x] checkpointy (flagi): po utracie życia kot wraca do ostatniej flagi
+  - [ ] animacja „hurt” kota, kolce
 - [x] **10. Dźwięk** — 23 efekty retro i 2 podkłady chiptune (las: menu + poziom 1, plaża: poziom 2), wygenerowane w `assets/game/audio/`; MUZYKA: TAK/NIE w opcjach
 - [x] **11. Menu i ekrany** — menu główne (GRAJ / OPCJE / WYJŚCIE), pauza (WZNÓW / OPCJE / OD NOWA / MENU), komunikaty w okienku z kotem, tabliczka „POZIOM N”, pikselowy font z polskimi znakami (`assets/game/ui/font.fnt`)
 - [~] **12. Więcej poziomów**
   - [x] **Poziom 2 — wyspy** (`level_02.tscn`): plaża z barem (drink = pełne HP) → surfowanie (fala niesie, niski skok, rekiny, ryby, skały) → dżungla (drzewa, pnącze, sadzawka z żabolem) → surfowanie → pustynia (kaktusy ranią) → legowisko
   - [x] kokosy na palmach: spadają, gdy kot przechodzi pod spodem; trafiony traci HP, uskoczony kokos zostaje jako przekąska (+1 HP)
+  - [x] rozbudowa poziomu 1: górna ścieżka nad plażą z przekąską, łańcuch 3 drzew nad przepaścią (dash), zejście z filaru po półkach i pnączu
+  - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką szczurów
   - [ ] poziom 3, nowe obiekty do wspinania (rury, płoty)
 - [ ] **13. Szlif grafiki** — klatki wspinaczki i drapania, pasek kocimiętki w HUD, lepsze tło, cząsteczki
 - [ ] **14. Wydanie** — eksport HTML5, itch.io, ewentualnie zapis postępu
