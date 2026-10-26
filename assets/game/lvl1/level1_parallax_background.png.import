@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbh4djbvalag"
-path="res://.godot/imported/background.png-361edb37d9d7489a84a0a64ca4df20f1.ctex"
+uid="uid://dova0g21em304"
+path="res://.godot/imported/level1_parallax_background.png-ac21d236920b33b15803cfeef2d9bcf3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/beach/background.png"
-dest_files=["res://.godot/imported/background.png-361edb37d9d7489a84a0a64ca4df20f1.ctex"]
+source_file="res://assets/game/lvl1/level1_parallax_background.png"
+dest_files=["res://.godot/imported/level1_parallax_background.png-ac21d236920b33b15803cfeef2d9bcf3.ctex"]
 
 [params]
 

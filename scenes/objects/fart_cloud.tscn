@@ -11,6 +11,7 @@ z_index = 1
 script = ExtResource("1_cloud")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
 texture = ExtResource("2_tex")
 hframes = 16
 

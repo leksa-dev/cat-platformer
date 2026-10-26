@@ -9,6 +9,8 @@ func _ready() -> void:
 	for i in Game.START_LIVES:
 		var heart := TextureRect.new()
 		heart.texture = HEART
+		heart.expand_mode = TextureRect.EXPAND_IGNORE_SIZE  # 3x texture drawn at the logical 9x8
+		heart.custom_minimum_size = Vector2(9, 8)
 		$Lives.add_child(heart)
 	refresh_hearts()
 	update_dev_badge()

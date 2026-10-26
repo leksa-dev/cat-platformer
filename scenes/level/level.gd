@@ -15,13 +15,13 @@ var _cam: Camera2D
 func _ready() -> void:
 	# Camera bounds and the death line come from the painted tiles, so repainting the level needs no config.
 	var rect := ground.get_used_rect()
-	var tile := ground.tile_set.tile_size
+	var tile := Vector2(ground.tile_set.tile_size) * ground.scale  # tiles are 48 px textures drawn at 1/3
 	var cam: Camera2D = cat.get_node("Camera2D")
 	_cam = cam
-	cam.limit_left = rect.position.x * tile.x
-	cam.limit_right = rect.end.x * tile.x
+	cam.limit_left = int(rect.position.x * tile.x)
+	cam.limit_right = int(rect.end.x * tile.x)
 	# no top limit: the sky is open, and the cat can climb/jump above the highest tile
-	cam.limit_bottom = rect.end.y * tile.y
+	cam.limit_bottom = int(rect.end.y * tile.y)
 	_death_y = cam.limit_bottom + 32
 	_add_edge_walls(cam.limit_left, cam.limit_right)
 	_bg_base_y = cam.limit_bottom - get_viewport().get_visible_rect().size.y / 2
@@ -51,7 +51,8 @@ func _process(delta: float) -> void:
 	# parallax: each background sprite scrolls at its own rate (metadata "scroll"), clouds may also "drift" on their own
 	for layer in $Background.get_children():
 		if layer is Sprite2D:
-			layer.region_rect.position.x = center.x * layer.get_meta("scroll", background_scroll) + _bg_time * layer.get_meta("drift", 0.0)
+			# region is in texture px: hi-res layers drawn scaled down move proportionally more texture per logical px
+			layer.region_rect.position.x = (center.x * layer.get_meta("scroll", background_scroll) + _bg_time * layer.get_meta("drift", 0.0)) / layer.scale.x
 			# vertical: "vscroll" 1 = stays on the world's horizon when the camera climbs (islands), 0 = fixed on screen (sky)
 			layer.position.y = layer.get_meta("y0") - (center.y - _bg_base_y) * layer.get_meta("vscroll", 0.0)
 	$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down

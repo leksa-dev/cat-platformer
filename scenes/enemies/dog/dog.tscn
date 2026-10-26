@@ -13,6 +13,7 @@ script = ExtResource("1_dog")
 water_behavior = 1
 
 [node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
 position = Vector2(0, -10)
 texture = ExtResource("2_tex")
 hframes = 21

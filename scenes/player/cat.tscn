@@ -50,6 +50,7 @@ shape = SubResource("shape_water")
 [node name="Visual" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite2D" parent="Visual"]
+scale = Vector2(0.333333, 0.333333)
 position = Vector2(0, -8)
 texture = ExtResource("2_sheet")
 hframes = 23

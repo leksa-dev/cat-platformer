@@ -10,9 +10,10 @@ size = Vector2(40, 16)
 script = ExtResource("1_s")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
 texture = ExtResource("2_t")
 centered = false
-offset = Vector2(-40, -65)
+offset = Vector2(-122, -194)
 
 [node name="Counter" type="Area2D" parent="."]
 collision_layer = 0

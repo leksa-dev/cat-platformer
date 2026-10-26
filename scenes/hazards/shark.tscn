@@ -10,5 +10,6 @@ hit_size = Vector2(14, 8)
 hit_offset = Vector2(0, -4)
 
 [node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
 position = Vector2(0, -4)
 texture = ExtResource("2_t")

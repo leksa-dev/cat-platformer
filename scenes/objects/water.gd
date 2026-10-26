@@ -50,6 +50,7 @@ func _strip(texture: Texture2D, rect: Rect2) -> void:
 	sprite.centered = false
 	sprite.position = rect.position
 	sprite.region_enabled = true
-	sprite.region_rect = Rect2(Vector2.ZERO, rect.size)
+	sprite.region_rect = Rect2(Vector2.ZERO, rect.size * 3)  # textures are 3x the logical size...
+	sprite.scale = Vector2.ONE / 3                             # ...drawn at 1/3
 	sprite.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	add_child(sprite)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpg6aal85jjbq"
-path="res://.godot/imported/background.png-51d1579c4359080ae5fbef51ef532583.ctex"
+uid="uid://d3g0ixvsnq5n0"
+path="res://.godot/imported/compare_16_vs_48.png-b80fab13bd53a9f9b428b4d6ce788281.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/game/background.png"
-dest_files=["res://.godot/imported/background.png-51d1579c4359080ae5fbef51ef532583.ctex"]
+source_file="res://screenshots/compare_16_vs_48.png"
+dest_files=["res://.godot/imported/compare_16_vs_48.png-b80fab13bd53a9f9b428b4d6ce788281.ctex"]
 
 [params]
 
