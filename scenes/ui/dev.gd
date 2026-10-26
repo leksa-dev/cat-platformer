@@ -32,10 +32,10 @@ func _resume() -> void:
 func _texts() -> Array:
 	var t := []
 	for i in Game.LEVELS.size():
-		t.append("POZIOM %d" % (i + 1))
-	t.append("GOD MODE: " + ("TAK" if Game.god_mode else "NIE"))
-	t.append("LATANIE: " + ("TAK" if Game.fly_mode else "NIE"))
-	t += ["PEŁNE HP + ŻYCIA", "DO METY", "BEZ WROGÓW", "KOCIMIĘTKA", "WRÓĆ"]
+		t.append(tr("POZIOM %d") % (i + 1))
+	t.append("GOD MODE: " + tr("TAK" if Game.god_mode else "NIE"))
+	t.append(tr("LATANIE") + ": " + tr("TAK" if Game.fly_mode else "NIE"))
+	t += ["PEŁNE HP + ŻYCIA", "DO METY", "BEZ WROGÓW", "KOCIMIĘTKA", "WRÓĆ"].map(tr)
 	return t
 
 
@@ -44,7 +44,8 @@ func _refresh() -> void:
 	var list: VBoxContainer = $Panel/List
 	while list.get_child_count() < texts.size():
 		var label := Label.new()
-		label.custom_minimum_size = Vector2(150, 14)
+		label.custom_minimum_size = Vector2(150, 12)
+		label.add_theme_font_size_override("font_size", 12)  # 11 rows have to fit on screen
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		list.add_child(label)
 	items.clear()

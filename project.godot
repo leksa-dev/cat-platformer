@@ -35,6 +35,10 @@ window/stretch/scale_mode="integer"
 
 theme/custom_font="res://assets/game/ui/font.fnt"
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://assets/i18n/strings.en.translation", "res://assets/i18n/strings.es.translation")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

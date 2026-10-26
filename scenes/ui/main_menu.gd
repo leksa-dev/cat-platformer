@@ -12,12 +12,15 @@ func _ready() -> void:
 
 func _show_main() -> void:
 	_in_options = false
-	_set_items(["GRAJ", "OPCJE", "WYJŚCIE"])
+	_set_items(["GRAJ", "OPCJE", "WYJŚCIE"].map(tr))
+	$BackHint.visible = false
 
 
-func _show_options() -> void:
+func _show_options() -> void:  # 3 planks: screen, music, language; back is Esc / ○ (hint under the sign)
 	_in_options = true
-	_set_items([fullscreen_text(), music_text(), "WRÓĆ"])
+	_set_items([fullscreen_text(), music_text(), language_text()])
+	$BackHint.text = tr("Esc - wróć")
+	$BackHint.visible = true
 
 
 func _set_items(texts: Array) -> void:
@@ -54,8 +57,8 @@ func _on_chosen(index: int) -> void:
 				Game.toggle_music()
 				$Item1.text = music_text()
 			2:
-				_show_main()
-				return
+				Game.next_language()
+				_show_options()
 		select(index)
 		return
 	match index:

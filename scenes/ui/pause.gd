@@ -61,12 +61,12 @@ func back_from_dev() -> void:
 
 func _show_main() -> void:
 	_in_options = false
-	_set_items(["WZNÓW", "OPCJE", "OD NOWA", "DEV", "MENU"])  # "MENU GŁÓWNE" doesn't fit the plank
+	_set_items(["WZNÓW", "OPCJE", "OD NOWA", "DEV", "MENU"].map(tr))  # "MENU GŁÓWNE" doesn't fit the plank
 
 
 func _show_options() -> void:
 	_in_options = true
-	_set_items([fullscreen_text(), music_text(), "WRÓĆ"])
+	_set_items([fullscreen_text(), music_text(), language_text(), tr("WRÓĆ")])
 
 
 func _set_items(texts: Array) -> void:
@@ -95,7 +95,11 @@ func _on_chosen(index: int) -> void:
 				Game.toggle_music()
 				$Panel/Item1.text = music_text()
 				select(1)
-			2: _show_main()
+			2:
+				Game.next_language()
+				_show_options()
+				select(2)
+			3: _show_main()
 		return
 	match index:
 		0: _close()

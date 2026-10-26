@@ -1,0 +1,39 @@
+keys,en,es
+GRAJ,PLAY,JUGAR
+OPCJE,OPTIONS,OPCIONES
+WYJŚCIE,QUIT,SALIR
+WRÓĆ,BACK,VOLVER
+WZNÓW,RESUME,SEGUIR
+OD NOWA,RESTART,REINICIAR
+MENU,MENU,MENÚ
+PAUZA,PAUSE,PAUSA
+PEŁNY EKRAN,FULLSCREEN,PANTALLA
+OKNO,WINDOW,VENTANA
+MUZYKA: TAK,MUSIC: ON,MÚSICA: SÍ
+MUZYKA: NIE,MUSIC: OFF,MÚSICA: NO
+TAK,ON,SÍ
+NIE,OFF,NO
+POZIOM %d,LEVEL %d,NIVEL %d
+LATANIE,FLYING,VOLAR
+PEŁNE HP + ŻYCIA,FULL HP + LIVES,VIDA + VIDAS
+DO METY,TO THE GOAL,A LA META
+BEZ WROGÓW,NO ENEMIES,SIN ENEMIGOS
+KOCIMIĘTKA,CATNIP,HIERBA GATERA
+Spacja / ✕ - od nowa,Space / ✕ - restart,Espacio / ✕ - reiniciar
+Spacja / ✕ - dalej,Space / ✕ - next,Espacio / ✕ - seguir
+OCENA: %s,GRADE: %s,NOTA: %s
+WYGRANA!,YOU WIN!,¡VICTORIA!
+CZAS %d:%02d,TIME %d:%02d,TIEMPO %d:%02d
+MONETY %d/%d,COINS %d/%d,MONEDAS %d/%d
+Życia: %d      Spacja / ✕ - menu,Lives: %d      Space / ✕ - menu,Vidas: %d      Espacio / ✕ - menú
++1 ŻYCIE,+1 LIFE,+1 VIDA
+Esc - wróć,Esc - back,Esc - volver
+"Pies nie umie się wspinać! Przy pniu wciśnij W, by wejść na drzewo.",Dogs can't climb! Press W at a trunk to go up the tree.,¡Los perros no trepan! Pulsa W junto al tronco para subir al árbol.
+"Szyb: skacz od ściany do ściany, żeby wspiąć się wyżej.",Shaft: jump from wall to wall to climb higher.,Pozo: salta de pared en pared para subir.
+"Pod palmami spadają kokosy! Uskocz, a potem zjedz kokos - doda zdrowia.","Coconuts fall under palms! Dodge, then eat the coconut - it heals.",¡Bajo las palmeras caen cocos! Esquívalos y luego cómelos: curan.
+"Bar: podejdź do lady, drink przywraca całe zdrowie.","Bar: walk up to the counter, a drink restores full health.","Bar: acércate a la barra, una bebida te cura del todo."
+Na wodzie surfujesz. Spacja / ✕ to podskok nad skałą i rekinem.,On the water you surf. Space / ✕ hops over rocks and sharks.,En el agua surfeas. Espacio / ✕ salta rocas y tiburones.
+Kanały! Zielony szlam parzy - lepiej go przeskocz.,Sewers! Green sludge burns - better jump over it.,¡Alcantarillas! El lodo verde quema: mejor sáltalo.
+"Drabiny działają jak pnącza: W w górę, S w dół.","Ladders work like vines: W up, S down.","Las escaleras son como lianas: W sube, S baja."
+Wskocz na deskę koła - zawiezie cię na drugą stronę.,Jump on a plank of the wheel - it carries you across.,Salta a una tabla de la rueda: te lleva al otro lado.
+Wejdź do rury - zaniesie cię pod samo wyjście.,Go into the pipe - it takes you right to the exit.,Entra en la tubería: te lleva justo a la salida.

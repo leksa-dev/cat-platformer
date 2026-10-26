@@ -41,8 +41,12 @@ func _on_select(_index: int) -> void:
 
 
 func music_text() -> String:
-	return "MUZYKA: TAK" if Game.music_on else "MUZYKA: NIE"
+	return tr("MUZYKA: TAK") if Game.music_on else tr("MUZYKA: NIE")
 
 
 func fullscreen_text() -> String:
-	return "PEŁNY EKRAN" if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN else "OKNO"  # longer labels overflow the plank
+	return tr("PEŁNY EKRAN") if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN else tr("OKNO")  # longer labels overflow the plank
+
+
+func language_text() -> String:
+	return Game.LANGUAGE_NAMES[Game.language()]

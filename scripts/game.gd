@@ -19,6 +19,9 @@ var lives := START_LIVES
 var god_mode := false
 var fly_mode := false
 var music_on := true  # OPCJE > MUZYKA turns it off
+const LANGUAGES := ["pl", "en", "es"]  # Polish texts are the translation keys (assets/i18n/strings.csv)
+const LANGUAGE_NAMES := {"pl": "POLSKI", "en": "ENGLISH", "es": "ESPAÑOL"}
+const SETTINGS := "user://settings.cfg"
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen
@@ -45,6 +48,9 @@ func _ready() -> void:
 	add_child(_music)
 	_music.finished.connect(_music.play)  # loop the track
 	_fit_window.call_deferred()
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS)
+	TranslationServer.set_locale(cfg.get_value("game", "language", "pl"))
 	# Pad buttons use Godot's Xbox-style names: A = Cross, B = Circle, X = Square (DualShock 4 / DualSense).
 	_bind("left", [KEY_A, KEY_LEFT], [JOY_BUTTON_DPAD_LEFT], JOY_AXIS_LEFT_X, -1.0)
 	_bind("right", [KEY_D, KEY_RIGHT], [JOY_BUTTON_DPAD_RIGHT], JOY_AXIS_LEFT_X, 1.0)
@@ -78,7 +84,7 @@ func lose_life() -> void:
 		get_tree().reload_current_scene.call_deferred()
 	else:
 		sfx("game_over", 0.0)
-		_show("GAME OVER\nSpacja / ✕ - od nowa", _restart)
+		_show("GAME OVER\n" + tr("Spacja / ✕ - od nowa"), _restart)
 
 
 func level_complete() -> void:
@@ -196,6 +202,20 @@ func _fit_window() -> void:
 	var size := Vector2i(320, 180) * maxi(k, 1)
 	DisplayServer.window_set_size(size)
 	DisplayServer.window_set_position(usable.position + (usable.size - size) / 2)
+
+
+func language() -> String:
+	var lang := TranslationServer.get_locale().substr(0, 2)
+	return lang if LANGUAGES.has(lang) else "pl"
+
+
+func next_language() -> void:  # options menus cycle POLSKI -> ENGLISH -> ESPAÑOL; remembered between runs
+	var lang: String = LANGUAGES[(LANGUAGES.find(language()) + 1) % LANGUAGES.size()]
+	TranslationServer.set_locale(lang)
+	var cfg := ConfigFile.new()
+	cfg.load(SETTINGS)
+	cfg.set_value("game", "language", lang)
+	cfg.save(SETTINGS)
 
 
 func toggle_fullscreen() -> void:

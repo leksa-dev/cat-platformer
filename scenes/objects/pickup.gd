@@ -72,7 +72,7 @@ func _burst() -> void:
 	fx.add_child(sparks)
 	sparks.emitting = true
 	var label := Label.new()
-	label.text = "+1 ŻYCIE"
+	label.text = tr("+1 ŻYCIE")
 	label.add_theme_font_size_override("font_size", 12)
 	label.add_theme_color_override("font_color", Color(0.7, 1.0, 0.4))
 	label.add_theme_color_override("font_outline_color", Color(0.05, 0.2, 0.05))

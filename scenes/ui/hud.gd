@@ -11,7 +11,7 @@ func _ready() -> void:
 	Game.level_done.connect(_on_level_done)
 	refresh_hearts()
 	update_dev_badge()
-	_show_banner("POZIOM %d" % (Game.level_index + 1))
+	_show_banner(tr("POZIOM %d") % (Game.level_index + 1))
 
 
 func update_dev_badge() -> void:
@@ -35,7 +35,7 @@ var _hint_tween: Tween
 
 
 func _on_hint(text: String) -> void:
-	$HintBox/Text.text = text
+	$HintBox/Text.text = tr(text)
 	if _hint_tween:
 		_hint_tween.kill()
 	_hint_tween = create_tween()
@@ -67,11 +67,11 @@ func _on_hp_changed(hp: int, max_hp: int) -> void:
 
 
 func _on_level_done(stats: Dictionary) -> void:
-	$Summary/Panel/Title.text = "POZIOM %d" % (stats.level + 1)
+	$Summary/Panel/Title.text = tr("POZIOM %d") % (stats.level + 1)
 	$Summary/Panel/Row0/Count.text = "%d/%d" % [stats.coins, Game.COINS_PER_LEVEL]
 	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.LIVES_PER_LEVEL]
 	$Summary/Panel/Row2/Count.text = "%d/%d" % [stats.diamonds, Game.DIAMONDS_PER_LEVEL]
-	$Summary/Panel/Grade.text = "OCENA: " + stats.grade
+	$Summary/Panel/Grade.text = tr("OCENA: %s") % stats.grade
 	$Summary.visible = true
 	var grade: Label = $Summary/Panel/Grade
 	grade.scale = Vector2.ONE * 2.5  # stamped on
