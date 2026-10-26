@@ -32,6 +32,7 @@ func _ready() -> void:
 	_music.volume_db = -9.0
 	add_child(_music)
 	_music.finished.connect(_music.play)  # loop the track
+	_fit_window.call_deferred()
 	# Pad buttons use Godot's Xbox-style names: A = Cross, B = Circle, X = Square (DualShock 4 / DualSense).
 	_bind("left", [KEY_A, KEY_LEFT], [JOY_BUTTON_DPAD_LEFT], JOY_AXIS_LEFT_X, -1.0)
 	_bind("right", [KEY_D, KEY_RIGHT], [JOY_BUTTON_DPAD_RIGHT], JOY_AXIS_LEFT_X, 1.0)
@@ -115,6 +116,18 @@ func toggle_music() -> void:
 
 func message_open() -> bool:
 	return _on_confirm.is_valid()
+
+
+# The game renders at 320x180 and scales by whole numbers. The window takes the largest multiple that fits ~90%
+# of the screen (sizes are physical pixels: on a Retina Mac 1920x1080 px is only half the screen), centred.
+func _fit_window() -> void:
+	if DisplayServer.get_name() == "headless" or DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
+		return
+	var usable := DisplayServer.screen_get_usable_rect()
+	var k := mini(int(usable.size.x * 0.9) / 320, int(usable.size.y * 0.9) / 180)
+	var size := Vector2i(320, 180) * maxi(k, 1)
+	DisplayServer.window_set_size(size)
+	DisplayServer.window_set_position(usable.position + (usable.size - size) / 2)
 
 
 func toggle_fullscreen() -> void:
