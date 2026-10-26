@@ -37,7 +37,10 @@ func _ready() -> void:
 	for n in get_children():
 		if n is Enemy:
 			count += 1
-			n.died.connect(Game.enemy_killed.bind(n.name))
+			if Game.killed.get(Game.level_index, []).has(n.name):
+				n.queue_free()  # killed before the lost life: stays dead
+			else:
+				n.died.connect(Game.enemy_killed.bind(n.name))
 	Game.enemies[Game.level_index] = count
 	cam.reset_smoothing()  # otherwise the camera glides in from the map origin after every respawn
 
