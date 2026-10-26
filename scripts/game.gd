@@ -12,7 +12,7 @@ var lives := START_LIVES
 # dev menu toggles (persist across level reloads)
 var god_mode := false
 var fly_mode := false
-var music_on := false  # off by default; OPCJE > MUZYKA turns it on
+var music_on := true  # OPCJE > MUZYKA turns it off
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
 
 const AUDIO := "res://assets/game/audio/%s.wav"
