@@ -49,7 +49,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - [x] **10. Dźwięk** — 23 efekty retro i 2 podkłady chiptune (las: menu + poziom 1, plaża: poziom 2), wygenerowane w `assets/game/audio/`; głośność muzyki i efektów w opcjach
 - [x] **11. Menu i ekrany** — menu główne (GRAJ / OPCJE / WYJŚCIE), pauza (WZNÓW / OPCJE / OD NOWA / MENU), komunikaty w okienku z kotem, tabliczka „POZIOM N”, pikselowy font z polskimi znakami (`assets/game/ui/font.fnt`)
 - [~] **12. Więcej poziomów**
-  - [x] **Poziom 2 — wyspy** (`level_02.tscn`): plaża z barem (drink = pełne HP) → surfowanie (w obie strony, niski skok, rekiny, ryby, skały) → dżungla (drzewa, pnącze, sadzawka z żabolem) → surfowanie → pustynia (kaktusy ranią) → legowisko
+  - [x] **Poziom 2 — wyspy** (`level_02.tscn`): plaża z piaszczystym pagórkiem → surfowanie → wyspa z barem (drink = pełne HP), basenem, ogrodem i pomostem → surfowanie (w obie strony, niski skok, rekiny, ryby, skały) → dżungla (drzewa, pnącze, sadzawka z żabolem) → surfowanie → pustynia (kaktusy ranią) → legowisko
   - [x] kokosy na palmach: spadają, gdy kot przechodzi pod spodem; trafiony traci HP, uskoczony kokos zostaje jako przekąska (+1 HP)
   - [x] rozbudowa poziomu 1: górna ścieżka nad plażą z przekąską, łańcuch 3 drzew nad przepaścią (dash), zejście z filaru po półkach i pnączu
   - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką szczurów
