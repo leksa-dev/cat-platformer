@@ -4,6 +4,12 @@ extends Node2D
 
 enum { HANG, SHAKE, FALL, BREAK, ITEM }
 
+# coconut.png (from assets/new_coconut.png): 0 hanging, 1-2 falling, 3-6 impact, 7-14 cracking open, 14 = drink with a straw
+const IMPACT := 3
+const CRACK := 7
+const ITEM_FRAME := 14
+const BREAK_FPS := 20.0
+
 @export var damage := 1
 @export var heal := 1
 @export var trigger_range := 14.0
@@ -28,13 +34,13 @@ func _physics_process(delta: float) -> void:
 				_t = 0.0
 				Game.sfx("coconut_shake", 0.1, -4.0)
 		SHAKE:
-			sprite.frame = 1
+			sprite.frame = 0
 			sprite.position.x = sin(_t * 60.0)  # wobble
 			if _t > 0.5:
 				sprite.position.x = 0
 				_state = FALL
 		FALL:
-			sprite.frame = 2
+			sprite.frame = 1 + int(_t * 10) % 2
 			_vy += gravity * delta
 			position.y += _vy * delta
 			if _touching_cat(cat):
@@ -48,13 +54,17 @@ func _physics_process(delta: float) -> void:
 				_state = BREAK
 				_t = 0.0
 		BREAK:
-			sprite.frame = 3
-			if _t > 0.3:
-				if _hit_cat:
-					queue_free()  # smashed on the cat's head: no snack
-				_state = ITEM
+			var f := int(_t * BREAK_FPS)
+			if _hit_cat:  # smashed on the cat's head: it bursts and is gone, no snack
+				sprite.frame = CRACK + 2 + f
+				if f >= 3:
+					queue_free()
+			else:  # hits the sand, then cracks open into a drink
+				sprite.frame = mini(IMPACT + f, ITEM_FRAME)
+				if IMPACT + f >= ITEM_FRAME:
+					_state = ITEM
 		ITEM:
-			sprite.frame = 4
+			sprite.frame = ITEM_FRAME
 			if _touching_cat(cat) and cat.hp < cat.max_hp:
 				cat.heal(heal)
 				queue_free()

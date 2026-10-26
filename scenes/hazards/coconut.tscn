@@ -9,6 +9,6 @@ script = ExtResource("1_s")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.333333, 0.333333)
-position = Vector2(0, -8)
+position = Vector2(0, -13)
 texture = ExtResource("2_t")
-hframes = 5
+hframes = 15
