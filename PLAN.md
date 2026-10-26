@@ -45,7 +45,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] pasek HP kota w HUD (ramka z `hud.png`), odrzut i 1 s nietykalności po trafieniu, HP 0 = utrata życia
   - [x] checkpointy (flagi): po utracie życia kot wraca do ostatniej flagi
   - [ ] animacja „hurt” kota, kolce
-- [x] **10. Dźwięk** — 23 efekty retro i 2 podkłady chiptune (las: menu + poziom 1, plaża: poziom 2), wygenerowane w `assets/game/audio/`; MUZYKA: TAK/NIE w opcjach
+- [x] **10. Dźwięk** — 23 efekty retro i 2 podkłady chiptune (las: menu + poziom 1, plaża: poziom 2), wygenerowane w `assets/game/audio/`; głośność muzyki i efektów w opcjach
 - [x] **11. Menu i ekrany** — menu główne (GRAJ / OPCJE / WYJŚCIE), pauza (WZNÓW / OPCJE / OD NOWA / MENU), komunikaty w okienku z kotem, tabliczka „POZIOM N”, pikselowy font z polskimi znakami (`assets/game/ui/font.fnt`)
 - [~] **12. Więcej poziomów**
   - [x] **Poziom 2 — wyspy** (`level_02.tscn`): plaża z barem (drink = pełne HP) → surfowanie (w obie strony, niski skok, rekiny, ryby, skały) → dżungla (drzewa, pnącze, sadzawka z żabolem) → surfowanie → pustynia (kaktusy ranią) → legowisko
@@ -55,9 +55,11 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [ ] poziom 3, nowe obiekty do wspinania (rury, płoty)
 - [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
 - [x] **Sekrety** — poziom 1: druga przepaść (87–96) wrzuca do jaskini z życiem, wraca się windą; poziom 2: krzak z jagodami w dżungli (7 podrapań = życie); poziom 3: rura pod ściekami w dziurze pod ruchomą płytą prowadzi do ukrytej komnaty
+- [x] **Zapis postępu** — po każdym ukończonym poziomie (`user://save.cfg`: poziom, życia, znajdźki, czas); GRAJ → DALEJ / NOWA GRA; checkpointy nie są zapisywane; game over i koniec gry kasują zapis
+- [x] **Głośność** — osobno muzyka i efekty (0–100 %, strzałki ←/→ albo Spacja), zapamiętana w `settings.cfg`
 - [x] **Ekran końcowy** — czas gry, monety ze wszystkich poziomów, życia
 - [ ] **13. Szlif grafiki** — klatki wspinaczki i drapania, pasek kocimiętki w HUD, lepsze tło, cząsteczki
-- [ ] **14. Wydanie** — eksport HTML5, itch.io, ewentualnie zapis postępu
+- [ ] **14. Wydanie** — eksport HTML5, itch.io
 
 ## Gdzie co jest
 

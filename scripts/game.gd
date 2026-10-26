@@ -18,10 +18,11 @@ var lives := START_LIVES
 # dev menu toggles (persist across level reloads)
 var god_mode := false
 var fly_mode := false
-var music_on := true  # OPCJE > MUZYKA turns it off
+var volume := {"Music": 8, "SFX": 8}  # bus -> 0..10 (OPCJE > MUZYKA / EFEKTY), 0 = muted
 const LANGUAGES := ["pl", "en", "es"]  # Polish texts are the translation keys (assets/i18n/strings.csv)
 const LANGUAGE_NAMES := {"pl": "POLSKI", "en": "ENGLISH", "es": "ESPAÑOL"}
 const SETTINGS := "user://settings.cfg"
+const SAVE := "user://save.cfg"  # progress written after each finished level (checkpoints are not saved)
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen
@@ -43,14 +44,20 @@ func _ready() -> void:
 	for i in 10:
 		var player := AudioStreamPlayer.new()
 		add_child(player)
+		player.bus = "SFX"
 		_players.append(player)
 	_music.volume_db = -9.0
+	_music.bus = "Music"
 	add_child(_music)
 	_music.finished.connect(_music.play)  # loop the track
 	_fit_window.call_deferred()
 	var cfg := ConfigFile.new()
 	cfg.load(SETTINGS)
 	TranslationServer.set_locale(cfg.get_value("game", "language", "pl"))
+	for bus in volume:
+		AudioServer.add_bus()
+		AudioServer.set_bus_name(AudioServer.bus_count - 1, bus)
+		set_volume(bus, cfg.get_value("audio", bus, volume[bus]), false)
 	# Pad buttons use Godot's Xbox-style names: A = Cross, B = Circle, X = Square (DualShock 4 / DualSense).
 	_bind("left", [KEY_A, KEY_LEFT], [JOY_BUTTON_DPAD_LEFT], JOY_AXIS_LEFT_X, -1.0)
 	_bind("right", [KEY_D, KEY_RIGHT], [JOY_BUTTON_DPAD_RIGHT], JOY_AXIS_LEFT_X, 1.0)
@@ -93,6 +100,10 @@ func level_complete() -> void:
 	sfx("level_complete", 0.0)
 	get_tree().paused = true
 	level_done.emit(stats)
+	if level_index < LEVELS.size():
+		_save()
+	else:
+		DirAccess.remove_absolute(SAVE)  # game finished: the next one starts from scratch
 	_on_confirm = _load_level if level_index < LEVELS.size() else func(): get_tree().change_scene_to_file(VICTORY)
 
 
@@ -174,16 +185,16 @@ func play_music(track: String) -> void:
 	var path := AUDIO % ("music_" + track)
 	var mp3 := path.get_basename() + ".mp3"  # full-length tracks come as mp3, generated chiptunes as wav
 	_music.stream = load(mp3 if ResourceLoader.exists(mp3) else path)
-	if music_on:
-		_music.play()
+	_music.play()
 
 
-func toggle_music() -> void:
-	music_on = not music_on
-	if music_on and _music.stream:
-		_music.play()
-	else:
-		_music.stop()
+func set_volume(bus: String, value: int, store := true) -> void:
+	volume[bus] = clampi(value, 0, 10)
+	var i := AudioServer.get_bus_index(bus)
+	AudioServer.set_bus_volume_db(i, linear_to_db(volume[bus] / 10.0))
+	AudioServer.set_bus_mute(i, volume[bus] == 0)
+	if store:
+		_store_setting("audio", bus, volume[bus])
 
 
 func message_open() -> bool:
@@ -212,9 +223,13 @@ func language() -> String:
 func next_language() -> void:  # options menus cycle POLSKI -> ENGLISH -> ESPAÑOL; remembered between runs
 	var lang: String = LANGUAGES[(LANGUAGES.find(language()) + 1) % LANGUAGES.size()]
 	TranslationServer.set_locale(lang)
+	_store_setting("game", "language", lang)
+
+
+func _store_setting(section: String, key: String, value: Variant) -> void:
 	var cfg := ConfigFile.new()
 	cfg.load(SETTINGS)
-	cfg.set_value("game", "language", lang)
+	cfg.set_value(section, key, value)
 	cfg.save(SETTINGS)
 
 
@@ -236,6 +251,29 @@ func start_game() -> void:
 	_restart()
 
 
+func saved_level() -> int:  # level the save continues from, -1 = no save
+	var cfg := ConfigFile.new()
+	return cfg.get_value("save", "level_index", -1) if cfg.load(SAVE) == OK else -1
+
+
+func continue_game() -> void:
+	var cfg := ConfigFile.new()
+	cfg.load(SAVE)
+	for key in SAVED:
+		set(key, cfg.get_value("save", key, get(key)))
+	_load_level()
+
+
+const SAVED := ["level_index", "lives", "collected", "damage", "killed", "enemies", "run_time"]
+
+
+func _save() -> void:
+	var cfg := ConfigFile.new()
+	for key in SAVED:
+		cfg.set_value("save", key, get(key))
+	cfg.save(SAVE)
+
+
 func go_to_menu() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file(MENU)
@@ -248,6 +286,7 @@ func _restart() -> void:
 	damage.clear()
 	killed.clear()
 	run_time = 0.0
+	DirAccess.remove_absolute(SAVE)  # new game or game over: the old progress is gone
 	_load_level()
 
 

@@ -38,6 +38,7 @@ theme/custom_font="res://assets/game/ui/font.fnt"
 [internationalization]
 
 locale/translations=PackedStringArray("res://assets/i18n/strings.en.translation", "res://assets/i18n/strings.es.translation")
+locale/fallback="pl"
 
 [rendering]
 

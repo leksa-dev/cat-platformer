@@ -40,8 +40,18 @@ func _on_select(_index: int) -> void:
 	pass
 
 
-func music_text() -> String:
-	return tr("MUZYKA: TAK") if Game.music_on else tr("MUZYKA: NIE")
+func volume_text(bus: String) -> String:
+	return (tr("MUZYKA") if bus == "Music" else tr("EFEKTY")) + ": %d%%" % (Game.volume[bus] * 10)
+
+
+# left/right on a volume row: one step of 10 %; returns true when it changed something
+func nudge_volume(bus: String) -> bool:
+	var step := int(Input.is_action_just_pressed("right")) - int(Input.is_action_just_pressed("left"))
+	if step == 0 or Game.volume[bus] + step < 0 or Game.volume[bus] + step > 10:
+		return false
+	Game.set_volume(bus, Game.volume[bus] + step)
+	Game.sfx("menu_move", 0.0)
+	return true
 
 
 func fullscreen_text() -> String:
