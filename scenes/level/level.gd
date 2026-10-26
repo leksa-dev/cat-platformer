@@ -7,6 +7,7 @@ extends Node2D
 @export var music := "forest"  # assets/game/audio/music_<name>.wav
 
 var _death_y := 0.0
+var _bg_time := 0.0
 var _cam: Camera2D
 
 
@@ -40,9 +41,13 @@ func _add_edge_walls(left: float, right: float) -> void:
 	add_child(walls)
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	var center := _cam.get_screen_center_position()
-	$Background/Sky.region_rect.position.x = center.x * background_scroll
+	_bg_time += delta
+	# parallax: each background sprite scrolls at its own rate (metadata "scroll"), clouds may also "drift" on their own
+	for layer in $Background.get_children():
+		if layer is Sprite2D:
+			layer.region_rect.position.x = center.x * layer.get_meta("scroll", background_scroll) + _bg_time * layer.get_meta("drift", 0.0)
 	$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down
 
 
