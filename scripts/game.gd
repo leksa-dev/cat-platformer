@@ -2,6 +2,7 @@ extends Node
 
 signal message(text: String)  # empty text hides the message
 signal hp_changed(hp: int, max_hp: int)  # cat health bar
+signal hint(text: String)  # tip in the dialog box at the bottom, fades on its own
 
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
@@ -101,7 +102,9 @@ func play_music(track: String) -> void:
 	if track == _music_track and _music.playing:
 		return
 	_music_track = track
-	_music.stream = load(AUDIO % ("music_" + track))
+	var path := AUDIO % ("music_" + track)
+	var mp3 := path.get_basename() + ".mp3"  # full-length tracks come as mp3, generated chiptunes as wav
+	_music.stream = load(mp3 if ResourceLoader.exists(mp3) else path)
 	if music_on:
 		_music.play()
 

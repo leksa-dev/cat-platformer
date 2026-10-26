@@ -1,8 +1,12 @@
 {
+ "menu_plank": [
+  129,
+  44
+ ],
  "menu_rows_y": [
-  63,
-  99,
-  136
+  62,
+  98,
+  135
  ],
  "menu_sign_x": 208,
  "pause_title_y": 12,

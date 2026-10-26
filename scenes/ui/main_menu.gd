@@ -31,9 +31,10 @@ func _set_items(texts: Array) -> void:
 
 
 func _on_select(index: int) -> void:
-	# the top plank is orange in the art: golden text is unreadable on it, use dark wood colours
-	if not items.is_empty():
-		items[0].modulate = Color(0.3, 0.15, 0.04) if index == 0 else Color(0.5, 0.3, 0.12)
+	# the orange plank follows the selection; golden text is unreadable on it, use dark wood colour there
+	$Plank.position.y = items[index].position.y - 9
+	for i in items.size():
+		items[i].modulate = Color(0.3, 0.15, 0.04) if i == index else Color.WHITE
 
 
 func _process(delta: float) -> void:

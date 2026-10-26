@@ -6,6 +6,7 @@ const HEART := preload("res://assets/game/heart.png")
 func _ready() -> void:
 	Game.message.connect(_on_message)
 	Game.hp_changed.connect(_on_hp_changed)
+	Game.hint.connect(_on_hint)
 	for i in Game.START_LIVES:
 		var heart := TextureRect.new()
 		heart.texture = HEART
@@ -32,6 +33,19 @@ func _show_banner(text: String) -> void:
 	tween.tween_property($Banner, "modulate:a", 1.0, 0.3)
 	tween.tween_interval(2.0)
 	tween.tween_property($Banner, "modulate:a", 0.0, 0.6)
+
+
+var _hint_tween: Tween
+
+
+func _on_hint(text: String) -> void:
+	$HintBox/Text.text = text
+	if _hint_tween:
+		_hint_tween.kill()
+	_hint_tween = create_tween()
+	_hint_tween.tween_property($HintBox, "modulate:a", 1.0, 0.3)
+	_hint_tween.tween_interval(4.0)
+	_hint_tween.tween_property($HintBox, "modulate:a", 0.0, 0.6)
 
 
 func refresh_hearts() -> void:

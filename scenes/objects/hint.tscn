@@ -1,0 +1,15 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/hint.gd" id="1_s"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(8, 400)
+
+[node name="Hint" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -200)
+shape = SubResource("shape")

@@ -1,5 +1,6 @@
 [gd_scene format=4]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/hint.tscn" id="h_hint"]
 [ext_resource type="Script" path="res://scenes/level/level.gd" id="1_level"]
 [ext_resource type="TileSet" path="res://scenes/level/tileset.tres" id="2_tiles"]
 [ext_resource type="PackedScene" path="res://scenes/player/cat.tscn" id="3_cat"]
@@ -311,5 +312,13 @@ angle_min = -180.0
 angle_max = 180.0
 scale_amount_min = 0.2
 scale_amount_max = 0.333333
+
+[node name="Hint1" parent="." instance=ExtResource("h_hint")]
+position = Vector2(200, 224)
+text = "Pies nie umie się wspinać! Przy pniu wciśnij W, by wejść na drzewo."
+
+[node name="Hint2" parent="." instance=ExtResource("h_hint")]
+position = Vector2(1176, 224)
+text = "Szyb: skacz od ściany do ściany, żeby wspiąć się wyżej."
 
 [node name="HUD" parent="." instance=ExtResource("5_hud")]

@@ -1,5 +1,6 @@
 [gd_scene format=4]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/hint.tscn" id="h_hint"]
 [ext_resource type="Script" path="res://scenes/level/level.gd" id="r0"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl2/layer_1_sky.png" id="r1"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl2/layer_2_clouds.png" id="r2"]
@@ -824,5 +825,17 @@ angle_min = -180.0
 angle_max = 180.0
 scale_amount_min = 0.2
 scale_amount_max = 0.333333
+
+[node name="Hint1" parent="." instance=ExtResource("h_hint")]
+position = Vector2(152, 224)
+text = "Pod palmami spadają kokosy! Uskocz, a potem zjedz kokos - doda zdrowia."
+
+[node name="Hint2" parent="." instance=ExtResource("h_hint")]
+position = Vector2(584, 224)
+text = "Bar: podejdź do lady, drink przywraca całe zdrowie."
+
+[node name="Hint3" parent="." instance=ExtResource("h_hint")]
+position = Vector2(744, 224)
+text = "Na wodzie surfujesz. Spacja / ✕ to podskok nad skałą i rekinem."
 
 [node name="HUD" parent="." instance=ExtResource("r53")]
