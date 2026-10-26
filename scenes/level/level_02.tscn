@@ -1,5 +1,10 @@
 [gd_scene format=4]
 
+[ext_resource type="PackedScene" path="res://scenes/objects/coin.tscn" id="x_coin"]
+[ext_resource type="PackedScene" path="res://scenes/objects/life.tscn" id="x_life"]
+[ext_resource type="PackedScene" path="res://scenes/objects/secret/warp.tscn" id="x_warp"]
+[ext_resource type="PackedScene" path="res://scenes/objects/secret/elevator.tscn" id="x_elevator"]
+[ext_resource type="PackedScene" path="res://scenes/objects/secret/berry_bush.tscn" id="x_bush"]
 [ext_resource type="Texture2D" path="res://assets/game/backdrop_sand.png" id="bd_tex"]
 [ext_resource type="PackedScene" path="res://scenes/objects/hint.tscn" id="h_hint"]
 [ext_resource type="Script" path="res://scenes/level/level.gd" id="r0"]
@@ -839,5 +844,41 @@ text = "Bar: podejdź do lady, drink przywraca całe zdrowie."
 [node name="Hint3" parent="." instance=ExtResource("h_hint")]
 position = Vector2(744, 224)
 text = "Na wodzie surfujesz. Spacja / ✕ to podskok nad skałą i rekinem."
+
+[node name="Coin1" parent="." instance=ExtResource("x_coin")]
+position = Vector2(272, 128)
+
+[node name="Coin2" parent="." instance=ExtResource("x_coin")]
+position = Vector2(936, 206)
+
+[node name="Coin3" parent="." instance=ExtResource("x_coin")]
+position = Vector2(1640, 200)
+
+[node name="Coin4" parent="." instance=ExtResource("x_coin")]
+position = Vector2(2152, 88)
+
+[node name="Coin5" parent="." instance=ExtResource("x_coin")]
+position = Vector2(2232, 246)
+
+[node name="Coin6" parent="." instance=ExtResource("x_coin")]
+position = Vector2(2504, 136)
+
+[node name="Coin7" parent="." instance=ExtResource("x_coin")]
+position = Vector2(2424, 196)
+
+[node name="Coin8" parent="." instance=ExtResource("x_coin")]
+position = Vector2(3304, 206)
+
+[node name="Coin9" parent="." instance=ExtResource("x_coin")]
+position = Vector2(3664, 128)
+
+[node name="Coin10" parent="." instance=ExtResource("x_coin")]
+position = Vector2(3816, 248)
+
+[node name="Life1" parent="." instance=ExtResource("x_life")]
+position = Vector2(4040, 160)
+
+[node name="BerryBush" parent="." instance=ExtResource("x_bush")]
+position = Vector2(2344, 224)
 
 [node name="HUD" parent="." instance=ExtResource("r53")]

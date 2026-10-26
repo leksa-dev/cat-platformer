@@ -3,9 +3,12 @@ extends Node
 signal message(text: String)  # empty text hides the message
 signal hp_changed(hp: int, max_hp: int)  # cat health bar
 signal hint(text: String)  # tip in the dialog box at the bottom, fades on its own
+signal pickups_changed  # coin collected or life gained: the HUD redraws its counters
 
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
+const VICTORY := "res://scenes/ui/victory.tscn"
+const COINS_PER_LEVEL := 10
 const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn"]
 
 var lives := START_LIVES
@@ -14,6 +17,8 @@ var god_mode := false
 var fly_mode := false
 var music_on := true  # OPCJE > MUZYKA turns it off
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
+var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
+var run_time := 0.0  # seconds spent in levels this game, for the victory screen
 
 const AUDIO := "res://assets/game/audio/%s.wav"
 var _players: Array[AudioStreamPlayer] = []
@@ -76,7 +81,32 @@ func level_complete() -> void:
 	if level_index < LEVELS.size():
 		_show("Poziom ukończony!\nSpacja / ✕ - dalej", _load_level)
 	else:
-		_show("Wygrana!\nSpacja / ✕ - menu", go_to_menu)
+		get_tree().change_scene_to_file.call_deferred(VICTORY)
+
+
+func is_collected(item: String) -> bool:
+	return collected.get(level_index, []).has(item)
+
+
+func collect(item: String) -> void:
+	if not collected.has(level_index):
+		collected[level_index] = []
+	collected[level_index].append(item)
+	pickups_changed.emit()
+
+
+func coins(level := -1) -> int:  # coins taken in one level, or in all of them
+	var n := 0
+	for i in collected:
+		if level < 0 or i == level:
+			n += collected[i].filter(func(item): return item.begins_with("Coin")).size()
+	return n
+
+
+func gain_life() -> void:
+	lives += 1
+	sfx("oneup", 0.0)
+	pickups_changed.emit()
 
 
 func _show(text: String, callback: Callable) -> void:
@@ -143,6 +173,7 @@ func toggle_fullscreen() -> void:
 func load_level(index: int) -> void:
 	get_tree().paused = false
 	level_index = index
+	collected.erase(index)  # jumping to a level replays it from scratch
 	_load_level()
 
 
@@ -158,6 +189,8 @@ func go_to_menu() -> void:
 func _restart() -> void:
 	lives = START_LIVES
 	level_index = 0
+	collected.clear()
+	run_time = 0.0
 	_load_level()
 
 

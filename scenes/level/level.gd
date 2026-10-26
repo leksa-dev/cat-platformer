@@ -63,6 +63,7 @@ func _add_edge_walls(left: float, right: float) -> void:
 
 
 func _process(delta: float) -> void:
+	Game.run_time += delta  # the level doesn't process while paused
 	var center := _cam.get_screen_center_position()
 	_bg_time += delta
 	# parallax: each background sprite scrolls at its own rate (metadata "scroll"), clouds may also "drift" on their own
@@ -74,6 +75,32 @@ func _process(delta: float) -> void:
 			layer.position.y = layer.get_meta("y0") - (center.y - _bg_base_y) * layer.get_meta("vscroll", 0.0)
 	if has_node("Leaves"):
 		$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down
+
+
+# secret rooms sit far above the level: the camera is boxed into the room while the cat is in it
+var _limits := []
+var in_room := false
+
+
+func enter_room(room: Rect2) -> void:
+	if not in_room:
+		_limits = [_cam.limit_left, _cam.limit_top, _cam.limit_right, _cam.limit_bottom]
+	in_room = true
+	_cam.limit_left = int(room.position.x)
+	_cam.limit_top = int(room.position.y)
+	_cam.limit_right = int(room.end.x)
+	_cam.limit_bottom = int(room.end.y)
+	_cam.reset_smoothing.call_deferred()
+
+
+func leave_room() -> void:
+	if in_room:
+		in_room = false
+		_cam.limit_left = _limits[0]
+		_cam.limit_top = _limits[1]
+		_cam.limit_right = _limits[2]
+		_cam.limit_bottom = _limits[3]
+	_cam.reset_smoothing.call_deferred()
 
 
 func _physics_process(_delta: float) -> void:

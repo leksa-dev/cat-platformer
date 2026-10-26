@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://scenes/ui/pause.gd" id="7_pause"]
 [ext_resource type="Script" path="res://scenes/ui/dev.gd" id="8_dev"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/arrow.png" id="9_arrow"]
+[ext_resource type="Texture2D" path="res://assets/game/coin.png" id="10_coin"]
 
 [sub_resource type="StyleBoxEmpty" id="hp_bg"]
 
@@ -43,6 +44,23 @@ max_value = 6.0
 step = 1.0
 value = 6.0
 show_percentage = false
+
+[node name="Coins" type="HBoxContainer" parent="."]
+offset_left = 8.0
+offset_top = 19.0
+theme_override_constants/separation = 3
+
+[node name="Icon" type="TextureRect" parent="Coins"]
+custom_minimum_size = Vector2(9, 9)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("10_coin")
+expand_mode = 1
+
+[node name="Count" type="Label" parent="Coins"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0/10"
 
 [node name="DevBadge" type="Label" parent="."]
 modulate = Color(1, 0.45, 0.45, 1)

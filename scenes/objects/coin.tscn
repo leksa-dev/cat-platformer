@@ -1,0 +1,19 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/pickup.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/coin.png" id="2_t"]
+
+[sub_resource type="CircleShape2D" id="shape"]
+radius = 5.0
+
+[node name="Coin" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.22, 0.22)
+texture = ExtResource("2_t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("shape")

@@ -1,0 +1,57 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/victory.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/menu_bg.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/menu_plank_hi.png" id="4_plank"]
+
+[node name="Victory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_s")
+
+[node name="Background" type="TextureRect" parent="."]
+expand_mode = 1
+offset_right = 320.0
+offset_bottom = 180.0
+texture = ExtResource("2_bg")
+
+[node name="Plank" type="TextureRect" parent="."]
+expand_mode = 1
+offset_left = 129.0
+offset_top = 44.0
+offset_right = 277.0
+offset_bottom = 82.0
+texture = ExtResource("4_plank")
+
+[node name="Item0" type="Label" parent="."]
+modulate = Color(0.3, 0.15, 0.04, 1)
+offset_left = 148
+offset_top = 53
+offset_right = 268
+offset_bottom = 69
+horizontal_alignment = 1
+
+[node name="Item1" type="Label" parent="."]
+offset_left = 148
+offset_top = 89
+offset_right = 268
+offset_bottom = 105
+horizontal_alignment = 1
+
+[node name="Item2" type="Label" parent="."]
+offset_left = 148
+offset_top = 126
+offset_right = 268
+offset_bottom = 142
+horizontal_alignment = 1
+
+[node name="Lives" type="Label" parent="."]
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0.03, 1)
+theme_override_constants/outline_size = 4
+offset_top = 163.0
+offset_right = 320.0
+offset_bottom = 177.0
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1

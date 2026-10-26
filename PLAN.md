@@ -53,6 +53,9 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] rozbudowa poziomu 1: górna ścieżka nad plażą z przekąską, łańcuch 3 drzew nad przepaścią (dash), zejście z filaru po półkach i pnączu
   - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką szczurów
   - [ ] poziom 3, nowe obiekty do wspinania (rury, płoty)
+- [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
+- [x] **Sekrety** — poziom 1: druga przepaść (87–96) wrzuca do jaskini z życiem, wraca się windą; poziom 2: krzak z jagodami w dżungli (7 podrapań = życie); poziom 3: rura pod ściekami w dziurze pod ruchomą płytą prowadzi do ukrytej komnaty
+- [x] **Ekran końcowy** — czas gry, monety ze wszystkich poziomów, życia
 - [ ] **13. Szlif grafiki** — klatki wspinaczki i drapania, pasek kocimiętki w HUD, lepsze tło, cząsteczki
 - [ ] **14. Wydanie** — eksport HTML5, itch.io, ewentualnie zapis postępu
 

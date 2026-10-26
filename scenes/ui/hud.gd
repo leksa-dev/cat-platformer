@@ -7,12 +7,7 @@ func _ready() -> void:
 	Game.message.connect(_on_message)
 	Game.hp_changed.connect(_on_hp_changed)
 	Game.hint.connect(_on_hint)
-	for i in Game.START_LIVES:
-		var heart := TextureRect.new()
-		heart.texture = HEART
-		heart.expand_mode = TextureRect.EXPAND_IGNORE_SIZE  # 3x texture drawn at the logical 9x8
-		heart.custom_minimum_size = Vector2(9, 8)
-		$Lives.add_child(heart)
+	Game.pickups_changed.connect(refresh_hearts)
 	refresh_hearts()
 	update_dev_badge()
 	_show_banner("POZIOM %d" % (Game.level_index + 1))
@@ -49,6 +44,13 @@ func _on_hint(text: String) -> void:
 
 
 func refresh_hearts() -> void:
+	while $Lives.get_child_count() < maxi(Game.START_LIVES, Game.lives):  # 1ups add hearts
+		var heart := TextureRect.new()
+		heart.texture = HEART
+		heart.expand_mode = TextureRect.EXPAND_IGNORE_SIZE  # 3x texture drawn at the logical 9x8
+		heart.custom_minimum_size = Vector2(9, 8)
+		$Lives.add_child(heart)
+	$Coins/Count.text = "%d/%d" % [Game.coins(Game.level_index), Game.COINS_PER_LEVEL]
 	for i in $Lives.get_child_count():
 		# lost lives stay as dark hearts
 		$Lives.get_child(i).modulate = Color.WHITE if i < Game.lives else Color(0.2, 0.2, 0.2, 0.6)
