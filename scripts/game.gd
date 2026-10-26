@@ -126,6 +126,8 @@ func message_open() -> bool:
 func _fit_window() -> void:
 	if DisplayServer.get_name() == "headless" or DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
 		return
+	if Engine.is_embedded_in_editor():  # the editor's Game tab owns the window size
+		return
 	var usable := DisplayServer.screen_get_usable_rect()
 	var k := mini(int(usable.size.x * 0.9) / 320, int(usable.size.y * 0.9) / 180)
 	var size := Vector2i(320, 180) * maxi(k, 1)
