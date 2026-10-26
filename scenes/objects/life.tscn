@@ -1,10 +1,10 @@
 [gd_scene format=3]
 
 [ext_resource type="Script" path="res://scenes/objects/pickup.gd" id="1_s"]
-[ext_resource type="Texture2D" path="res://assets/game/heart.png" id="2_t"]
+[ext_resource type="Texture2D" path="res://assets/game/oneup.png" id="2_t"]
 
 [sub_resource type="RectangleShape2D" id="shape"]
-size = Vector2(10, 10)
+size = Vector2(12, 12)
 
 [node name="Life" type="Area2D"]
 collision_layer = 0
@@ -13,7 +13,7 @@ script = ExtResource("1_s")
 kind = 1
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.333333, 0.333333)
+scale = Vector2(0.4, 0.4)
 position = Vector2(0, -8)
 texture = ExtResource("2_t")
 

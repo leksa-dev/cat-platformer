@@ -51,6 +51,10 @@ func refresh_hearts() -> void:
 		heart.expand_mode = TextureRect.EXPAND_IGNORE_SIZE  # 3x texture drawn at the logical 9x8
 		heart.custom_minimum_size = Vector2(9, 8)
 		$Lives.add_child(heart)
+		if Game.lives > Game.START_LIVES:  # a 1up: the new heart pops in
+			heart.pivot_offset = Vector2(4.5, 4)
+			heart.scale = Vector2.ONE * 2.5
+			heart.create_tween().tween_property(heart, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	$Coins/Count.text = "%d/%d" % [Game.coins(Game.level_index), Game.COINS_PER_LEVEL]
 	for i in $Lives.get_child_count():
 		# lost lives stay as dark hearts
