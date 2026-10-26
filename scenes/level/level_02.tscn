@@ -1,5 +1,6 @@
 [gd_scene format=4]
 
+[ext_resource type="Texture2D" path="res://assets/game/backdrop_sand.png" id="bd_tex"]
 [ext_resource type="PackedScene" path="res://scenes/objects/hint.tscn" id="h_hint"]
 [ext_resource type="Script" path="res://scenes/level/level.gd" id="r0"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl2/layer_1_sky.png" id="r1"]
@@ -58,6 +59,7 @@
 
 [node name="Level02" type="Node2D"]
 script = ExtResource("r0")
+backdrop = ExtResource("bd_tex")
 music = "beach"
 
 [node name="Background" type="CanvasLayer" parent="."]

@@ -5,6 +5,8 @@ extends Node2D
 
 @export var background_scroll := 0.2  # background moves slower than the level -> depth
 @export var music := "forest"  # assets/game/audio/music_<name>.wav
+@export var backdrop: Texture2D  # dark earth tiled below backdrop_top, so pits don't show the sky/forest layers
+@export var backdrop_top := 236.0
 
 var _death_y := 0.0
 var _bg_time := 0.0
@@ -24,12 +26,27 @@ func _ready() -> void:
 	cam.limit_bottom = int(rect.end.y * tile.y)
 	_death_y = cam.limit_bottom + 32
 	_add_edge_walls(cam.limit_left, cam.limit_right)
+	if backdrop:
+		_add_backdrop(cam.limit_left, cam.limit_right, _death_y)
 	_bg_base_y = cam.limit_bottom - get_viewport().get_visible_rect().size.y / 2
 	for layer in $Background.get_children():
 		layer.set_meta("y0", layer.position.y)
 	cat.position = $Spawn.position if Game.checkpoint == Vector2.INF else Game.checkpoint
 	Game.play_music(music)
 	cam.reset_smoothing()  # otherwise the camera glides in from the map origin after every respawn
+
+
+func _add_backdrop(left: float, right: float, bottom: float) -> void:
+	var sprite := Sprite2D.new()
+	sprite.texture = backdrop
+	sprite.centered = false
+	sprite.scale = Vector2.ONE / 3  # 48 px tile texture drawn at 16
+	sprite.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	sprite.region_enabled = true
+	sprite.region_rect = Rect2(0, 0, (right - left) * 3, (bottom - backdrop_top) * 3)
+	sprite.position = Vector2(left, backdrop_top)
+	add_child(sprite)
+	move_child(sprite, ground.get_index())  # behind the tiles, in front of the parallax layers
 
 
 # invisible walls at the map's left/right edges, so the cat can't walk or swim off the map
