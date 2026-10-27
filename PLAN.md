@@ -58,6 +58,13 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] rozbudowa poziomu 1: górna ścieżka nad plażą z przekąską, łańcuch 3 drzew nad przepaścią (dash), zejście z filaru po półkach i pnączu
   - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką krabów
   - [ ] poziom 3, nowe obiekty do wspinania (rury, płoty)
+  - [ ] **Poziomy 4–5 — Kraków, Podgórze** (doklejone po ściekach; lore do ustalenia)
+    - poziom 4 „Krzemionki”: Kopiec Krakusa (fort i kościółek św. Benedykta) → kładka → kamieniołom Libana → Park Bednarskiego
+    - poziom 5 „Podgórze”: Rynek Podgórski z kościołem św. Józefa → Nadwiśle (bulwary) → kładka Bernatka (meta)
+    - przeszkadzajki: rowerzyści i kukiryniarze (monocykle elektryczne) jeżdżą po ścieżce
+    - nowi wrogowie: gołąb, kawka, pies na smyczy
+    - grafika generowana; najpierw szary poziom (gra się w prostych kafelkach), grafika na końcu
+    - okolice dawnego getta (Plac Bohaterów Getta, mur na Lwowskiej) omijamy albo zostają spokojnym tłem, bez wrogów i żartów
 - [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
 - [x] **Sekrety** — poziom 1: druga przepaść (87–96) wrzuca do jaskini z życiem, wraca się windą; poziom 2: krzak z jagodami w dżungli (7 podrapań = życie); poziom 3: rura pod ściekami w dziurze pod ruchomą płytą prowadzi do ukrytej komnaty
 - [x] **Zapis postępu** — po każdym ukończonym poziomie (`user://save.cfg`: poziom, życia, znajdźki, czas); GRAJ → DALEJ / NOWA GRA; checkpointy nie są zapisywane; game over i koniec gry kasują zapis
