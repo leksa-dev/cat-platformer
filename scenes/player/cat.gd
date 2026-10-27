@@ -67,6 +67,7 @@ var _surfing := false
 var _surf_air := false
 var _surf_time := 0.0
 var _drink_time := -1.0  # seconds into the drink at the bar, < 0 when not drinking
+var at_bar := false  # standing at the bar counter: jump orders another drink instead
 var _drank := false
 var _land_time := 1.0  # since touching the ground
 var _turn_time := 1.0  # since turning around on the ground
@@ -219,6 +220,9 @@ func _physics_process(delta: float) -> void:
 			Game.lose_life()
 		return
 	_coyote = coyote_time if is_on_floor() else _coyote - delta
+	if at_bar and is_on_floor() and Input.is_action_just_pressed("jump"):
+		drink()  # one more, just for the animation
+		return
 	_buffer = jump_buffer if Input.is_action_just_pressed("jump") else _buffer - delta
 	_update_effects(delta)
 	_dash_left -= delta  # ticks while climbing too, or tree-to-tree dashes stay on cooldown

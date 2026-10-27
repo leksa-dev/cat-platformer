@@ -1010,7 +1010,7 @@ text = "Pod palmami spadają kokosy! Uskocz, a potem zjedz kokos - doda zdrowia.
 
 [node name="Hint2" parent="." instance=ExtResource("h_hint")]
 position = Vector2(1800, 224)
-text = "Bar: podejdź do lady, drink przywraca całe zdrowie."
+text = "Bar: podejdź do lady, drink przywraca całe zdrowie. Spacja / ✕ - jeszcze jeden!"
 
 [node name="Hint3" parent="." instance=ExtResource("h_hint")]
 position = Vector2(744, 224)
