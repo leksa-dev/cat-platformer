@@ -1,5 +1,6 @@
 [gd_scene format=4]
 
+[ext_resource type="Script" path="res://scenes/objects/bob.gd" id="bob_s"]
 [ext_resource type="Texture2D" path="res://assets/game/resort/jetski_red.png" id="c_86"]
 [ext_resource type="Texture2D" path="res://assets/game/resort/starfish.png" id="c_85"]
 [ext_resource type="Texture2D" path="res://assets/game/resort/chair_blue.png" id="c_84"]
@@ -1058,6 +1059,8 @@ offset = Vector2(-27, -145)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="motorboat" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 2
 position = Vector2(3576, 231)
 texture = ExtResource("c_74")
 centered = false
@@ -1065,6 +1068,8 @@ offset = Vector2(-79, -64)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="buoy_flag" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 4
 position = Vector2(3656, 229)
 texture = ExtResource("c_75")
 centered = false
@@ -1072,6 +1077,8 @@ offset = Vector2(-18, -57)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="float_line" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 3
 position = Vector2(3720, 227)
 texture = ExtResource("c_76")
 centered = false
@@ -1079,6 +1086,8 @@ offset = Vector2(-47, -26)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="jetski_blue" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 4
 position = Vector2(3800, 229)
 texture = ExtResource("c_77")
 centered = false
@@ -1086,6 +1095,8 @@ offset = Vector2(-23, -43)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="buoy_1" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 5
 position = Vector2(3864, 228)
 texture = ExtResource("c_78")
 centered = false
@@ -1128,6 +1139,8 @@ offset = Vector2(-8, -59)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="buoy_2" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 5
 position = Vector2(968, 228)
 texture = ExtResource("c_78")
 centered = false
@@ -1135,6 +1148,8 @@ offset = Vector2(-11, -39)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="boat_small" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 2.5
 position = Vector2(1384, 230)
 texture = ExtResource("c_81")
 centered = false
@@ -1142,6 +1157,8 @@ offset = Vector2(-48, -62)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="lifebuoy" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 5
 position = Vector2(1576, 227)
 texture = ExtResource("c_82")
 centered = false
@@ -1170,6 +1187,8 @@ offset = Vector2(-7, -13)
 scale = Vector2(0.333333, 0.333333)
 
 [node name="jetski_red" type="Sprite2D" parent="Decor"]
+script = ExtResource("bob_s")
+angle = 4
 position = Vector2(2568, 229)
 texture = ExtResource("c_86")
 centered = false
