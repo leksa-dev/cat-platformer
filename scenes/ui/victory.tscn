@@ -4,6 +4,10 @@
 [ext_resource type="Texture2D" path="res://assets/game/ui/menu_bg.png" id="2_bg"]
 [ext_resource type="Texture2D" path="res://assets/game/ui/menu_plank_hi.png" id="4_plank"]
 
+[ext_resource type="Script" path="res://scenes/ui/title_critter.gd" id="ta_script"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/title_cat.png" id="ta_Cat"]
+[ext_resource type="Texture2D" path="res://assets/game/ui/title_crab.png" id="ta_Crab"]
+
 [node name="Victory" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -16,6 +20,32 @@ expand_mode = 1
 offset_right = 320.0
 offset_bottom = 180.0
 texture = ExtResource("2_bg")
+
+[node name="Cat" type="Sprite2D" parent="."]
+position = Vector2(129.9, 146.0)
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("ta_Cat")
+centered = false
+offset = Vector2(-50.9, -118.0)
+hframes = 10
+script = ExtResource("ta_script")
+fps = 7.0
+rest_min = 2.5
+rest_max = 5.0
+first_delay = 1.5
+
+[node name="Crab" type="Sprite2D" parent="."]
+position = Vector2(203.4, 145.3)
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("ta_Crab")
+centered = false
+offset = Vector2(-46.2, -58.0)
+hframes = 8
+script = ExtResource("ta_script")
+fps = 8.0
+rest_min = 1.5
+rest_max = 3.5
+first_delay = 0.6
 
 [node name="Plank" type="TextureRect" parent="."]
 expand_mode = 1
