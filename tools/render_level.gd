@@ -1,6 +1,7 @@
 extends SceneTree
 # Renders a whole level at 1:1 (window = the map, no stretch, a camera over the middle, HUD hidden). Needs a window:
-#   godot --path . --script tools/render_level.gd -- <level index, 0-based> <out.png>
+#   godot --path . --script tools/render_level.gd -- <level index, 0-based> <out.png> [nobg]
+# nobg: hides the backdrop layers (sky and the panoramas locked to the world) on a flat colour; tiles, platforms and props stay.
 func _initialize() -> void:
 	var args := OS.get_cmdline_user_args()
 	var index := int(args[0])
@@ -12,6 +13,14 @@ func _initialize() -> void:
 	for n in lvl.get_node("HUD").get_children():
 		if n is CanvasItem:
 			n.visible = false
+	if args.size() > 2 and args[2] == "nobg":
+		RenderingServer.set_default_clear_color(Color(0.16, 0.18, 0.26))
+		for name in ["Background", "WorldBack", "KopiecBg", "CaveBack"]:
+			if lvl.has_node(name):
+				lvl.get_node(name).visible = false
+		for n in lvl.get_children():
+			if n is Sprite2D and lvl.backdrop and n.texture == lvl.backdrop:   # the dirt level.gd lays under the pits
+				n.visible = false
 	var cat: Node2D = lvl.get_node("Cat")
 	cat.set_physics_process(false)
 	cat.position = lvl.get_node("Spawn").position
