@@ -24,6 +24,7 @@ extends Area2D
 
 
 func _ready() -> void:
+	add_to_group("water")  # thrown yarn balls look the water up by its rect (the sea has no collision layer)
 	_build()
 
 

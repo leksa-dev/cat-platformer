@@ -12,14 +12,24 @@ const REST := 8
 @export var gravity := 500.0
 @export var bounce := 0.5
 @export var rest_time := 1.2  # on the ground before it fades
+@export var water_drag := 0.01  # share of the speed left after a second in water
+@export var water_gravity := 0.15  # sinks slowly
 
 var _time := 0.0
 var _rest := -1.0  # seconds lying on the ground, < 0 while it moves
 var _already_hit := []
+var _wet := false
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var hitbox: Area2D = $Hitbox
 @onready var hitbox_shape: CollisionShape2D = $Hitbox/CollisionShape2D
+
+
+func _in_water() -> bool:
+	for w in get_tree().get_nodes_in_group("water"):
+		if Rect2(w.global_position, Vector2(w.width_tiles, w.depth_tiles) * 16).has_point(global_position):
+			return true
+	return false
 
 
 func _physics_process(delta: float) -> void:
@@ -34,7 +44,14 @@ func _physics_process(delta: float) -> void:
 		if _rest > rest_time + 0.4:
 			queue_free()
 		return
-	velocity.y += gravity * delta
+	var wet := _in_water()
+	if wet and not _wet:  # the splash takes most of the speed at once
+		Game.sfx("splash", 0.1, -8.0)
+		velocity *= 0.4
+	_wet = wet
+	if wet:
+		velocity *= pow(water_drag, delta)
+	velocity.y += gravity * (water_gravity if wet else 1.0) * delta
 	var col := move_and_collide(velocity * delta)
 	if col:
 		var floor_hit := col.get_normal().y < -0.5
