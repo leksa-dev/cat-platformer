@@ -168,6 +168,7 @@ offset_right = 101.0
 offset_bottom = 20
 text = "PAUZA"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Item0" type="Label" parent="Pause/Panel"]
 offset_left = 12
@@ -175,6 +176,7 @@ offset_top = 34
 offset_right = 101
 offset_bottom = 50
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Item1" type="Label" parent="Pause/Panel"]
 offset_left = 12
@@ -182,6 +184,7 @@ offset_top = 55
 offset_right = 101
 offset_bottom = 71
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Item2" type="Label" parent="Pause/Panel"]
 offset_left = 12
@@ -189,6 +192,7 @@ offset_top = 74
 offset_right = 101
 offset_bottom = 90
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Item3" type="Label" parent="Pause/Panel"]
 offset_left = 12
@@ -196,6 +200,7 @@ offset_top = 94
 offset_right = 101
 offset_bottom = 110
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Item4" type="Label" parent="Pause/Panel"]
 offset_left = 12
@@ -203,6 +208,7 @@ offset_top = 115
 offset_right = 101
 offset_bottom = 131
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Summary" type="Control" parent="."]
 process_mode = 3
