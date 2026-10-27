@@ -1,7 +1,7 @@
 extends "res://scenes/ui/menu_list.gd"
 # Title screen: GRAJ / OPCJE / WYJŚCIE on the beach signpost. Options replace the items in place.
 
-var _page := "main"  # main / play (DALEJ, NOWA GRA) / options / sound (MUZYKA, EFEKTY)
+var _page := "main"  # main / play (DALEJ, NOWA GRA) / options / sound (MUZYKA, EFEKTY, WIBRACJE)
 const BUSES := ["Music", "SFX"]
 
 
@@ -33,7 +33,7 @@ func _show_options(index := 0) -> void:
 
 
 func _show_sound(index := 0) -> void:
-	_show_page("sound", BUSES.map(volume_text), index)
+	_show_page("sound", BUSES.map(volume_text) + [vibration_text()], index)
 
 
 func _set_items(texts: Array) -> void:
@@ -54,7 +54,7 @@ func _on_select(index: int) -> void:
 
 func _process(delta: float) -> void:
 	super._process(delta)
-	if _page == "sound" and nudge_volume(BUSES[selected]):
+	if _page == "sound" and selected < BUSES.size() and nudge_volume(BUSES[selected]):
 		_show_sound(selected)
 	if _page != "main" and (Input.is_action_just_pressed("pause") or Input.is_action_just_pressed("back")):
 		Game.sfx("menu_move", 0.0)
@@ -71,8 +71,11 @@ func _on_chosen(index: int) -> void:
 				Game.continue_game()
 			else:
 				Game.start_game()
-		"sound":  # Space steps the volume up, wrapping to 0
-			Game.set_volume(BUSES[index], (Game.volume[BUSES[index]] + 1) % 11)
+		"sound":  # Space steps the volume up, wrapping to 0; the last row switches the pad rumble
+			if index < BUSES.size():
+				Game.set_volume(BUSES[index], (Game.volume[BUSES[index]] + 1) % 11)
+			else:
+				Game.toggle_vibration()
 			_show_sound(index)
 		"options":
 			match index:

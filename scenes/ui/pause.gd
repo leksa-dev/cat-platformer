@@ -68,7 +68,7 @@ func _show_main() -> void:
 
 func _show_options() -> void:
 	_in_options = true
-	_set_items([fullscreen_text(), volume_text("Music"), volume_text("SFX"), language_text(), tr("WRÓĆ")])
+	_set_items([fullscreen_text(), volume_text("Music"), volume_text("SFX"), vibration_text(), tr("WRÓĆ")])  # language: main menu only (5 planks)
 
 
 func _set_items(texts: Array) -> void:
@@ -98,9 +98,8 @@ func _on_chosen(index: int) -> void:
 				Game.set_volume(bus, (Game.volume[bus] + 1) % 11)
 				items[index].text = volume_text(bus)
 			3:
-				Game.next_language()
-				_show_options()
-				select(3)
+				Game.toggle_vibration()
+				items[3].text = vibration_text()
 			4: _show_main()
 		return
 	match index:

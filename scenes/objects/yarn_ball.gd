@@ -55,5 +55,6 @@ func _physics_process(delta: float) -> void:
 			_already_hit.append(result.collider)
 			if result.collider.has_method("hurt"):
 				result.collider.hurt(damage, global_position, stun)
+				Game.rumble(0.3, 0.2, 0.1)
 				velocity = Vector2(-velocity.x * 0.3, -80)  # bounces off the enemy and drops
 			hit.emit(result.collider)

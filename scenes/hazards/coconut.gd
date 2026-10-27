@@ -12,6 +12,7 @@ const BREAK_FPS := 20.0
 
 @export var damage := 1
 @export var heal := 1
+@export var enemy_damage := 99  # a coconut on the head finishes any enemy
 @export var trigger_range := 14.0
 @export var gravity := 500.0
 
@@ -43,7 +44,14 @@ func _physics_process(delta: float) -> void:
 			sprite.frame = 1 + int(_t * 10) % 2
 			_vy += gravity * delta
 			position.y += _vy * delta
-			if _touching_cat(cat):
+			var enemy := _enemy_below()
+			if enemy:
+				enemy.hurt(enemy_damage, global_position)
+				Game.sfx("coconut_hit")
+				_hit_cat = true  # smashed on a head: it bursts, no snack
+				_state = BREAK
+				_t = 0.0
+			elif _touching_cat(cat):
 				cat.take_damage(damage, global_position)
 				Game.sfx("coconut_hit")
 				_hit_cat = true
@@ -72,6 +80,20 @@ func _physics_process(delta: float) -> void:
 
 func _touching_cat(cat: Node2D) -> bool:
 	return cat and absf(cat.global_position.x - global_position.x) < 8 and absf(cat.global_position.y - 6 - global_position.y) < 9
+
+
+func _enemy_below() -> Node2D:
+	var query := PhysicsShapeQueryParameters2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(8, 8)
+	query.shape = rect
+	query.transform = Transform2D(0, global_position + Vector2(0, -4))
+	query.collision_mask = 8  # enemy hurtboxes
+	for result in get_world_2d().direct_space_state.intersect_shape(query):
+		var body: Node2D = result.collider
+		if body.has_method("hurt") and not body.get("dead"):
+			return body
+	return null
 
 
 func _on_ground(cat: Node2D) -> bool:

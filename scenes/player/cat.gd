@@ -79,6 +79,7 @@ var _idle_time := 0.0
 var _hurt_time := 1.0
 var _die_time := 0.0
 var _was_on_floor := true
+var _air_time := 0.0
 var _climb_time := 0.0  # since grabbing the climbable
 var _jump_off_time := 1.0  # since leaping off a climbable
 var _climb_fall := false  # slid off the end of a climbable: falling pose until landing
@@ -150,6 +151,7 @@ func take_damage(amount: int, from: Vector2) -> void:
 		_surf_air = true  # knocked up off the wave, lands back on the board
 	_shake = 0.2
 	_hurt_time = 0.0
+	Game.rumble(0.5, 0.6, 0.2)
 	if hp <= 0:
 		_die()
 
@@ -162,6 +164,7 @@ func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the i
 	Game.sfx("hurt", 0.06, -6.0)
 	_hurt_invuln = hurt_invuln_time
 	_hurt_time = 0.0
+	Game.rumble(0.4, 0.3, 0.15)  # sludge / fire stings
 	if hp <= 0:
 		_die()
 
@@ -177,6 +180,7 @@ func _die() -> void:  # the death animation plays, then the life goes
 
 
 func bounce() -> void:  # after stomping an enemy
+	Game.rumble(0.4, 0.4, 0.12)
 	velocity.y = jump_velocity * 0.8
 	_can_dash = true
 
@@ -315,6 +319,7 @@ func _physics_process(delta: float) -> void:
 		_can_dash = false
 		_dash_left = dash_time
 		Game.sfx("dash")
+		Game.rumble(0.25, 0.0, 0.08)
 		var dash_dir := Input.get_axis("left", "right")
 		if dash_dir:
 			visual.scale.x = signf(dash_dir)
@@ -415,6 +420,7 @@ func _surf(delta: float, wave: Area2D) -> void:
 			velocity.y *= jump_cut_mult
 		if velocity.y > 0 and global_position.y + velocity.y * delta >= surface:
 			_surf_air = false
+			Game.rumble(0.0, 0.2, 0.06)  # back on the wave
 			velocity.y = 0
 			global_position.y = surface
 	else:
@@ -425,6 +431,7 @@ func _surf(delta: float, wave: Area2D) -> void:
 			_surf_air = true
 			velocity.y = jump_velocity * surf_jump_mult
 			Game.sfx("jump", 0.06, -3.0)
+			Game.rumble(0.0, 0.2, 0.06)
 	fall_speed = velocity.y
 	move_and_slide()
 	sprite.frame = 4 if _surf_air else (1 if _surf_time < 0.25 else 2 + int(_surf_time * 6) % 2)
@@ -461,6 +468,7 @@ func _update_fart(delta: float) -> void:
 	if not _farted and tick >= FART_RELEASE:
 		_farted = true
 		Game.sfx("fart", 0.1)
+		Game.rumble(0.2, 0.5, 0.25)
 		var cloud := FART_CLOUD.instantiate()
 		cloud.velocity = Vector2(_fart_dir * fart_cloud_speed, 0)  # the cat has turned: its butt points at the target
 		get_parent().add_child(cloud)
@@ -520,6 +528,7 @@ func _scratch() -> void:
 	for result in get_world_2d().direct_space_state.intersect_shape(query):
 		if result.collider.has_method("hurt"):
 			result.collider.hurt(scratch_damage, global_position)
+			Game.rumble(0.3, 0.0, 0.06)
 		hit.emit(result.collider)
 
 
@@ -557,7 +566,10 @@ func _animate(delta: float, sliding: bool) -> void:
 	var on_floor := is_on_floor()
 	if on_floor and not _was_on_floor:
 		_land_time = 0.0
+		if _air_time > 0.8:  # a long drop, not every hop (a full jump is ~0.6 s in the air)
+			Game.rumble(0.0, 0.3, 0.08)
 	_was_on_floor = on_floor
+	_air_time = 0.0 if on_floor else _air_time + delta
 	_land_time += delta
 	_turn_time += delta
 	_hurt_time += delta

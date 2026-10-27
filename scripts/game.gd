@@ -36,6 +36,8 @@ var _music := AudioStreamPlayer.new()
 var _music_track := ""
 var level_index := 0
 var pad := false  # last input came from a gamepad: texts name pad buttons instead of keys
+var _pad_device := 0  # the pad that sent the last input: it is the one that rumbles
+var vibration_on := true  # OPCJE > WIBRACJE
 # key names in the (translated) texts -> [keyboard, pad]; the font has ✕ but no ○ or arrows
 const KEY_NAMES := {
 	"pl": [["Spacja / ✕", "Spacja", "✕"], ["Esc - ", "Esc - ", "O - "], ["wciśnij W", "wciśnij W", "wychyl gałkę w górę"], ["W w górę, S w dół", "W w górę, S w dół", "gałka w górę i w dół"]],
@@ -65,6 +67,7 @@ func _ready() -> void:
 		AudioServer.add_bus()
 		AudioServer.set_bus_name(AudioServer.bus_count - 1, bus)
 		set_volume(bus, cfg.get_value("audio", bus, volume[bus]), false)
+	vibration_on = cfg.get_value("input", "vibration", true)
 	# Pad buttons use Godot's Xbox-style names: A = Cross, B = Circle, X = Square (DualShock 4 / DualSense).
 	_bind("left", [KEY_A, KEY_LEFT], [JOY_BUTTON_DPAD_LEFT], JOY_AXIS_LEFT_X, -1.0)
 	_bind("right", [KEY_D, KEY_RIGHT], [JOY_BUTTON_DPAD_RIGHT], JOY_AXIS_LEFT_X, 1.0)
@@ -87,9 +90,22 @@ func _input(event: InputEvent) -> void:
 		now = false
 	elif event is InputEventJoypadButton or (event is InputEventJoypadMotion and absf(event.axis_value) > 0.5):
 		now = true
+		_pad_device = event.device
 	if now != pad:
 		pad = now
 		device_changed.emit()
+
+
+# pad rumble: weak = fast buzz motor, strong = deep rumble motor (0-1). Only while playing on a pad.
+func rumble(weak: float, strong: float, duration: float) -> void:
+	if vibration_on and pad:
+		Input.start_joy_vibration(_pad_device, weak, strong, duration)
+
+
+func toggle_vibration() -> void:
+	vibration_on = not vibration_on
+	_store_setting("input", "vibration", vibration_on)
+	rumble(0.3, 0.3, 0.15)  # a taste of it when switched on
 
 
 # a translated text with the key names of the device in use ("Spacja / ✕" -> "Spacja" or "✕")
@@ -114,9 +130,11 @@ func lose_life() -> void:
 	lives -= 1
 	if lives > 0:
 		sfx("lose_life", 0.0)
+		rumble(0.6, 1.0, 0.5)
 		get_tree().reload_current_scene.call_deferred()
 	else:
 		sfx("game_over", 0.0)
+		rumble(0.5, 1.0, 0.8)
 		_show("GAME OVER\n" + tr("Spacja / ✕ - od nowa"), _restart)
 
 
@@ -124,6 +142,7 @@ func level_complete() -> void:
 	var stats := level_stats(level_index)
 	level_index += 1
 	sfx("level_complete", 0.0)
+	rumble(0.3, 0.6, 0.4)
 	get_tree().paused = true
 	level_done.emit(stats)
 	if level_index < LEVELS.size():
@@ -152,6 +171,7 @@ func level_stats(level: int) -> Dictionary:
 func enemy_killed(enemy: String) -> void:
 	if not killed.has(level_index):
 		killed[level_index] = []
+	rumble(0.3, 0.5, 0.15)
 	if not killed[level_index].has(enemy):  # enemies come back after a lost life: count each one once
 		killed[level_index].append(enemy)
 
@@ -178,6 +198,8 @@ func coins(level := -1, prefix := "Coin") -> int:  # coins (or other pickups) ta
 func gain_life() -> void:
 	lives += 1
 	sfx("oneup", 0.0)
+	rumble(0.3, 0.3, 0.08)  # a double pulse
+	get_tree().create_timer(0.16).timeout.connect(rumble.bind(0.3, 0.3, 0.08))
 	pickups_changed.emit()
 
 

@@ -343,7 +343,7 @@ text = "Szyb: skacz od ściany do ściany, żeby wspiąć się wyżej."
 position = Vector2(312, 120)
 
 [node name="Coin2" parent="." instance=ExtResource("x_coin")]
-position = Vector2(424, 262)
+position = Vector2(424, 206)
 
 [node name="Coin3" parent="." instance=ExtResource("x_coin")]
 position = Vector2(584, 196)
@@ -361,7 +361,7 @@ position = Vector2(1472, 96)
 position = Vector2(1752, 88)
 
 [node name="Coin8" parent="." instance=ExtResource("x_coin")]
-position = Vector2(1944, 262)
+position = Vector2(1944, 206)
 
 [node name="Coin9" parent="." instance=ExtResource("x_coin")]
 position = Vector2(1624, -312)

@@ -11,6 +11,7 @@ PEŁNY EKRAN,FULLSCREEN,PANTALLA
 OKNO,WINDOW,VENTANA
 MUZYKA,MUSIC,MÚSICA
 EFEKTY,SOUNDS,EFECTOS
+WIBRACJE,VIBRATION,VIBRACIÓN
 DŹWIĘK,SOUND,SONIDO
 DALEJ: POZIOM %d,RESUME: LEVEL %d,SEGUIR: NIVEL %d
 NOWA GRA,NEW GAME,NUEVA PARTIDA
@@ -34,7 +35,7 @@ Esc - wróć,Esc - back,Esc - volver
 "Pies nie umie się wspinać! Przy pniu wciśnij W, by wejść na drzewo.",Dogs can't climb! Press W at a trunk to go up the tree.,¡Los perros no trepan! Pulsa W junto al tronco para subir al árbol.
 "Szyb: skacz od ściany do ściany, żeby wspiąć się wyżej.",Shaft: jump from wall to wall to climb higher.,Pozo: salta de pared en pared para subir.
 "Pod palmami spadają kokosy! Uskocz, a potem zjedz kokos - doda zdrowia.","Coconuts fall under palms! Dodge, then eat the coconut - it heals.",¡Bajo las palmeras caen cocos! Esquívalos y luego cómelos: curan.
-"Bar: podejdź do lady, drink przywraca całe zdrowie. Spacja / ✕ - jeszcze jeden!","Bar: walk up to the counter, a drink restores full health. Space / ✕ - another one!","Bar: acércate a la barra, una bebida te cura del todo. Espacio / ✕ - ¡otra más!"
+"Bar: podejdź do lady, drink przywraca całe zdrowie.","Bar: walk up to the counter, a drink restores full health.","Bar: acércate a la barra, una bebida te cura del todo."
 Na wodzie surfujesz. Spacja / ✕ to podskok nad skałą i rekinem.,On the water you surf. Space / ✕ hops over rocks and sharks.,En el agua surfeas. Espacio / ✕ salta rocas y tiburones.
 Kanały! Zielony szlam parzy - lepiej go przeskocz.,Sewers! Green sludge burns - better jump over it.,¡Alcantarillas! El lodo verde quema: mejor sáltalo.
 "Drabiny działają jak pnącza: W w górę, S w dół.","Ladders work like vines: W up, S down.","Las escaleras son como lianas: W sube, S baja."

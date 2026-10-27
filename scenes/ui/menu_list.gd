@@ -58,5 +58,9 @@ func fullscreen_text() -> String:
 	return tr("PEŁNY EKRAN") if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN else tr("OKNO")  # longer labels overflow the plank
 
 
+func vibration_text() -> String:
+	return tr("WIBRACJE") + ": " + tr("TAK" if Game.vibration_on else "NIE")
+
+
 func language_text() -> String:
 	return Game.LANGUAGE_NAMES[Game.language()]

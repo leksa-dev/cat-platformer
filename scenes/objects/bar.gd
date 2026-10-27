@@ -1,6 +1,6 @@
 extends Node2D
 # Beach bar = pharmacy: the cat walks up to the counter, has a drink and gets its HP back.
-# At the counter the jump button orders another drink, as many as you like.
+# At the counter the jump button orders another drink, as many as you like (a secret: no hint mentions it).
 
 
 func _ready() -> void:

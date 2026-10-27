@@ -38,6 +38,7 @@ func _on_body_entered(body: Node2D) -> void:
 		Game.sfx("coin", 0.03, -4.0)
 	elif kind == 2:
 		Game.sfx("gem", 0.0, -3.0)
+		Game.rumble(0.2, 0.0, 0.06)
 	else:
 		Game.gain_life()
 		_burst()

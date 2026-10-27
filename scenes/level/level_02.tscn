@@ -1081,7 +1081,7 @@ scale = Vector2(0.333333, 0.333333)
 [node name="jetski_blue" type="Sprite2D" parent="Decor"]
 script = ExtResource("bob_s")
 angle = 4
-position = Vector2(3800, 229)
+position = Vector2(3800, 224)
 texture = ExtResource("c_77")
 centered = false
 offset = Vector2(-23, -43)
@@ -1182,7 +1182,7 @@ scale = Vector2(0.333333, 0.333333)
 [node name="jetski_red" type="Sprite2D" parent="Decor"]
 script = ExtResource("bob_s")
 angle = 4
-position = Vector2(2568, 229)
+position = Vector2(2568, 224)
 texture = ExtResource("c_86")
 centered = false
 offset = Vector2(-26, -43)
@@ -1274,7 +1274,7 @@ text = "Pod palmami spadają kokosy! Uskocz, a potem zjedz kokos - doda zdrowia.
 
 [node name="Hint2" parent="." instance=ExtResource("h_hint")]
 position = Vector2(1800, 224)
-text = "Bar: podejdź do lady, drink przywraca całe zdrowie. Spacja / ✕ - jeszcze jeden!"
+text = "Bar: podejdź do lady, drink przywraca całe zdrowie."
 
 [node name="Hint3" parent="." instance=ExtResource("h_hint")]
 position = Vector2(744, 224)
@@ -1293,7 +1293,7 @@ position = Vector2(1640, 200)
 position = Vector2(4264, 88)
 
 [node name="Coin5" parent="." instance=ExtResource("x_coin")]
-position = Vector2(4344, 246)
+position = Vector2(4344, 206)
 
 [node name="Coin6" parent="." instance=ExtResource("x_coin")]
 position = Vector2(4616, 136)
