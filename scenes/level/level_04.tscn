@@ -541,7 +541,7 @@ position = Vector2(968, 120)
 position = Vector2(104, 248)
 
 [node name="DiamondK2" parent="1_Kopiec/Znajdzki" unique_id=1343806147 instance=ExtResource("193_66wnt")]
-position = Vector2(592, 72)
+position = Vector2(592, 92)
 gem = 1
 
 [node name="DiamondK3" parent="1_Kopiec/Znajdzki" unique_id=728217721 instance=ExtResource("193_66wnt")]
@@ -1613,7 +1613,7 @@ surface = 1.7
 delay = 0.6
 
 [node name="CrumbleS3" parent="4_Stadion/Platformy" unique_id=1448903710 instance=ExtResource("137_kgc5m")]
-position = Vector2(3939, 202)
+position = Vector2(3939, 194)
 texture = ExtResource("171_g5aww")
 surface = 1.7
 delay = 0.6
@@ -1696,7 +1696,7 @@ position = Vector2(3784, 194)
 gem = 1
 
 [node name="DiamondS3" parent="4_Stadion/Znajdzki" unique_id=473738528 instance=ExtResource("193_66wnt")]
-position = Vector2(3960, 188)
+position = Vector2(3960, 180)
 gem = 2
 
 [node name="DiamondS4" parent="4_Stadion/Znajdzki" unique_id=1593134727 instance=ExtResource("193_66wnt")]
@@ -2497,7 +2497,7 @@ surface = 0.0
 body_depth = 0.0
 
 [node name="Spire" parent="6_Rynek/Platformy" unique_id=344177981 instance=ExtResource("128_mu151")]
-position = Vector2(5760, 54.4)
+position = Vector2(5760, 72.4)
 texture = ExtResource("stone_ledge_23")
 surface = 0.0
 body_depth = 0.0
@@ -2609,7 +2609,7 @@ position = Vector2(6142, 155)
 gem = 3
 
 [node name="LifeR" parent="6_Rynek/Znajdzki" unique_id=2121089477 instance=ExtResource("194_sgkp5")]
-position = Vector2(5760, 52.4)
+position = Vector2(5760, 70.4)
 
 [node name="Wrogowie" type="Node2D" parent="6_Rynek" unique_id=526007017]
 
