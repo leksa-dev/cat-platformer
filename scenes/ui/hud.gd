@@ -73,6 +73,10 @@ func _on_level_done(stats: Dictionary) -> void:
 	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.LIVES_PER_LEVEL]
 	$Summary/Panel/Row2/Count.text = "%d/%d" % [stats.diamonds, Game.DIAMONDS_PER_LEVEL]
 	$Summary/Panel/Grade.text = tr("OCENA: %s") % stats.grade
+	# hidden badge: nobody died on this level
+	var peace: Label = $Summary/Peace
+	peace.text = tr("BEZ PRZEMOCY")
+	peace.visible = stats.kills == 0
 	$Summary.visible = true
 	var grade: Label = $Summary/Panel/Grade
 	grade.scale = Vector2.ONE * 2.5  # stamped on
@@ -81,6 +85,11 @@ func _on_level_done(stats: Dictionary) -> void:
 	tween.tween_interval(0.5)
 	tween.tween_property(grade, "modulate:a", 1.0, 0.05)
 	tween.parallel().tween_property(grade, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	if peace.visible:
+		peace.modulate.a = 0.0
+		tween.tween_interval(0.3)
+		tween.tween_callback(Game.sfx.bind("oneup", 0.0))
+		tween.tween_property(peace, "modulate:a", 1.0, 0.3)
 
 
 func _on_message(text: String) -> void:  # "title\nhint"; empty hides
