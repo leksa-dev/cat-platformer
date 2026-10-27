@@ -152,7 +152,7 @@ func level_complete() -> void:
 	_on_confirm = _load_level if level_index < LEVELS.size() else func(): get_tree().change_scene_to_file(VICTORY)
 
 
-# Grade: the average of two shares - pickups taken (coins, 1ups, diamonds) and enemies killed.
+# Grade: the share of pickups taken (coins, 1ups, diamonds); kills are shown on the summary but not graded.
 # S from 95 %, then a step down every 10 %.
 func level_stats(level: int) -> Dictionary:
 	var items: Array = collected.get(level, [])
@@ -162,8 +162,7 @@ func level_stats(level: int) -> Dictionary:
 	var pickups := float(c + l + d) / (COINS_PER_LEVEL + LIVES_PER_LEVEL + DIAMONDS_PER_LEVEL)
 	var total: int = enemies.get(level, 0)
 	var k := mini(killed.get(level, []).size(), total)
-	var kills := 1.0 if total == 0 else k / float(total)
-	var score := (pickups + kills) / 2.0 * 100.0
+	var score := pickups * 100.0
 	var grade := "S" if score >= 95 else "A" if score >= 85 else "B" if score >= 75 else "C" if score >= 65 else "D"
 	return {"level": level, "coins": c, "lives": l, "diamonds": d, "kills": k, "enemies": total, "score": score, "grade": grade}
 
