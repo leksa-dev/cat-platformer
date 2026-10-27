@@ -11,6 +11,10 @@ extends StaticBody2D
 	set(value):
 		surface = value
 		_build()
+@export var ledge_width := 0.0:  # no texture: an invisible ledge this wide (cornices, gables on a backdrop building)
+	set(value):
+		ledge_width = value
+		_build()
 @export var count := 1:  # the block repeated side by side, for longer platforms (footbridge deck, long ledges)
 	set(value):
 		count = maxi(value, 1)
@@ -22,13 +26,13 @@ func _ready() -> void:
 
 
 func _build() -> void:
-	if not is_inside_tree() or texture == null:
+	if not is_inside_tree() or (texture == null and ledge_width <= 0):
 		return
 	for c in get_children():
 		c.free()
-	var piece := texture.get_width() / 3.0
+	var piece := texture.get_width() / 3.0 if texture else ledge_width
 	var w := piece * count
-	for i in count:
+	for i in count if texture else 0:
 		var sprite := Sprite2D.new()
 		sprite.texture = texture
 		sprite.centered = false
