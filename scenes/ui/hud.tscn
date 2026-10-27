@@ -131,9 +131,9 @@ texture = ExtResource("5_dialog")
 [node name="Text" type="Label" parent="HintBox"]
 modulate = Color(0.95, 0.9, 0.8, 1)
 offset_left = 62
-offset_top = 7
+offset_top = 5
 offset_right = 252
-offset_bottom = 49
+offset_bottom = 43
 theme_override_font_sizes/font_size = 12
 autowrap_mode = 3
 vertical_alignment = 1
