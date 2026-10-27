@@ -36,8 +36,9 @@ func _ready() -> void:
 		layer.set_meta("y0", layer.position.y)
 	cat.position = $Spawn.position if Game.checkpoint == Vector2.INF else Game.checkpoint
 	Game.play_music(music)
+	var objects := level_objects()
 	var count := 0
-	for n in get_children():
+	for n in objects:
 		if n is Enemy:
 			count += 1
 			if Game.killed.get(Game.level_index, []).has(n.name):
@@ -46,13 +47,24 @@ func _ready() -> void:
 				n.died.connect(Game.enemy_killed.bind(n.name))
 	Game.enemies[Game.level_index] = count
 	var found := {"Coin": 0, "Life": 0, "Diamond": 0}
-	for n in get_children():
+	for n in objects:
 		for prefix in found:
 			if n.name.begins_with(prefix) or (prefix == "Life" and n.name.begins_with("BerryBush")):  # the bush gives a hidden 1up
 				found[prefix] += 1
 	Game.totals[Game.level_index] = found
 	Game.pickups_changed.emit()  # the HUD may have drawn the coin counter before the totals were known
 	cam.reset_smoothing()  # otherwise the camera glides in from the map origin after every respawn
+
+
+# Every object of the level, also those tucked into plain grouping nodes (a bare Node2D, like "1_Kopiec/Platformy"), so a
+# level can be sorted into folders in the editor without these scripts losing sight of its enemies and pickups.
+func level_objects(from: Node = null) -> Array:
+	var out := []
+	for n in (from if from else self).get_children():
+		out.append(n)
+		if n.get_class() == "Node2D" and n.get_script() == null and n.scene_file_path == "":
+			out += level_objects(n)
+	return out
 
 
 func _add_backdrop(left: float, right: float, bottom: float) -> void:

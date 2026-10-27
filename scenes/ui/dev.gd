@@ -93,7 +93,7 @@ func _on_chosen(index: int) -> void:
 				_resume()
 				return
 		4:
-			for node in level.get_children():
+			for node in level.level_objects():
 				if node is Enemy and not node.dead:
 					node.hurt(999, node.global_position)
 		5:
