@@ -63,7 +63,13 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
     - poziom 5 „Podgórze”: Rynek Podgórski z kościołem św. Józefa → Nadwiśle (bulwary) → kładka Bernatka (meta)
     - przeszkadzajki: rowerzyści i kukiryniarze (monocykle elektryczne) jeżdżą po ścieżce
     - nowi wrogowie: gołąb, kawka, pies na smyczy
-    - szkic: `docs/sketches/krakow_1-2.jpg`, `krakow_3-5.jpg` (5 odcinków: Kopiec, Parkowa, Dom na Parkowej/Park Bednarskiego, Rynek Podgórski, kładka Bernatka)
+    - szkic: `docs/sketches/krakow_1-2.jpg`, `krakow_3-5.jpg`; zdjęcia-wzory: `ref_kladka_powstancow.png`, `ref_plac_zabaw_bednarskiego.png`
+    - odcinki:
+      1. Kopiec — start na szczycie, zejście po zboczu z drzewami → zielona kładka nad al. Powstańców Śląskich (pod spodem jezdnia z autami, bramownica ze znakami „Busko Zdrój” jako platforma, mural „Silva Rerum” w tle) → dwa drzewa
+      2. Parkowa — kiosk/lodziarnia (daszek = platforma), ławka, płot, stadion na Krzemionkach (boisko, trybuny, maszty)
+      3. Dom na Parkowej / Park Bednarskiego — willa z wieżyczkami i arkadami (wspinaczka po dachach), plac zabaw: drewniana wieża z metalowymi zjeżdżalniami-rurami (zjazd z rozpędem), ławka, brama parku i schody w dół (meta poziomu 4)
+      4. Rynek Podgórski — kościół św. Józefa (dachy i iglice), ławka, znak zakazu rowerów na wale (zaraz za nim rowerzyści), Wisła z dwiema barkami (platformy na wodzie)
+      5. Kładka Bernatka — łuk z kratownicą X, akrobaci na linach (huśtające się platformy), meta przy tabliczce „Next lvl”
     - grafika generowana; najpierw szary poziom (gra się w prostych kafelkach), grafika na końcu
     - okolice dawnego getta (Plac Bohaterów Getta, mur na Lwowskiej) omijamy albo zostają spokojnym tłem, bez wrogów i żartów
 - [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
