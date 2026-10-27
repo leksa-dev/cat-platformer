@@ -44,7 +44,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] 🐦 wrona — ustawia się nad kotem, nurkuje w miejsce z początku nurkowania (nad kamiennymi platformami)
   - [x] 🐝 osa — podlatuje, zawisa, szybkie ukłucie, odskok (przy kwiatach przed 2. dziurą)
   - [x] 🐸 żabol — skacze, pływa w basenie, język z własnym hitboxem; można na niego skoczyć
-  - [x] 🦀 krab — chodzi bokiem, podchodzi do kota, unosi szczypce i szczypie; można na niego skoczyć (poziom 2 zamiast szczurów)
+  - [x] 🦀 krab — chodzi bokiem, podchodzi do kota, unosi szczypce i szczypie; skok na niego rani kota (poziom 2 zamiast szczurów)
 - [~] **9. Obrażenia i śmierć**
   - [x] pasek HP kota w HUD (ramka z `hud.png`), odrzut i 1 s nietykalności po trafieniu, HP 0 = utrata życia
   - [x] checkpointy (flagi): po utracie życia kot wraca do ostatniej flagi

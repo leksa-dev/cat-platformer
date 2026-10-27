@@ -1,11 +1,11 @@
 extends "res://scenes/enemies/enemy.gd"
 # Beach crab. Scuttles sideways around its spot, closes in on the cat, raises a claw and snaps.
-# Can be stomped.
+# Shelled: jumping on it hurts the cat instead.
 
 @export var patrol_speed := 25.0
 @export var chase_speed := 50.0
 @export var detect_range := 64.0
-@export var snap_range := 20.0
+@export var snap_range := 14.0
 @export var snap_damage := 1
 @export var cooldown := 1.2
 @export var patrol_radius := 24.0
@@ -30,7 +30,7 @@ func _ai(delta: float) -> void:
 		velocity.x = 0
 		# frames 3-5 of the attack: the claw comes down
 		var f := int(_anim_time * anim_fps)
-		if not _bit and f >= 3 and f <= 5 and hit_cat_in(Rect2(0, -12, 16, 12), snap_damage):
+		if not _bit and f >= 3 and f <= 5 and hit_cat_in(Rect2(0, -7, 10, 7), snap_damage):
 			_bit = true
 		if anim_done():
 			_state = PATROL

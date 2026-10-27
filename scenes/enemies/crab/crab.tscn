@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/game/enemies/crab.png" id="2_tex"]
 
 [sub_resource type="RectangleShape2D" id="shape"]
-size = Vector2(16, 8)
+size = Vector2(10, 5)
 
 [node name="Crab" type="CharacterBody2D"]
 collision_layer = 8
@@ -12,14 +12,13 @@ collision_mask = 1
 script = ExtResource("1_s")
 water_behavior = 1
 max_hp = 2
-stompable = true
 
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.333333, 0.333333)
-position = Vector2(0, -7.66667)
+position = Vector2(0, -4.66667)
 texture = ExtResource("2_tex")
 hframes = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
+position = Vector2(0, -2.5)
 shape = SubResource("shape")
