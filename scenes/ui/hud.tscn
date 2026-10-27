@@ -163,9 +163,9 @@ texture = ExtResource("4_hi")
 
 [node name="Title" type="Label" parent="Pause/Panel"]
 offset_left = 10.0
-offset_top = 4
+offset_top = 7
 offset_right = 101.0
-offset_bottom = 20
+offset_bottom = 23
 text = "PAUZA"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -233,9 +233,9 @@ texture = ExtResource("3_panel4")
 
 [node name="Title" type="Label" parent="Summary/Panel"]
 offset_left = 10.0
-offset_top = 4
+offset_top = 7
 offset_right = 101.0
-offset_bottom = 20
+offset_bottom = 23
 horizontal_alignment = 1
 vertical_alignment = 1
 
