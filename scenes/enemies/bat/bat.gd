@@ -3,9 +3,9 @@ extends "res://scenes/enemies/enemy.gd"
 # bites when close, flutters off to a random spot in the zone, and goes back to sleep when the cat leaves.
 
 @export var zone := Vector2(256, 128)  # zone size, centred on home horizontally, hanging down from it
-@export var fly_speed := 75.0
+@export var fly_speed := 50.0  # well under the cat's run (90): it can be outrun
 @export var bite_damage := 2
-@export var cooldown := 1.2
+@export var cooldown := 1.8
 
 enum { SLEEP, CHASE, FLEE, HOME }
 var _state := SLEEP
