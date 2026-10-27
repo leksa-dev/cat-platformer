@@ -44,6 +44,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] 🐦 wrona — ustawia się nad kotem, nurkuje w miejsce z początku nurkowania (nad kamiennymi platformami)
   - [x] 🐝 osa — podlatuje, zawisa, szybkie ukłucie, odskok (przy kwiatach przed 2. dziurą)
   - [x] 🐸 żabol — skacze, pływa w basenie, język z własnym hitboxem; można na niego skoczyć
+  - [x] 🦀 krab — chodzi bokiem, podchodzi do kota, unosi szczypce i szczypie; można na niego skoczyć (poziom 2 zamiast szczurów)
 - [~] **9. Obrażenia i śmierć**
   - [x] pasek HP kota w HUD (ramka z `hud.png`), odrzut i 1 s nietykalności po trafieniu, HP 0 = utrata życia
   - [x] checkpointy (flagi): po utracie życia kot wraca do ostatniej flagi
@@ -55,7 +56,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] **Poziom 2 — wyspy** (`level_02.tscn`): plaża z piaszczystym pagórkiem → surfowanie → wyspa z barem (drink = pełne HP), basenem, ogrodem i pomostem → surfowanie (w obie strony, niski skok, rekiny, ryby, skały) → dżungla (drzewa, pnącze, sadzawka z żabolem) → surfowanie → pustynia (kaktusy ranią) → legowisko
   - [x] kokosy na palmach: spadają, gdy kot przechodzi pod spodem; trafiony traci HP, uskoczony kokos zostaje jako przekąska (+1 HP)
   - [x] rozbudowa poziomu 1: górna ścieżka nad plażą z przekąską, łańcuch 3 drzew nad przepaścią (dash), zejście z filaru po półkach i pnączu
-  - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką szczurów
+  - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką krabów
   - [ ] poziom 3, nowe obiekty do wspinania (rury, płoty)
 - [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
 - [x] **Sekrety** — poziom 1: druga przepaść (87–96) wrzuca do jaskini z życiem, wraca się windą; poziom 2: krzak z jagodami w dżungli (7 podrapań = życie); poziom 3: rura pod ściekami w dziurze pod ruchomą płytą prowadzi do ukrytej komnaty
@@ -74,7 +75,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - `scenes/level/level_02.tscn` — poziom 2; `scenes/objects/surf_zone.tscn` (strefa surfowania), `bar.tscn` (leczenie)
 - `scenes/hazards/` — przeszkody: kaktus/skała (`spiky.tscn`), rekin, ryba, kokos
 - `scenes/objects/water.tscn` — woda; wstaw do poziomu i ustaw `width_tiles` / `depth_tiles` w Inspectorze
-- `scenes/enemies/` — wrogowie: `enemy.gd` (baza) + folder na każdego (`dog/`, `rat/`, `crow/`, `wasp/`, `frog/`)
+- `scenes/enemies/` — wrogowie: `enemy.gd` (baza) + folder na każdego (`dog/`, `rat/`, `crab/`, `crow/`, `wasp/`, `frog/`)
 - `scripts/game.gd` — życia, komunikaty, przejścia między poziomami, klawisze, flagi DEV (`god_mode`, `fly_mode`)
 - `scenes/ui/` — menu główne, pauza, menu DEV (`dev.gd`), HUD
 - `assets/game/` — gotowa grafika używana w grze (podglądy w `assets/` zostają jako wzór stylu)
