@@ -44,10 +44,11 @@ func _on_select(_index: int) -> void:
 func fit_text(label: Label, text: String) -> void:
 	if not label.has_meta("plank_width"):  # a too long text widens the label past the plank: remember the real width
 		label.set_meta("plank_width", label.size.x)
+		label.set_meta("base_size", label.get_theme_font_size("font_size"))  # the scene's own size, before any shrinking
 	var room: float = label.get_meta("plank_width")
-	label.remove_theme_font_size_override("font_size")
+	var size: int = label.get_meta("base_size")
+	label.add_theme_font_size_override("font_size", size)
 	label.text = text
-	var size := label.get_theme_font_size("font_size")
 	while size > 9 and label.get_minimum_size().x > room - 8:  # the label's own measure; 4 px clear of the plank's edges
 		size -= 1
 		label.add_theme_font_size_override("font_size", size)
