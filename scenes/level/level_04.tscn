@@ -205,6 +205,9 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/goal.tscn" id="222_ajcbs"]
 [ext_resource type="PackedScene" path="res://scenes/player/cat.tscn" id="224_0ikr0"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="226_eyejw"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/ledge_stone_23.png" id="stone_ledge_23"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/ledge_stone_30.png" id="stone_ledge_30"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/ledge_stone_52.png" id="stone_ledge_52"]
 
 [node name="Level04" type="Node2D" unique_id=1795149945]
 script = ExtResource("1_dw70t")
@@ -2475,21 +2478,29 @@ ledge_width = 121.6
 
 [node name="ButtressL" parent="6_Rynek/Platformy" unique_id=1602104820 instance=ExtResource("128_mu151")]
 position = Vector2(5701, 150.4)
-ledge_width = 25.6
+texture = ExtResource("stone_ledge_30")
+surface = 0.0
+body_depth = 0.0
 gap_x = 0.0
 
 [node name="ButtressR" parent="6_Rynek/Platformy" unique_id=148831214 instance=ExtResource("128_mu151")]
 position = Vector2(5819, 150.4)
-ledge_width = 25.6
+texture = ExtResource("stone_ledge_30")
+surface = 0.0
+body_depth = 0.0
 gap_x = 0.0
 
 [node name="Ridge" parent="6_Rynek/Platformy" unique_id=1092198089 instance=ExtResource("128_mu151")]
 position = Vector2(5760, 105.6)
-ledge_width = 48.0
+texture = ExtResource("stone_ledge_52")
+surface = 0.0
+body_depth = 0.0
 
 [node name="Spire" parent="6_Rynek/Platformy" unique_id=344177981 instance=ExtResource("128_mu151")]
 position = Vector2(5760, 54.4)
-ledge_width = 19.2
+texture = ExtResource("stone_ledge_23")
+surface = 0.0
+body_depth = 0.0
 
 [node name="RP1" parent="6_Rynek/Platformy" unique_id=197996522 instance=ExtResource("128_mu151")]
 position = Vector2(5446, 134)
