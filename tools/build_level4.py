@@ -1,4 +1,10 @@
-# Run from the project root: python3 tools/build_level4.py && godot --headless --script tools/paint_level4.gd && mv scenes/level/_tmp.tscn scenes/level/level_04.tscn
+# Run from the project root: python3 tools/build_level4.py --force && godot --headless --script tools/paint_level4.gd && mv scenes/level/_tmp.tscn scenes/level/level_04.tscn
+# NOTE: level_04.tscn is now the source of truth (edited by hand in Godot); this generator needs --force and would overwrite it.
+import sys
+if "--force" not in sys.argv:   # from here on the level is edited by hand in Godot: rebuilding would throw those edits away
+    sys.exit("level_04.tscn is edited by hand in Godot now. This generator rebuilds it from scratch and would overwrite those "
+             "edits. Add --force only if you really want that (and then run paint_level4.gd and move _tmp.tscn over it).")
+
 # Builds scenes/level/level_04.tscn: GREYBOX of Krzemionki (Kraków, Podgórze), from the user's sketch (docs/sketches).
 # Kopiec Krakusa (oak on top, eroded slope with crumbling ledges, fort moat with a caponier) -> footbridge over
 # al. Powstańców Śląskich (cars below, sign gantry as the way across, railway with a train) -> ul. Parkowa (bench,
@@ -340,6 +346,31 @@ inst("PgDog1", "res://scenes/enemies/dog/dog.tscn", tx(23), ty(G), ["patrol_radi
 inst("PgCheckpoint1", "res://scenes/objects/checkpoint.tscn", tx(37.5), ty(G))
 hint(3, G, "Rynek Podgórski! Na kościół wejdziesz po wieżyczkach w narożnikach.")
 
+# ---- Rynek: floating stone blocks from the mockup assets/lvl4/rynekPodgorski/platforms.png (48 columns, own grid) ----
+# The mockup's ground (cobbles) is at its row 15.4 = our row 17 (YO = 1.6); it is placed XO columns into the square.
+# Blocks are the Bernatka stone ledges with grass (the mockup shows the same kind of block). The mockup's backdrop is a
+# sunset with the church at the left, unlike bg.png (church in the middle): the layout is only approximate against it.
+XO, YO = 8, 1.6
+BJR = json.load(open("assets/game/lvl4/bernatka_sizes.json"))["surface"]
+def rplat(name, img, col, mrow):   # block centred on mockup column col, walkable top on mockup row mrow
+    inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round((XO + col) * T), round(ty(mrow + YO)), [
+         f'texture = ExtResource("{R(f"res://assets/game/lvl4/bernatka/{img}.png", "Texture2D")}")', f"surface = {BJR[img]}"])
+for name, img, col, mrow in [("RP1", "ledge_grass_m", 3.35, 6.8), ("RP2", "ledge_grass_m", 4.45, 12.7), ("RP3", "ledge_grass_m", 9.35, 10.3),
+                             ("RP4", "ledge_grass_l", 15.15, 7.9), ("RP5", "ledge_grass_m", 17.7, 12.1), ("RP6", "ledge_grass_l", 23.2, 6.0),
+                             ("RP7", "ledge_grass_m", 27.85, 8.7), ("RP8", "ledge_grass_l", 35.75, 8.0), ("RP9", "ledge_grass_s", 34.2, 11.1),
+                             ("RP10", "ledge_grass_m", 45.85, 8.4), ("RP11", "ledge_grass_m", 41.9, 11.0)]:
+    rplat(name, img, col, mrow)
+def rdeco(fn, img, col, mrow, **kw): fn(img, XO + col, mrow + YO, **kw)   # decoration on a block, bottom-centre on its top
+for img, col, mrow, how in [("chest", 3.4, 6.8, kdeco), ("pot_a", 1.9, 6.8, deco), ("pot_b", 5.0, 6.8, deco), ("crate", 3.8, 12.7, fdeco),
+                            ("pot_a", 8.0, 10.3, deco), ("crate", 13.8, 7.9, fdeco), ("pot_b", 12.9, 7.9, deco), ("crate", 16.3, 12.1, fdeco),
+                            ("pot_a", 15.6, 12.1, deco), ("hedge_b", 21.7, 6.0, deco), ("crate", 25.0, 6.0, fdeco), ("crate", 26.2, 8.7, fdeco),
+                            ("iron_fence", 29.0, 8.7, deco), ("pot_a", 33.3, 8.0, deco), ("iron_fence", 34.3, 8.0, deco), ("crate", 45.2, 8.4, fdeco),
+                            ("bench", 46.8, 8.4, deco), ("pot_b", 40.5, 11.0, deco)]:
+    rdeco(how, img, col, mrow)
+# the mockup's tall street lamp beside the first block: climbable, tall enough to reach it from the ground
+deco("lamp", XO + 1.8, G, h_tiles=G - (6.8 + YO) + 0.4)
+pole(XO + 1.8, 6.8 + YO - 0.4, round(G - (6.8 + YO) + 0.4))
+
 # ---------------- 8. Bulwary wiślane ----------------
 # promenade (foreground strip) with two breaks where the river shows: cross on the moored boats or swim
 PROM = [(0, 17), (38, 50)]   # past the second break the Bernatka quay takes over   # promenade stretches, columns relative to W
@@ -375,11 +406,10 @@ def node_y(name):   # walk row of a placed platform
     for n in nodes:
         if n.startswith(f'[node name="{name}"'):
             return float(n.split("position = Vector2(")[1].split(")")[0].split(", ")[1]) / T
+def m(col, mrow): return ((XO + col) * T, (mrow + YO) * T)   # a spot on the Rynek mockup (column, row)
 pickups("R",
-        [above(6.5, node_y("TenementA")), above(10.6, node_y("TenementB")), above(15, node_y("Planter1")), above(18, node_y("AdColumn")),
-         above(28, 12.8), above(33, 12.8), above(30.5, 6.6), above(44.5, node_y("Balustrade")), above(55.5, node_y("TenementC")),
-         above(60.4, node_y("TenementD"))],
-        [above(26.8, 9.4), above(34.2, 9.4), above(52, node_y("Planter3")), above(9, G, 40)])
+        [m(5.0, 12.1), m(9.5, 9.6), m(10.3, 9.6), m(15.1, 7.0), m(16.0, 7.0), m(22.1, 5.2), m(22.9, 5.2), m(26.9, 8.1), m(36.8, 7.15), m(45.0, 7.65)],
+        [m(2.9, 5.4), m(30.8, 7.4), m(42.4, 10.0), m(46.9, 7.2)])
 pickups("W",
         [above(W + 8, G, 30), above(W + 12, G, 30), above(W + 19, G + 0.6), above(W + 23, G + 0.6), above(W + 28, G + 0.4), above(W + 35, G + 0.4),
          above(W + 44, G, 30), above(W + 53, G - 0.2), above(W + 60, G - 0.2), above(W + 62.5, G - 0.2)],
