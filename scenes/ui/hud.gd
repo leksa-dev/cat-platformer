@@ -55,7 +55,7 @@ func refresh_hearts() -> void:
 			heart.pivot_offset = Vector2(4.5, 4)
 			heart.scale = Vector2.ONE * 2.5
 			heart.create_tween().tween_property(heart, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	$Coins/Count.text = "%d/%d" % [Game.coins(Game.level_index), Game.COINS_PER_LEVEL]
+	$Coins/Count.text = "%d/%d" % [Game.coins(Game.level_index), Game.total(Game.level_index, "Coin")]
 	for i in $Lives.get_child_count():
 		# lost lives stay as dark hearts
 		$Lives.get_child(i).modulate = Color.WHITE if i < Game.lives else Color(0.2, 0.2, 0.2, 0.6)
@@ -69,9 +69,9 @@ func _on_hp_changed(hp: int, max_hp: int) -> void:
 func _on_level_done(stats: Dictionary) -> void:
 	$Summary/Panel/Hint.text = Game.keys(tr("Spacja / ✕ - dalej"))
 	$Summary/Panel/Title.text = tr("POZIOM %d") % (stats.level + 1)
-	$Summary/Panel/Row0/Count.text = "%d/%d" % [stats.coins, Game.COINS_PER_LEVEL]
-	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.LIVES_PER_LEVEL]
-	$Summary/Panel/Row2/Count.text = "%d/%d" % [stats.diamonds, Game.DIAMONDS_PER_LEVEL]
+	$Summary/Panel/Row0/Count.text = "%d/%d" % [stats.coins, Game.total(stats.level, "Coin")]
+	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.total(stats.level, "Life")]
+	$Summary/Panel/Row2/Count.text = "%d/%d" % [stats.diamonds, Game.total(stats.level, "Diamond")]
 	$Summary/Panel/Grade.text = tr("OCENA: %s") % stats.grade
 	# hidden badge: nobody died on this level
 	var peace: Label = $Summary/Peace

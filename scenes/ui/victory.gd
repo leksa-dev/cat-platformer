@@ -9,7 +9,7 @@ func _ready() -> void:
 	var t := int(Game.run_time)
 	$Item0.text = tr("WYGRANA!")
 	$Item1.text = tr("CZAS %d:%02d") % [t / 60, t % 60]
-	$Item2.text = tr("MONETY %d/%d") % [Game.coins(), Game.COINS_PER_LEVEL * Game.LEVELS.size()]
+	$Item2.text = tr("MONETY %d/%d") % [Game.coins(), Game.total(-1, "Coin")]
 	$Lives.text = Game.keys(tr("Życia: %d      Spacja / ✕ - menu")) % Game.lives
 	# hidden reward: the whole game without killing a single enemy
 	if Game.killed.values().all(func(k): return k.is_empty()):

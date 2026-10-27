@@ -77,7 +77,8 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
       5. Kładka Bernatka — jeden pomost (bez podziału na pieszych i rowery) i łuk z kratownicą X górą, akrobaci na linach (huśtające się platformy), meta przy tabliczce „Next lvl”
     - grafika generowana; najpierw szary poziom (gra się w prostych kafelkach), grafika na końcu
     - okolice dawnego getta (Plac Bohaterów Getta, mur na Lwowskiej) omijamy albo zostają spokojnym tłem, bez wrogów i żartów
-- [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
+- [x] **Monety, klejnoty i 1up** — 10 monet i 4 klejnoty na **lokalizację** (poziomy 1–3 to po jednej lokalizacji, poziom 4 ma ich kilka), 2 życia na poziom: jedno na trasie, jedno ukryte; liczby liczy sam poziom przy wczytaniu (`Game.totals`), licznik w HUD, tablica po poziomie i ekran końcowy biorą je stamtąd; zebrane zostają zebrane po utracie życia
+- [x] **Klucze** — 5 kolorów wyciętych z `items.png` (`assets/game/key_*.png`, `tools/extract_keys.py`), do otwierania sekretów (mechanika do zrobienia)
 - [x] **Sekrety** — poziom 1: druga przepaść (87–96) wrzuca do jaskini z życiem, wraca się windą; poziom 2: krzak z jagodami w dżungli (7 podrapań = życie); poziom 3: rura pod ściekami w dziurze pod ruchomą płytą prowadzi do ukrytej komnaty
 - [x] **Zapis postępu** — po każdym ukończonym poziomie (`user://save.cfg`: poziom, życia, znajdźki, czas); GRAJ → DALEJ / NOWA GRA; checkpointy nie są zapisywane; game over i koniec gry kasują zapis
 - [x] **Głośność** — osobno muzyka i efekty (0–100 %, strzałki ←/→ albo Spacja), zapamiętana w `settings.cfg`

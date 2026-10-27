@@ -10,9 +10,6 @@ signal device_changed  # the player switched between keyboard and pad: on-screen
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
 const VICTORY := "res://scenes/ui/victory.tscn"
-const COINS_PER_LEVEL := 10
-const DIAMONDS_PER_LEVEL := 4
-const LIVES_PER_LEVEL := 2  # 1ups hidden in each level
 const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn", "res://scenes/level/level_04.tscn"]
 
 var lives := START_LIVES
@@ -25,6 +22,7 @@ const LANGUAGE_NAMES := {"pl": "POLSKI", "en": "ENGLISH", "es": "ESPAÑOL"}
 const SETTINGS := "user://settings.cfg"
 const SAVE := "user://save.cfg"  # progress written after each finished level (checkpoints are not saved)
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
+var totals := {}  # level index -> {"Coin": n, "Life": n, "Diamond": n}: pickups placed there, counted when it loads
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen
 var killed := {}  # level index -> names of the enemies killed there
@@ -159,7 +157,7 @@ func level_stats(level: int) -> Dictionary:
 	var c := items.filter(func(i): return i.begins_with("Coin")).size()
 	var l := items.filter(func(i): return i.begins_with("Life")).size()
 	var d := items.filter(func(i): return i.begins_with("Diamond")).size()
-	var pickups := float(c + l + d) / (COINS_PER_LEVEL + LIVES_PER_LEVEL + DIAMONDS_PER_LEVEL)
+	var pickups := float(c + l + d) / maxi(total(level, "Coin") + total(level, "Life") + total(level, "Diamond"), 1)
 	var total: int = enemies.get(level, 0)
 	var k := mini(killed.get(level, []).size(), total)
 	var score := pickups * 100.0
@@ -173,6 +171,13 @@ func enemy_killed(enemy: String) -> void:
 	rumble(0.3, 0.5, 0.15)
 	if not killed[level_index].has(enemy):  # enemies come back after a lost life: count each one once
 		killed[level_index].append(enemy)
+
+
+# how many coins / 1ups / diamonds a level holds (10 coins per location, so levels differ); -1 = all levels seen so far
+func total(level: int, prefix: String) -> int:
+	if level >= 0:
+		return totals.get(level, {}).get(prefix, 0)
+	return totals.values().reduce(func(n, t): return n + t.get(prefix, 0), 0)
 
 
 func is_collected(item: String) -> bool:
@@ -306,7 +311,7 @@ func continue_game() -> void:
 	_load_level()
 
 
-const SAVED := ["level_index", "lives", "collected", "killed", "enemies", "run_time"]
+const SAVED := ["level_index", "lives", "collected", "killed", "enemies", "totals", "run_time"]
 
 
 func _save() -> void:

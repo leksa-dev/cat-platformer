@@ -194,14 +194,33 @@ hint(B + 2, 16, "Pod kładką jeżdżą auta. Idź górą albo wspinaj się po l
 hint(152 + S, 12, "Wespnij się po bluszczu na dach willi.")
 hint(189 + S, 16, "Wejdź na wieżę placu zabaw i zjedź rurą.")
 
-# ---------------- coins, 1ups, diamonds ----------------
-for i, (x, y) in enumerate([(tx(9), ty(16) - 8), (17 * T, ty(11) - 14), (tx(36), ty(8) - 14), (43.25 * T + 8, ty(9) - 14), (tx(30.5), ty(17) - 8),
-                            (tx(B + 58), ty(3) - 14), (tx(B + 9.5), ty(6) - 14), (tx(97 + S), ty(9) - 8), (tx(133 + S), -8), ((227 + S) * T, ty(10) - 8)]):
-    inst(f"Coin{i + 1}", "res://scenes/objects/coin.tscn", x, y)
+# ---------------- coins, 1ups, diamonds: 10 coins and 4 diamonds per location ----------------
+def pickups(tag, coins, gems):
+    assert len(coins) == 10 and len(gems) == 4, tag
+    for i, (x, y) in enumerate(coins):
+        inst(f"Coin{tag}{i + 1}", "res://scenes/objects/coin.tscn", round(x), round(y))
+    for i, (x, y) in enumerate(gems):
+        inst(f"Diamond{tag}{i + 1}", "res://scenes/objects/diamond.tscn", round(x), round(y), [f"gem = {i}"])
+def above(x, row, up=14): return (x * T + T / 2, ty(row) - up)   # over a platform top at tile column x
+pickups("K",   # Kopiec
+        [(tx(9), ty(16) - 8), above(14.5, 8), (17 * T, ty(11) - 14), (tx(30.5), ty(17) - 8), above(34.9, 12), above(36, 8),
+         (43.25 * T + 8, ty(9) - 14), above(48.25, 11), above(52.4, 13), above(60, 10, 40)],
+        [(tx(6), ty(16) - 8), above(36.5, 8, 56), above(21.5, 15, 8), above(39, 10)])
+pickups("B",   # footbridge over al. Powstańców Śląskich
+        [above(B + 6.5, 12), above(B + 9.5, 6), above(B + 15.5, 11), above(B + 21, 6), above(B + 27, 7), above(B + 24.5, 15),
+         above(B + 38.5, 15), above(B + 44.5, 13), above(B + 52.5, 9), above(B + 58, 3)],
+        [(tx(B + 30), ty(20) - 8), above(B + 31.5, 15), above(B + 47.5, 6), above(B + 61.5, 9)])
+pickups("F",   # Fort 31
+        [above(F + 16.5, 10.6), above(F + 23.5, 7.8), above(F + 27, 6.9), above(F + 27.2, 11, 10), above(F + 34, 7.7), above(F + 39.5, 12.5),
+         above(F + 44.7, 7, 10), above(F + 48.4, 7.2), above(F + 50.7, 5, 10), above(F + 55.4, 14, 10)],
+        [above(F + 4.5, 9, 30), above(F + 37.2, 8), above(F + 55.5, 8.1, 28), above(F + 57.5, 8, 10)])
+# greybox parts (Parkowa, stadium, Plac Lasoty, Park Bednarskiego) keep their few pickups until they get their art
+for i, (x, y) in enumerate([(tx(97 + S), ty(9) - 8), (tx(133 + S), -8), ((227 + S) * T, ty(10) - 8)]):
+    inst(f"CoinP{i + 1}", "res://scenes/objects/coin.tscn", x, y)
+for i, (x, y) in enumerate([((171 + S) * T, ty(1) - 8), (tx(148 + S), ty(8) - 8)]):
+    inst(f"DiamondP{i + 1}", "res://scenes/objects/diamond.tscn", x, y, [f"gem = {i}"])
 inst("Life1", "res://scenes/objects/life.tscn", tx(173 + S), ty(7))
 inst("Life2", "res://scenes/objects/life.tscn", tx(11), ty(16) - 18)    # hidden in the cave under the start, on the chest
-for i, (x, y) in enumerate([(tx(B + 30), ty(20) - 8), ((171 + S) * T, ty(1) - 8), (tx(148 + S), ty(8) - 8), (tx(B + 31.5), ty(15) - 14)]):
-    inst(f"Diamond{i + 1}", "res://scenes/objects/diamond.tscn", x, y, [f"gem = {i}"])
 
 node("Spawn", typ="Marker2D", props=[pos(tx(4), ty(10))])
 inst("Goal", "res://scenes/objects/goal.tscn", tx(259 + S), ty(12))
