@@ -36,19 +36,13 @@ func _initialize():
 	# 4. old stadium (from krzemionki/platforms.png): an upper path along the stands, the lower ground by the pitch, two flooded pits
 	const C := 192
 	for r in [[0, 2, 9, 10], [3, 4, 10, 11], [5, 8, 11, 12], [9, 12, 10, 11], [12, 20, 12, 12], [21, 28, 11, 11], [30, 33, 12, 13],
-			[34, 34, 14, 14], [35, 39, 15, 15], [39, 39, 16, 17], [19, 21, 15, 16], [46, 49, 12, 12], [50, 52, 11, 11], [58, 60, 10, 10], [61, 63, 11, 12],
+			[34, 34, 14, 14], [35, 39, 15, 15], [19, 21, 15, 16], [46, 49, 12, 12], [50, 52, 11, 11], [58, 60, 10, 10], [61, 63, 11, 12],
 			[0, 1, 14, BOTTOM], [2, 5, 15, BOTTOM], [6, 8, 16, BOTTOM], [9, 13, 18, BOTTOM], [14, 17, 17, BOTTOM], [18, 22, 18, BOTTOM],
 			[23, 29, 17, BOTTOM], [30, 32, 21, BOTTOM], [33, 42, 18, BOTTOM], [43, 48, 15, BOTTOM], [49, 53, 17, BOTTOM], [54, 56, 21, BOTTOM],
 			[57, 62, 15, BOTTOM], [63, 63, 14, BOTTOM]]:
 		fill(grass, C + r[0], C + r[1], r[2], r[3])
-	# everything after the stadium (old greybox columns), shifted right by S tiles
-	const S := 104
-	# 3. Plac Lasoty: Villa Mira, Villa Julia with the clock tower
-	fill(stone, 152 + S, 154 + S, 12)
-	fill(stone, 155 + S, 163 + S, 6); fill(stone, 156 + S, 162 + S, 5, 5)
-	fill(stone, 164 + S, 166 + S, 12)
-	fill(stone, 167 + S, 174 + S, 7); fill(stone, 170 + S, 171 + S, 1, 6)
-	fill(stone, 175 + S, 180 + S, 12)
+	# everything after the stadium, shifted left over the gap Plac Lasoty left
+	const S := 75
 	# 6. Park Bednarskiego (from parkBednarskiego/platforms.png): a hill with stairs down at the start, floating islands
 	# (placed by the builder) over a drop, and a last terrace with the lair
 	const P := 181 + S
@@ -56,7 +50,7 @@ func _initialize():
 	fill(grass, P + 9, P + 9, 16); fill(grass, P + 10, P + 10, 17); fill(grass, P + 11, P + 17, 18)
 	fill(grass, P + 64, P + 72, 13)
 	# 7-8. Podgórze (local columns from the square's left edge): the square, the promenade broken twice by the river, the riverbed
-	const L := 358
+	const L := 329
 	for r in [[0, 63], [64, 80], [102, 113]]:
 		fill(stone, L + r[0], L + r[1], 17)
 	fill(stone, L + 81, L + 127, 23)

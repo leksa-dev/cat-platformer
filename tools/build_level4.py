@@ -137,14 +137,14 @@ for img, x, row, h in [("mural", 8, 16, 0), ("tree_a", 1, 16, 0), ("bush_a", 3.5
 for i, (x0, x1) in enumerate([(9, 13), (22, 46)]):   # asphalt only where the road shows between the verges
     node(f"Road{i + 1}", "DecorFront", "Sprite2D", props=["texture_repeat = 2", f'texture = ExtResource("{R("res://assets/game/lvl4/kladka/road.png", "Texture2D")}")',
          "centered = false", pos((B + x0) * T, ty(20) - 1), "scale = Vector2(0.333333, 0.333333)", "region_enabled = true", f"region_rect = Rect2(0, 0, {(x1 - x0) * T * 3}, {KL['road'][1]})"])
-pillar("PillarK1", B + 10, 7, 13); pillar("PillarK2", B + 20, 7, 10); pillar("PillarK3", B + 31.5, 12, 3)
+pillar("PillarK2", B + 20, 7, 10); pillar("PillarK3", B + 31.5, 12, 3)
 for name, img, x, row, n in [("W1a", "bridge_short", 13.6, 8, 1), ("W1b", "bridge_short", 17.4, 8, 1), ("W2", "bridge_short", 31.5, 8, 4),
-                             ("K1", "grass_c", 6.5, 12, 2), ("K2", "grass_c", 9.5, 6, 2), ("K3", "grass_c", 15.5, 11, 2), ("K4", "grass_c", 11.5, 13, 2),
-                             ("K5", "grass_b", 21, 6, 1), ("K6", "grass_c", 27, 7, 2), ("K7", "grass_c", 31.5, 11, 2), ("K8", "grass_a", 31.5, 15, 2),
+                             ("K1", "grass_c", 6.5, 12, 2), ("K3", "grass_c", 15.5, 11, 2), ("K4", "grass_c", 11.5, 13, 2),
+                             ("K6", "grass_c", 27, 7, 2), ("K7", "grass_c", 31.5, 11, 2), ("K8", "grass_a", 31.5, 15, 2),
                              ("K9", "grass_c", 24.5, 15, 2), ("K10", "grass_c", 38.5, 15, 2), ("K11", "grass_d", 44.5, 13, 3), ("K12", "grass_d", 47.5, 6, 3),
-                             ("K13", "grass_b", 49.5, 11, 1), ("K14", "grass_c", 52.5, 9, 2), ("K15", "grass_d", 58, 3, 3), ("K16", "grass_c", 61.5, 9, 2)]:
+                             ("K13", "grass_b", 49.5, 11, 1)]:
     lplat(name, img, B + x, row, n)
-pole(B + 5, 5, 11); pole(B + 39, 9, 11); pole(B + 45, 7, 11); pole(B + 55, 4, 13)   # lamps and catenary masts to climb
+pole(B + 5, 5, 11); pole(B + 39, 9, 11); pole(B + 45, 7, 11)   # lamps and catenary masts to climb
 traffic("Car1", B + 22, B + 46, 20, 110, (28, 10), (0.75, 0.2, 0.2))
 traffic("Car2", B + 22, B + 46, 20, -150, (26, 10), (0.2, 0.35, 0.8), 1.0, 0.5)
 inst("Crow5", "res://scenes/enemies/crow/crow.tscn", tx(B + 18), ty(5))
@@ -199,9 +199,6 @@ for img, x, row, sc in [("kiosk", 17, 12, 0.143), ("umbrella", 10.6, 10, 0.15), 
                         ("stairs_rail_b", 29.4, 12, 0.333333), ("stairs_rail_a", 33.7, 15, 0.333333), ("stairs_rail_b", 22.6, 18, 0.333333),
                         ("stairs_rail_a", 48.8, 17, 0.333333)]:
     sdeco(img, C + x, row, scale=sc)
-for x, bottom in [(3, 10), (8, 11), (33.5, 11), (40, 11), (45.5, 12), (53, 11), (62, 10)]:   # floodlights, climbable
-    sdeco("floodlight_a", C + x, bottom, h_tiles=6)
-    pole(C + x, bottom - 5, 5)
 for x, row, img in [(10.5, 14.5, "grass_stone"), (43, 13, "grass_stone"), (54.2, 12.6, "grass_stone"), (55.2, 16, "grass_stone_s"),
                     (29.6, 17, "panel_yellow"), (31.2, 17, "panel_yellow"), (53.6, 17, "panel_yellow"), (55.2, 17, "panel_yellow")]:
     inst(uid("CrumbleS"), "res://scenes/objects/crumble.tscn", round(C * T + x * T), round(ty(row)), [
@@ -209,7 +206,7 @@ for x, row, img in [(10.5, 14.5, "grass_stone"), (43, 13, "grass_stone"), (54.2,
 for i, x0 in enumerate([30, 54]):   # flooded pits under the bridges, with a ladder out
     inst(f"PitWater{i + 1}", "res://scenes/objects/water.tscn", (C + x0) * T, ty(19), ["width_tiles = 3", "depth_tiles = 2"])
     ladder(C + x0 + 2.5, 17, 4)
-for x, row in [(2, 9), (9.2, 10), (32, 12), (63, 11)]:
+for x, row in [(2, 9), (9.2, 10), (32, 12)]:
     inst(uid("SnackS"), "res://scenes/objects/snack.tscn", tx(C + x), ty(row))
 inst("CatnipS", "res://scenes/objects/catnip.tscn", tx(C + 55.6), ty(16) - 2)
 inst("DogS1", "res://scenes/enemies/dog/dog.tscn", tx(C + 36), ty(18), ["patrol_radius = 40.0"])
@@ -221,11 +218,7 @@ inst("CheckpointS2", "res://scenes/objects/checkpoint.tscn", tx(C + 34), ty(18))
 hint(C + 2, 14, "Stary stadion! Uważaj, niektóre platformy i kładki się kruszą.")
 
 # everything after the stadium (old greybox columns), shifted right by S tiles
-S = 104
-# ---------------- 5. Plac Lasoty (still greybox) ----------------
-ladder(154 + S, 5, 7)                                  # ivy up Villa Mira
-ladder(169 + S, 0, 7)                                  # Villa Julia's clock tower
-hint(152 + S, 12, "Wespnij się po bluszczu na dach willi.")
+S = 75   # the park starts right where the stadium ends (column 256), now that Plac Lasoty is gone
 
 # ---------------- 6. Park Bednarskiego (layout from assets/lvl4/parkBednarskiego/platforms.png) ----------------
 # floating stone islands over the bushes: falling between them loses a life. Local column c is global P + c.
@@ -258,7 +251,6 @@ hint(P + 1, 11, "Park Bednarskiego! Między wysepkami jest przepaść - wspinaj 
 hint(3, 10, "Kopiec Krakusa! Wejdź na szczyt, a potem zejdź w stronę kładki.")
 hint(20, 15, "Osuwająca się ziemia długo nie wytrzyma - nie stój na niej.")
 hint(B + 2, 16, "Pod kładką jeżdżą auta. Idź górą albo wspinaj się po latarniach i słupach.")
-hint(152 + S, 12, "Wespnij się po bluszczu na dach willi.")
 
 # ---------------- coins, 1ups, diamonds: 10 coins and 4 diamonds per location ----------------
 def pickups(tag, coins, gems):
@@ -273,9 +265,9 @@ pickups("K",   # Kopiec
          (43.25 * T + 8, ty(9) - 14), above(48.25, 11), above(52.4, 13), above(60, 10, 40)],
         [(tx(6), ty(16) - 8), above(36.5, 8, 56), above(21.5, 15, 8), above(39, 10)])
 pickups("B",   # footbridge over al. Powstańców Śląskich
-        [above(B + 6.5, 12), above(B + 9.5, 6), above(B + 15.5, 11), above(B + 21, 6), above(B + 27, 7), above(B + 24.5, 15),
-         above(B + 38.5, 15), above(B + 44.5, 13), above(B + 52.5, 9), above(B + 58, 3)],
-        [(tx(B + 30), ty(20) - 8), above(B + 31.5, 15), above(B + 47.5, 6), above(B + 61.5, 9)])
+        [above(B + 6.5, 12), above(B + 11.5, 13), above(B + 15.5, 11), above(B + 20, 8, 20), above(B + 27, 7), above(B + 24.5, 15),
+         above(B + 38.5, 15), above(B + 44.5, 13), above(B + 49.5, 11), above(B + 56, 17)],
+        [(tx(B + 30), ty(20) - 8), above(B + 31.5, 15), above(B + 47.5, 6), above(B + 61, 17)])
 pickups("F",   # Fort 31
         [above(F + 16.5, 10.6), above(F + 23.5, 7.8), above(F + 27, 6.9), above(F + 27.2, 11, 10), above(F + 34, 7.7), above(F + 39.5, 12.5),
          above(F + 44.7, 7, 10), above(F + 48.4, 7.2), above(F + 50.7, 5, 10), above(F + 55.4, 14, 10)],
@@ -288,14 +280,14 @@ pickups("P",   # Park Bednarskiego
         [above(P + 7.5, 8.6), above(P + 13.1, 15.3), above(P + 16.2, 10.8), above(P + 23.2, 12.8), above(P + 30.8, 8.3), above(P + 35.4, 12.4),
          above(P + 41, 10.2), above(P + 47, 13.3), above(P + 57, 14.5), above(P + 61.7, 16.8)],
         [above(P + 13.8, 12.9, 0), above(P + 44.8, 7.4, 26), above(P + 52, 7.1), above(P + 61, 12.5, 18)])
-# Plac Lasoty is still greybox: one diamond on the clock tower
-inst("DiamondL1", "res://scenes/objects/diamond.tscn", (171 + S) * T, ty(1) - 8, ["gem = 0"])
-inst("Life1", "res://scenes/objects/life.tscn", tx(173 + S), ty(7))
+# the 1up of the old Plac Lasoty now waits on the park's highest island, with a diamond beside it
+inst("Life1", "res://scenes/objects/life.tscn", round((P + 44.8) * T + T / 2), ty(7.4) - 22)   # over island PK
+inst("DiamondL1", "res://scenes/objects/diamond.tscn", round((P + 52.4) * T + T / 2), ty(7.1) - 22, ["gem = 0"])   # over island PL
 inst("Life2", "res://scenes/objects/life.tscn", tx(11), ty(16) - 18)    # hidden in the cave under the start, on the chest
 
 # ======== Podgórze: Rynek Podgórski (L .. L+63) and the Vistula boulevards (L+64 .. L+135) ========
 # Written with local columns (0 = the square's left edge): pos() is shifted by L tiles while this part is built.
-L = 358
+L = 329
 import json
 _pos = pos
 def pos(x, y): return _pos(x + L * T, y)
@@ -362,7 +354,7 @@ plat("BoatSmall", "boat_small", W + 21.2, G + 0.6, 24); plat("Barge", "barge", W
 plat("Houseboat", "houseboat", W + 57, G - 0.2, 19)
 for img, x in [("lifebuoy", 1.5), ("bollard_rope", 15.7), ("bollard_rope", 39), ("crate_bush", 44), ("lifebuoy", 48.5)]:
     deco(img, W + x, G)
-deco("gull", W + 33, G - 0.6); deco("gull", W + 26, G + 0.3)
+
 inst("Bike1", "res://scenes/hazards/bike_city.tscn", (W + 1) * T + 12, ty(G), ["lane = 232"])   # the promenade: a city bike, a road bike, an MTB
 inst("Bike2", "res://scenes/hazards/bike_road.tscn", (W + 1) * T + 12, ty(G), ["lane = 232", "phase = 0.5"])
 inst("Bike3", "res://scenes/hazards/bike_mtb.tscn", (W + 38) * T + 12, ty(G), ["lane = 168"])
@@ -448,6 +440,19 @@ node("Spawn", typ="Marker2D", props=[pos(tx(4), ty(10))])
 inst("Goal", "res://scenes/objects/goal.tscn", tx(N + 46.5), ty(10))   # on the quay wall past the Bernatka footbridge
 inst("Cat", "res://scenes/player/cat.tscn", 0, 0); nodes[-1] = nodes[-1].replace("position = Vector2(0, 0)\n", "")
 inst("HUD", "res://scenes/ui/hud.tscn", 0, 0); nodes[-1] = nodes[-1].replace("position = Vector2(0, 0)\n", "")
+
+# a floating block that a climbable pole runs through gets a gap in its solid body there (float_platform.gd gap_x),
+# so the cat can climb the pole past it
+import re
+_poles = [float(re.search(r"position = Vector2\(([-\d.]+),", n).group(1)) for n in nodes if "lvl4/pole.tscn" in n.split("\n")[0] or 'ExtResource("' + R("res://scenes/objects/lvl4/pole.tscn", "PackedScene") + '")' in n.split("\n")[0]]
+_fp = R("res://scenes/objects/lvl4/float_platform.tscn", "PackedScene")
+for _i, _n in enumerate(nodes):
+    if f'instance=ExtResource("{_fp}")' not in _n.split("\n")[0]:
+        continue
+    _x = float(re.search(r"position = Vector2\(([-\d.]+),", _n).group(1))
+    _near = [px for px in _poles if abs(px - _x) < 40]   # (the cat is 10 px wide: leave 8 px either side of the pole)
+    if _near:
+        nodes[_i] = _n.rstrip("\n") + f"\ngap_x = {_near[0] - _x}\n"
 
 head = ["[gd_scene format=4]\n", '[ext_resource type="Script" path="res://scenes/level/level.gd" id="r0"]']
 head += [f'[ext_resource type="{t}" path="{p}" id="{i}"]' for p, (i, t) in res.items()]
