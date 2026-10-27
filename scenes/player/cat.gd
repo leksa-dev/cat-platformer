@@ -16,6 +16,7 @@ signal hit(body: Node2D)  # a scratch connected; nothing listens until enemies e
 @export var wall_jump_push := 140.0
 @export var wall_jump_lock := 0.15  # ignore left/right briefly so the cat actually leaves the wall
 @export var climb_speed := 50.0
+@export var climb_side_speed := 30.0  # left/right while climbing, to line up with a branch or a gap
 @export var regrab_delay := 0.3  # seconds before the cat can grab the tree it just jumped/dashed off
 @export var climb_top_hop := 0.6  # fraction of jump_velocity when climbing off the top
 @export var dash_speed := 220.0
@@ -289,9 +290,10 @@ func _physics_process(delta: float) -> void:
 			_released_time = 0.0
 		else:
 			set_collision_mask_value(CROWN_LAYER, false)
-			velocity = Vector2(0, v_in * climb_speed)  # ladder-style: no sideways drift off a narrow vine
+			var h_in := Input.get_axis("left", "right")
+			velocity = Vector2(h_in * climb_side_speed, v_in * climb_speed)  # sideways off the trunk = let go
 			for a in areas:
-				if a.is_in_group("ladder"):  # ladders: climb the rungs in the middle, not an edge
+				if a.is_in_group("ladder") and not h_in:  # ladders: climb the rungs in the middle, not an edge
 					velocity.x = clampf((a.global_position.x - global_position.x) / delta, -120.0, 120.0)
 			fall_speed = velocity.y
 			move_and_slide()
