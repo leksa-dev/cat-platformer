@@ -49,18 +49,12 @@ func _initialize():
 	fill(stone, 164 + S, 166 + S, 12)
 	fill(stone, 167 + S, 174 + S, 7); fill(stone, 170 + S, 171 + S, 1, 6)
 	fill(stone, 175 + S, 180 + S, 12)
-	# Park Bednarskiego, in the old quarry
-	fill(grass, 181 + S, 191 + S, 16)
-	fill(stone, 192 + S, 193 + S, 11)               # playground tower
-	fill(grass, 194 + S, 204 + S, 16)
-	fill(grass, 205 + S, 208 + S, 11)               # rock ledge where the slide comes out
-	fill(grass, 209 + S, 218 + S, 19)               # dip with hedgehogs, outdoor gym slab above
-	fill(grass, 219 + S, 219 + S, 17)
-	fill(grass, 220 + S, 230 + S, 16)
-	fill(grass, 226 + S, 227 + S, 14, 14); fill(grass, 229 + S, 230 + S, 12, 12); fill(grass, 226 + S, 227 + S, 10, 10); fill(grass, 229 + S, 230 + S, 8, 8)   # limestone ledges
-	fill(grass, 231 + S, 245 + S, 6)                # cliff top, park gate
-	fill(stone, 246 + S, 247 + S, 7); fill(stone, 248 + S, 249 + S, 8); fill(stone, 250 + S, 251 + S, 9); fill(stone, 252 + S, 253 + S, 10); fill(stone, 254 + S, 255 + S, 11)
-	fill(stone, 256 + S, 262 + S, 12)               # lair
+	# 6. Park Bednarskiego (from parkBednarskiego/platforms.png): a hill with stairs down at the start, floating islands
+	# (placed by the builder) over a drop, and a last terrace with the lair
+	const P := 181 + S
+	fill(grass, P, P + 4, 11); fill(grass, P + 5, P + 5, 12); fill(grass, P + 6, P + 6, 13); fill(grass, P + 7, P + 8, 15)
+	fill(grass, P + 9, P + 9, 16); fill(grass, P + 10, P + 10, 17); fill(grass, P + 11, P + 17, 18)
+	fill(grass, P + 64, P + 72, 13)
 	g.clear()
 	for t in [grass, stone, autumn]:
 		var list: Array[Vector2i] = []

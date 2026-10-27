@@ -81,6 +81,16 @@ def sdeco(img, x, row, h_tiles=0, scale=0.333333, parent="DecorBack"):
     node(uid(img + "_"), parent, "Sprite2D", props=[pos(round(x * T + T / 2), ty(row) + 2), f'texture = ExtResource("{R(f"res://assets/game/lvl4/stadion/{img}.png", "Texture2D")}")',
         "centered = false", f"offset = Vector2({-(w // 2)}, {-h})", f"scale = Vector2({scale}, {scale})"])
 
+PJ = __import__("json").load(open("assets/game/lvl4/park_sizes.json"))
+def pdeco(img, x, row, h_tiles=0, scale=0.333333, parent="DecorBack"):
+    w, h = PJ["sizes"][img]
+    if h_tiles: scale = round(h_tiles * T / h, 4)
+    node(uid(img + "_"), parent, "Sprite2D", props=[pos(round(x * T + T / 2), round(ty(row)) + 2), f'texture = ExtResource("{R(f"res://assets/game/lvl4/park/{img}.png", "Texture2D")}")',
+        "centered = false", f"offset = Vector2({-(w // 2)}, {-h})", f"scale = Vector2({scale}, {scale})"])
+def pplat(name, img, x, row):
+    inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round(x * T + T / 2), round(ty(row)), [f'texture = ExtResource("{R(f"res://assets/game/lvl4/park/{img}.png", "Texture2D")}")',
+        f"surface = {PJ['surface'][img]}"])
+
 # ---------------- background: sunset sky over Kraków, behind the whole level ----------------
 node("Background", typ="CanvasLayer", props=["layer = -1"])
 node("Sky", "Background", "Sprite2D", props=["texture_repeat = 2", f'texture = ExtResource("{R("res://assets/game/lvl4/sky_city.png", "Texture2D")}")',
@@ -212,23 +222,43 @@ hint(C + 2, 14, "Stary stadion! Uważaj, niektóre platformy i kładki się krus
 
 # everything after the stadium (old greybox columns), shifted right by S tiles
 S = 104
-# ---------------- 3. Plac Lasoty + Park Bednarskiego ----------------
+# ---------------- 5. Plac Lasoty (still greybox) ----------------
 ladder(154 + S, 5, 7)                                  # ivy up Villa Mira
 ladder(169 + S, 0, 7)                                  # Villa Julia's clock tower
-inst("Checkpoint3", "res://scenes/objects/checkpoint.tscn", tx(183 + S), ty(16))
-inst("Dog2", "res://scenes/enemies/dog/dog.tscn", tx(188 + S), ty(16), ["patrol_radius = 32.0"])
-ladder(191 + S, 10, 6)                                 # playground tower
-inst("Slide", "res://scenes/objects/lvl3/pipe_tunnel.tscn", (194 + S) * T, ty(11), ["width_tiles = 11"])   # tube slide (level for now)
-inst("Swing", "res://scenes/objects/lvl3/moving_platform.tscn", (209.5 + S) * T, ty(15), ["distance = 112.0"])   # outdoor gym
-inst("Hedgehog1", "res://scenes/hazards/spiky.tscn", tx(212 + S), ty(19))
-inst("Hedgehog2", "res://scenes/hazards/spiky.tscn", tx(216 + S), ty(19))
-inst("Bat1", "res://scenes/enemies/bat/bat.tscn", tx(224 + S), ty(9), ["zone = Vector2(160, 112)"])   # bat boxes on the quarry wall
+hint(152 + S, 12, "Wespnij się po bluszczu na dach willi.")
+
+# ---------------- 6. Park Bednarskiego (layout from assets/lvl4/parkBednarskiego/platforms.png) ----------------
+# floating stone islands over the bushes: falling between them loses a life. Local column c is global P + c.
+# The mockup's gaps are taller than the cat's jump, so its lamp posts are climbable and reach up past the next island.
+P = 181 + S
+node("ParkBg", "WorldBack", "Sprite2D", props=[f'texture = ExtResource("{R("res://assets/game/lvl4/park/bg.png", "Texture2D")}")',
+     "centered = false", pos(P * T, round(-KL_PAD * KL_BG_SCALE)), f"scale = Vector2({KL_BG_SCALE}, {KL_BG_SCALE})"])
+for img, x, row in [("tree_a", 0.5, 11), ("fence_iron", 2, 11), ("bench_b", 4.5, 17), ("bush_flower", 7, 18), ("bin", 15.5, 18),
+                    ("rocker", 13.5, 18), ("gate_iron", 65, 13), ("bush_f", 70.5, 13), ("tree_b", 71.5, 13)]:
+    pdeco(img, P + x, row)
+for i, img in enumerate(["bush_b", "tree_pink", "bush_c", "bush_flower", "bush_a", "bush_yellow", "bush_d", "bush_e", "bush_flower", "bush_b",
+                         "tree_pink", "bush_c", "bush_a", "bush_e", "bush_d", "bush_yellow"]):   # hedge over the drop, in front of the dirt
+    pdeco(img, P + 18 + i * 2.9, 22.5, parent="DecorFront")
+for name, img, x, row in [("PA", "float_a", 7.5, 8.6), ("PB", "float_b", 13.1, 15.3), ("PC", "float_c", 16.2, 10.8), ("PBridge", "wood_bridge_b", 23.2, 12.8),
+                          ("PF", "float_c", 30.8, 8.3), ("PG", "float_b", 31.5, 16.2), ("PG2", "tiny_e", 33, 14.3), ("PH", "float_c", 35.4, 12.4),
+                          ("PI", "long_b", 40.4, 10.2), ("PI2", "block_s", 37.9, 9.2), ("PJ", "bench_block", 40.8, 15.4), ("PArch", "arch_bridge", 49.3, 13.3),
+                          ("PK", "block_a", 44.8, 7.4), ("PL", "bench_block", 52.4, 7.1), ("PM", "ledge_a", 56.6, 14.5), ("PN", "float_c", 61.8, 12.5),
+                          ("PO", "float_b", 61.7, 16.8)]:
+    pplat(name, img, P + x, row)
+for x, top, bottom in [(3.3, 7, 11), (16.4, 10, 18), (27.9, 7.5, 12.8), (38, 4.5, 10.2), (55.4, 6.5, 14.5), (49.2, 4.5, 7.1)]:
+    pdeco("lamp_a", P + x, bottom, h_tiles=bottom - top)
+    pole(P + x, top, round(bottom - top))
+inst("DogP1", "res://scenes/enemies/dog/dog.tscn", tx(P + 15), ty(18), ["patrol_radius = 24.0"])
+inst("Bat1", "res://scenes/enemies/bat/bat.tscn", tx(P + 34), ty(5), ["zone = Vector2(160, 112)"])   # bat boxes in the park
+inst("Crow9", "res://scenes/enemies/crow/crow.tscn", tx(P + 48), ty(5))
+inst("Checkpoint3", "res://scenes/objects/checkpoint.tscn", tx(P + 13.5), ty(18))
+inst("Checkpoint4", "res://scenes/objects/checkpoint.tscn", tx(P + 46), ty(13.3))
+hint(P + 1, 11, "Park Bednarskiego! Między wysepkami jest przepaść - wspinaj się po latarniach.")
 
 hint(3, 10, "Kopiec Krakusa! Wejdź na szczyt, a potem zejdź w stronę kładki.")
 hint(20, 15, "Osuwająca się ziemia długo nie wytrzyma - nie stój na niej.")
 hint(B + 2, 16, "Pod kładką jeżdżą auta. Idź górą albo wspinaj się po latarniach i słupach.")
 hint(152 + S, 12, "Wespnij się po bluszczu na dach willi.")
-hint(189 + S, 16, "Wejdź na wieżę placu zabaw i zjedź rurą.")
 
 # ---------------- coins, 1ups, diamonds: 10 coins and 4 diamonds per location ----------------
 def pickups(tag, coins, gems):
@@ -254,14 +284,17 @@ pickups("S",   # old stadium
         [above(C + 4.6, 10, 28), above(C + 4.4, 15), above(C + 27.3, 11), above(C + 28.3, 17, 22), above(C + 36, 15), above(C + 36.8, 15),
          above(C + 51.2, 17), above(C + 51.9, 17), above(C + 59, 10), above(C + 59.8, 10)],
         [above(C + 11.2, 14.5), above(C + 44, 13), above(C + 55, 12.6), above(C + 58.5, 15)])
-# greybox parts (Plac Lasoty, Park Bednarskiego) keep their few pickups until they get their art
-inst("CoinP1", "res://scenes/objects/coin.tscn", (227 + S) * T, ty(10) - 8)
-inst("DiamondP1", "res://scenes/objects/diamond.tscn", (171 + S) * T, ty(1) - 8, ["gem = 0"])
+pickups("P",   # Park Bednarskiego
+        [above(P + 7.5, 8.6), above(P + 13.1, 15.3), above(P + 16.2, 10.8), above(P + 23.2, 12.8), above(P + 30.8, 8.3), above(P + 35.4, 12.4),
+         above(P + 41, 10.2), above(P + 47, 13.3), above(P + 57, 14.5), above(P + 61.7, 16.8)],
+        [above(P + 13.8, 12.9, 0), above(P + 44.8, 7.4, 26), above(P + 52, 7.1), above(P + 61, 12.5, 18)])
+# Plac Lasoty is still greybox: one diamond on the clock tower
+inst("DiamondL1", "res://scenes/objects/diamond.tscn", (171 + S) * T, ty(1) - 8, ["gem = 0"])
 inst("Life1", "res://scenes/objects/life.tscn", tx(173 + S), ty(7))
 inst("Life2", "res://scenes/objects/life.tscn", tx(11), ty(16) - 18)    # hidden in the cave under the start, on the chest
 
 node("Spawn", typ="Marker2D", props=[pos(tx(4), ty(10))])
-inst("Goal", "res://scenes/objects/goal.tscn", tx(259 + S), ty(12))
+inst("Goal", "res://scenes/objects/goal.tscn", tx(P + 69), ty(13))
 inst("Cat", "res://scenes/player/cat.tscn", 0, 0); nodes[-1] = nodes[-1].replace("position = Vector2(0, 0)\n", "")
 inst("HUD", "res://scenes/ui/hud.tscn", 0, 0); nodes[-1] = nodes[-1].replace("position = Vector2(0, 0)\n", "")
 

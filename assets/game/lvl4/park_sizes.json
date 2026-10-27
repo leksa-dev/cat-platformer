@@ -1,0 +1,381 @@
+{
+"sizes": {
+"long_a": [
+382,
+143
+],
+"long_b": [
+256,
+141
+],
+"float_a": [
+176,
+162
+],
+"float_b": [
+158,
+155
+],
+"float_c": [
+259,
+156
+],
+"float_s": [
+127,
+114
+],
+"float_d": [
+147,
+161
+],
+"slope_a": [
+350,
+190
+],
+"slope_b": [
+402,
+193
+],
+"slope_c": [
+225,
+160
+],
+"stairs_a": [
+194,
+160
+],
+"stairs_b": [
+202,
+175
+],
+"block_a": [
+139,
+140
+],
+"block_s": [
+90,
+104
+],
+"arch_bridge": [
+456,
+162
+],
+"arch_s": [
+248,
+140
+],
+"fence_block": [
+309,
+140
+],
+"wood_fence_block": [
+274,
+135
+],
+"bench_block": [
+316,
+153
+],
+"corner": [
+240,
+202
+],
+"t_block": [
+134,
+166
+],
+"pillar_a": [
+95,
+163
+],
+"ledge_a": [
+209,
+170
+],
+"pillar_b": [
+95,
+151
+],
+"pillar_c": [
+72,
+130
+],
+"pillar_d": [
+86,
+144
+],
+"wedge_a": [
+133,
+155
+],
+"wedge_b": [
+135,
+163
+],
+"pillar_e": [
+94,
+162
+],
+"lamp": [
+95,
+259
+],
+"tiny_a": [
+68,
+57
+],
+"tiny_b": [
+82,
+52
+],
+"tiny_c": [
+92,
+100
+],
+"tiny_d": [
+54,
+71
+],
+"tiny_e": [
+77,
+67
+],
+"tiny_f": [
+105,
+101
+],
+"wood_bridge": [
+405,
+106
+],
+"wood_bridge_b": [
+476,
+104
+],
+"villa_mira": [
+380,
+375
+],
+"villa_julia": [
+376,
+375
+],
+"house_brick": [
+307,
+243
+],
+"stairs_gate": [
+382,
+265
+],
+"playground_tower": [
+268,
+264
+],
+"playhouse": [
+205,
+170
+],
+"rocker": [
+87,
+87
+],
+"tree_a": [
+191,
+278
+],
+"lamp_a": [
+53,
+144
+],
+"lamp_b": [
+30,
+153
+],
+"lamp_c": [
+48,
+153
+],
+"lamp_d": [
+62,
+153
+],
+"bench_a": [
+172,
+67
+],
+"bench_b": [
+134,
+54
+],
+"bin": [
+53,
+69
+],
+"fence_wood": [
+153,
+53
+],
+"fence_iron": [
+157,
+54
+],
+"gate_pillars": [
+160,
+123
+],
+"gate_iron": [
+103,
+159
+],
+"stone_mound": [
+159,
+127
+],
+"pillar_stone": [
+61,
+137
+],
+"ruin": [
+122,
+122
+],
+"boulder": [
+83,
+121
+],
+"bollard": [
+66,
+137
+],
+"tree_b": [
+145,
+148
+],
+"tree_pink": [
+200,
+139
+],
+"spruce_a": [
+116,
+182
+],
+"spruce_b": [
+93,
+159
+],
+"bush_a": [
+147,
+111
+],
+"bush_b": [
+123,
+110
+],
+"bush_flower": [
+128,
+113
+],
+"bush_c": [
+87,
+53
+],
+"bush_d": [
+149,
+117
+],
+"bush_e": [
+78,
+115
+],
+"bush_yellow": [
+104,
+89
+],
+"bush_f": [
+98,
+63
+],
+"logs": [
+150,
+93
+]
+},
+"surface": {
+"long_a": 16.7,
+"long_b": 13.0,
+"float_a": 12.0,
+"float_b": 5.7,
+"float_c": 12.7,
+"float_s": 5.3,
+"float_d": 6.0,
+"slope_a": 24.3,
+"slope_b": 28.0,
+"slope_c": 21.3,
+"stairs_a": 29.3,
+"stairs_b": 23.0,
+"block_a": 5.0,
+"block_s": 7.3,
+"arch_bridge": 13.0,
+"arch_s": 4.7,
+"fence_block": 15.3,
+"wood_fence_block": 14.7,
+"bench_block": 20.7,
+"corner": 8.3,
+"t_block": 7.3,
+"pillar_a": 4.7,
+"ledge_a": 10.7,
+"pillar_b": 3.3,
+"pillar_c": 6.0,
+"pillar_d": 4.3,
+"wedge_a": 7.3,
+"wedge_b": 5.3,
+"pillar_e": 3.3,
+"lamp": 0,
+"tiny_a": 2.3,
+"tiny_b": 1.3,
+"tiny_c": 8.0,
+"tiny_d": 2.3,
+"tiny_e": 1.7,
+"tiny_f": 6.3,
+"wood_bridge": 7.0,
+"wood_bridge_b": 10.3,
+"villa_mira": 39.0,
+"villa_julia": 41.3,
+"house_brick": 20.7,
+"stairs_gate": 56.3,
+"playground_tower": 60.0,
+"playhouse": 22.0,
+"rocker": 8.3,
+"tree_a": 11.0,
+"lamp_a": 0,
+"lamp_b": 41.0,
+"lamp_c": 0,
+"lamp_d": 0,
+"bench_a": 9.3,
+"bench_b": 0.3,
+"bin": 1.3,
+"fence_wood": 0,
+"fence_iron": 0,
+"gate_pillars": 0,
+"gate_iron": 13.3,
+"stone_mound": 4.3,
+"pillar_stone": 0.7,
+"ruin": 4.7,
+"boulder": 2.7,
+"bollard": 6.7,
+"tree_b": 8.0,
+"tree_pink": 6.3,
+"spruce_a": 27.7,
+"spruce_b": 18.0,
+"bush_a": 6.0,
+"bush_b": 6.3,
+"bush_flower": 6.3,
+"bush_c": 2.7,
+"bush_d": 4.3,
+"bush_e": 3.7,
+"bush_yellow": 4.0,
+"bush_f": 3.0,
+"logs": 12.0
+}
+}
