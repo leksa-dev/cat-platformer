@@ -494,6 +494,7 @@ func _throw_yarn() -> void:
 	# half the cat's own speed on top, so a running or jumping cat doesn't overtake its ball
 	ball.velocity = Vector2(visual.scale.x * throw_velocity.x + velocity.x * 0.5, throw_velocity.y)
 	ball.hit.connect(hit.emit)
+	ball.add_collision_exception_with(self)  # it starts at the cat's side: a cat moving the same way would be its "floor"
 	get_parent().add_child(ball)
 	ball.global_position = global_position + Vector2(visual.scale.x * 8, -10)
 
