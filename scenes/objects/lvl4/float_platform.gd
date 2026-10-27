@@ -11,6 +11,10 @@ extends StaticBody2D
 	set(value):
 		surface = value
 		_build()
+@export var count := 1:  # the block repeated side by side, for longer platforms (footbridge deck, long ledges)
+	set(value):
+		count = maxi(value, 1)
+		_build()
 
 
 func _ready() -> void:
@@ -22,13 +26,15 @@ func _build() -> void:
 		return
 	for c in get_children():
 		c.free()
-	var w := texture.get_width() / 3.0
-	var sprite := Sprite2D.new()
-	sprite.texture = texture
-	sprite.centered = false
-	sprite.scale = Vector2.ONE / 3
-	sprite.position = Vector2(-w / 2, -surface)
-	add_child(sprite)
+	var piece := texture.get_width() / 3.0
+	var w := piece * count
+	for i in count:
+		var sprite := Sprite2D.new()
+		sprite.texture = texture
+		sprite.centered = false
+		sprite.scale = Vector2.ONE / 3
+		sprite.position = Vector2(-w / 2 + i * piece, -surface)
+		add_child(sprite)
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(w - 4, 6)
 	var shape := CollisionShape2D.new()

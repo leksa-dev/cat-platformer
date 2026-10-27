@@ -25,12 +25,14 @@ func _initialize():
 	fill(autumn, 39, 40, 15); fill(autumn, 41, 42, 16); fill(autumn, 43, 43, 15); fill(autumn, 44, 47, 14)
 	fill(autumn, 48, 48, 16); fill(autumn, 49, 53, 17); fill(autumn, 54, 54, 16); fill(autumn, 55, 57, 14)
 	fill(autumn, 58, 58, 12); fill(autumn, 59, 63, 10)   # up to the viewpoint
-	# everything after the Kopiec, shifted right by S tiles
-	const S := 21
-	# footbridge, sign gantry, road + railway below
-	fill(stone, 43 + S, 70 + S, 12, 12)             # footbridge deck
-	fill(stone, 74 + S, 81 + S, 13, 13)             # sign gantry
-	fill(stone, 43 + S, 83 + S, 20)                 # road and tracks
+	# 2. footbridge over the road (from kladkaParkowa/platforms.png): verges, road under everything, right bank up to Parkowa
+	const B := 64
+	fill(stone, B, B + 63, 20)                      # road
+	fill(grass, B, B + 5, 16); fill(grass, B + 6, B + 8, 17); fill(grass, B + 13, B + 19, 16); fill(grass, B + 20, B + 21, 17)
+	fill(grass, B + 46, B + 46, 18); fill(grass, B + 47, B + 48, 17); fill(grass, B + 49, B + 54, 16); fill(grass, B + 55, B + 60, 17)
+	fill(grass, B + 61, B + 61, 15); fill(grass, B + 62, B + 63, 13)
+	# everything after the footbridge (old greybox columns), shifted right by S tiles
+	const S := 44
 	# 2. ul. Parkowa
 	fill(stone, 84 + S, 116 + S, 12)
 	fill(stone, 92 + S, 93 + S, 11, 11)             # bench

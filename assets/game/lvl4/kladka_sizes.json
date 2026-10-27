@@ -1,0 +1,235 @@
+{
+"sizes": {
+"bridge_start": [
+592,
+229
+],
+"bridge_sign": [
+217,
+219
+],
+"deck_booth": [
+178,
+113
+],
+"bridge_pillar": [
+204,
+225
+],
+"deck_lamp": [
+223,
+160
+],
+"bridge_lamp_pillar": [
+242,
+299
+],
+"bridge_stairs": [
+460,
+272
+],
+"bridge_short": [
+276,
+159
+],
+"pillar_a": [
+117,
+133
+],
+"pillar_b": [
+94,
+137
+],
+"pillar_s1": [
+39,
+99
+],
+"pillar_s2": [
+44,
+102
+],
+"mural": [
+425,
+107
+],
+"mural_b": [
+106,
+94
+],
+"mural_s": [
+54,
+67
+],
+"slope": [
+259,
+152
+],
+"grass_a": [
+117,
+93
+],
+"grass_b": [
+121,
+77
+],
+"grass_slope": [
+101,
+89
+],
+"grass_c": [
+114,
+66
+],
+"grass_d": [
+118,
+66
+],
+"rail_a": [
+145,
+38
+],
+"road": [
+558,
+38
+],
+"rail_s": [
+115,
+31
+],
+"rail_b": [
+119,
+36
+],
+"rail_c": [
+247,
+38
+],
+"gantry": [
+378,
+120
+],
+"lamp_double": [
+50,
+266
+],
+"lamp_a": [
+32,
+207
+],
+"lamp_b": [
+41,
+220
+],
+"lamp_c": [
+19,
+156
+],
+"portal": [
+266,
+229
+],
+"catenary": [
+231,
+302
+],
+"mast_a": [
+55,
+197
+],
+"mast_b": [
+55,
+235
+],
+"mast_c": [
+62,
+201
+],
+"mast_d": [
+78,
+194
+],
+"signal": [
+36,
+111
+],
+"tree_a": [
+151,
+201
+],
+"tree_b": [
+159,
+189
+],
+"tree_c": [
+139,
+147
+],
+"tree_d": [
+108,
+143
+],
+"tree_e": [
+141,
+134
+],
+"bush_a": [
+101,
+107
+],
+"bush_b": [
+96,
+97
+],
+"bush_c": [
+89,
+92
+],
+"grass_tall": [
+123,
+108
+],
+"tuft_a": [
+96,
+61
+],
+"tuft_b": [
+85,
+51
+],
+"tuft_c": [
+98,
+69
+],
+"cabinet_a": [
+43,
+59
+],
+"cabinet_b": [
+44,
+48
+],
+"fence": [
+130,
+54
+],
+"post": [
+25,
+61
+]
+},
+"surface": {
+"bridge_start": 25.7,
+"bridge_sign": 22.0,
+"deck_booth": 5.7,
+"bridge_pillar": 4.0,
+"deck_lamp": 24.0,
+"bridge_lamp_pillar": 23.7,
+"bridge_stairs": null,
+"bridge_short": 0.7,
+"grass_a": 3.0,
+"grass_b": 2.7,
+"grass_c": 2.3,
+"grass_d": 2.7,
+"slope": 28.3
+}
+}
