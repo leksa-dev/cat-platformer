@@ -57,6 +57,7 @@ func _ai(delta: float) -> void:
 		CLIMB:
 			play("hang")
 			velocity = Vector2(0, -climb_speed)
-			if global_position.y <= home.y:
+			# back at the anchor; it hangs right under the ceiling, which can stop it a hair short of home.y
+			if global_position.y <= home.y + 1 or is_on_ceiling():
 				global_position.y = home.y
 				_state = WAIT
