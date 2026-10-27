@@ -31,8 +31,10 @@ func _initialize():
 	fill(grass, B, B + 5, 16); fill(grass, B + 6, B + 8, 17); fill(grass, B + 13, B + 19, 16); fill(grass, B + 20, B + 21, 17)
 	fill(grass, B + 46, B + 46, 18); fill(grass, B + 47, B + 48, 17); fill(grass, B + 49, B + 54, 16); fill(grass, B + 55, B + 60, 17)
 	fill(grass, B + 61, B + 61, 15); fill(grass, B + 62, B + 63, 13)
-	# everything after the footbridge (old greybox columns), shifted right by S tiles
-	const S := 44
+	# 3. Fort 31: flat ground, the walls are brick blocks placed by the builder
+	fill(grass, 128, 191, 17)
+	# everything after the fort (old greybox columns), shifted right by S tiles
+	const S := 108
 	# 2. ul. Parkowa
 	fill(stone, 84 + S, 116 + S, 12)
 	fill(stone, 92 + S, 93 + S, 11, 11)             # bench

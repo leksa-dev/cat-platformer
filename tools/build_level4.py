@@ -61,6 +61,19 @@ def pillar(name, x, top, h):
 def pole(x, top, h):
     inst(uid("Pole"), "res://scenes/objects/lvl4/pole.tscn", round(x * T + T / 2), ty(top), [f"height_tiles = {h}"])
 
+FJ = __import__("json").load(open("assets/game/lvl4/fort_sizes.json"))
+def fdeco(img, x, row, parent="DecorBack"):
+    w, h = FJ["sizes"][img]
+    node(uid(img + "_"), parent, "Sprite2D", props=[pos(round(x * T + T / 2), ty(row) + 2), f'texture = ExtResource("{R(f"res://assets/game/lvl4/fort/{img}.png", "Texture2D")}")',
+        "centered = false", f"offset = Vector2({-(w // 2)}, {-h})", "scale = Vector2(0.333333, 0.333333)"])
+def fplat(name, img, x, row, n=1):
+    inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round(x * T + T / 2), round(ty(row)), [f'texture = ExtResource("{R(f"res://assets/game/lvl4/fort/{img}.png", "Texture2D")}")',
+        f"surface = {FJ['surface'][img]}", f"count = {n}"])
+def fwall(x0, x1, top, bot):  # solid brick block from column x0 to x1, rows top..bot
+    inst(uid("FortWall"), "res://scenes/objects/lvl4/pillar.tscn", round((x0 + x1) / 2 * T), ty(top), [
+        f'texture = ExtResource("{R("res://assets/game/lvl4/fort/brick_fill.png", "Texture2D")}")', f"height_tiles = {bot - top}",
+        f"width_tiles = {x1 - x0}", f'cap = ExtResource("{R("res://assets/game/lvl4/fort/ledge_grass.png", "Texture2D")}")'])
+
 # ---------------- background: sunset sky over Kraków, behind the whole level ----------------
 node("Background", typ="CanvasLayer", props=["layer = -1"])
 node("Sky", "Background", "Sprite2D", props=["texture_repeat = 2", f'texture = ExtResource("{R("res://assets/game/lvl4/sky_city.png", "Texture2D")}")',
@@ -122,8 +135,41 @@ inst("Crow6", "res://scenes/enemies/crow/crow.tscn", tx(B + 48), ty(3))
 inst("DogK3", "res://scenes/enemies/dog/dog.tscn", tx(B + 52), ty(16), ["patrol_radius = 32.0"])
 inst("CheckpointK", "res://scenes/objects/checkpoint.tscn", tx(B + 57), ty(17))
 
+# ---------------- 3. Fort 31 "Benedykt" (layout from assets/lvl4/fort31/platforms.png) ----------------
+# local column c of the mockup is global column F + c; ground at row 17, walls are solid brick blocks with a grass-ledge cap
+F = 128
+node("FortBg", "WorldBack", "Sprite2D", props=[f'texture = ExtResource("{R("res://assets/game/lvl4/fort/bg.png", "Texture2D")}")',
+     "centered = false", pos(F * T, round(-KL_PAD * KL_BG_SCALE)), f"scale = Vector2({KL_BG_SCALE}, {KL_BG_SCALE})"])
+for img, x, row in [("tree_big", 0.5, 15), ("bush", 11, 17), ("tree_s1", 22, 17), ("bush_s", 31, 13), ("tree_s2", 41, 17),
+                    ("ruin_c", 47, 17), ("bush", 53, 17), ("tree_s1", 57.5, 17), ("tree_big", 63.5, 17), ("crate", 4.5, 9)]:
+    fdeco(img, F + x, row)
+for x0, x1, top, bot in [(1, 7, 15, 17), (3.5, 5.5, 9, 12), (7, 8.5, 9, 11), (10.5, 12, 11, 17), (12, 14, 12, 17), (14, 16, 13, 15),
+                         (18, 20, 13, 17), (20, 22, 15, 17),
+                         (23, 28.5, 12, 14), (26.5, 28, 11, 12), (23, 24, 14, 17), (27.5, 28.5, 14, 17), (28.5, 30.5, 12, 14), (29.5, 30.5, 14, 17),
+                         (29, 30.5, 8, 9),
+                         (33.5, 36, 11, 13), (42.5, 46.5, 11, 13), (43.5, 46, 7, 9),
+                         (50, 51.5, 5, 8), (49.5, 53, 8, 9), (48.5, 50.5, 10, 12), (56.5, 58.5, 8, 9), (57.5, 58.5, 9, 11), (58.5, 61, 11, 12),
+                         (54, 56.8, 14, 17), (59, 62.5, 14, 17)]:
+    fwall(F + x0, F + x1, top, bot)
+for name, img, x, row, n in [("FB1", "grass_s", 7.75, 11, 1), ("FB2", "rail_wood", 9.6, 12, 1), ("FB3", "rail_wood", 17, 13.6, 1),
+                             ("FB4", "grass_block", 16.5, 10.6, 1), ("FB5", "grass_s", 18.2, 9.7, 1), ("FB6", "grass_s", 20.3, 9.7, 1),
+                             ("FB7", "grass_s", 23.5, 7.8, 2), ("FB8", "grass_block", 27, 6.9, 2), ("FB9", "rail_wood", 29.3, 7, 1),
+                             ("FB10", "ledge_stone", 33.5, 13, 1), ("FB11", "crate", 32.3, 12, 1), ("FB12", "crate", 33.2, 12, 1),
+                             ("FB13", "grass_s", 34, 7.7, 1), ("FB14", "grass_s", 37.2, 8, 1), ("FB15", "crate", 36.5, 12, 1),
+                             ("FB16", "ledge_grass", 39.5, 12.5, 1), ("FB17", "rail_wood", 48, 12, 1), ("FB18", "rail_wood", 48.4, 7.2, 2),
+                             ("FB19", "ledge_stone", 52.5, 11, 1), ("FB20", "rail_wood", 55, 9, 2), ("FB21", "crate", 55.5, 8.1, 1)]:
+    fplat(name, img, F + x, row, n)
+ladder(F + 3, 9, 6); ladder(F + 52.5, 8, 3); ladder(F + 54.5, 11, 3)
+for x0, w, row in [(14.2, 1, 13), (25, 1, 12), (20.2, 1, 15), (59.2, 1, 11)]:
+    inst(uid("Spikes"), "res://scenes/hazards/spikes.tscn", round((F + x0) * T), ty(row), [f"width_tiles = {w}"])
+inst("DogF1", "res://scenes/enemies/dog/dog.tscn", tx(F + 39), ty(17), ["patrol_radius = 40.0"])
+inst("Crow7", "res://scenes/enemies/crow/crow.tscn", tx(F + 22), ty(5))
+inst("Bat2", "res://scenes/enemies/bat/bat.tscn", tx(F + 47), ty(4), ["zone = Vector2(160, 112)"])
+inst("CheckpointF", "res://scenes/objects/checkpoint.tscn", tx(F + 2), ty(15))
+hint(F + 4, 15, "Fort 31! Wespnij się po drabinie i przejdź górą po murach.")
+
 # everything after the footbridge (old greybox columns), shifted right by S tiles
-S = 44
+S = 108
 # ---------------- 2. ul. Parkowa + stadium ----------------
 inst("Dog1", "res://scenes/enemies/dog/dog.tscn", tx(104 + S), ty(12), ["patrol_radius = 24.0"])   # on a lead
 inst("Checkpoint2", "res://scenes/objects/checkpoint.tscn", tx(114 + S), ty(12))
