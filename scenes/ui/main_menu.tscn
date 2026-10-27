@@ -20,31 +20,31 @@ texture = ExtResource("2_bg")
 
 [node name="Plank" type="TextureRect" parent="."]
 expand_mode = 1
-offset_left = 129.0
-offset_top = 44.0
-offset_right = 277.0
-offset_bottom = 82.0
+offset_left = 127.0
+offset_top = 50.7
+offset_right = 234.7
+offset_bottom = 83.4
 texture = ExtResource("4_plank")
 
 [node name="Item0" type="Label" parent="."]
-offset_left = 148
-offset_top = 53
-offset_right = 268
-offset_bottom = 69
+offset_left = 134
+offset_top = 59
+offset_right = 227
+offset_bottom = 75
 horizontal_alignment = 1
 
 [node name="Item1" type="Label" parent="."]
-offset_left = 148
-offset_top = 89
-offset_right = 268
-offset_bottom = 105
+offset_left = 135
+offset_top = 88
+offset_right = 226
+offset_bottom = 104
 horizontal_alignment = 1
 
 [node name="Item2" type="Label" parent="."]
-offset_left = 148
-offset_top = 126
-offset_right = 268
-offset_bottom = 142
+offset_left = 136
+offset_top = 113
+offset_right = 226
+offset_bottom = 129
 horizontal_alignment = 1
 
 [node name="Arrow" type="TextureRect" parent="."]

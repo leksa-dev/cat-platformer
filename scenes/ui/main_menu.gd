@@ -45,11 +45,13 @@ func _set_items(texts: Array) -> void:
 			items.append(labels[i])
 
 
-func _on_select(index: int) -> void:
-	# the orange plank follows the selection; golden text is unreadable on it, use dark wood colour there
-	$Plank.position.y = items[index].position.y - 9
+const PLANK_Y := [50.7, 79.7, 106.3]  # the glow ring's top for each plank pair of the signpost (title_screen.png)
+
+
+func _on_select(index: int) -> void:  # the glow ring moves around the chosen pair of planks
+	$Plank.position.y = PLANK_Y[index]
 	for i in items.size():
-		items[i].modulate = Color(0.3, 0.15, 0.04) if i == index else Color.WHITE
+		items[i].modulate = Color(1.15, 1.1, 0.9) if i == index else Color(0.8, 0.72, 0.6)
 
 
 func _process(delta: float) -> void:
