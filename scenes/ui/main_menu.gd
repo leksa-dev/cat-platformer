@@ -7,6 +7,7 @@ const BUSES := ["Music", "SFX"]
 
 func _ready() -> void:
 	chosen.connect(_on_chosen)
+	Game.device_changed.connect(_back_hint)
 	Game.play_music("forest")
 	_show_main()
 
@@ -14,9 +15,13 @@ func _ready() -> void:
 func _show_page(page: String, texts: Array, index := 0) -> void:  # sub-pages reuse the 3 planks; back is Esc / ○ (hint under the sign)
 	_page = page
 	_set_items(texts)
-	$BackHint.text = tr("Esc - wróć")
+	_back_hint()
 	$BackHint.visible = page != "main"
 	select(index)
+
+
+func _back_hint() -> void:  # keyboard or pad key names, whichever was used last
+	$BackHint.text = Game.keys(tr("Esc - wróć"))
 
 
 func _show_main(index := 0) -> void:

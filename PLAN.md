@@ -9,12 +9,13 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 |---|---|---|
 | Ruch / wspinanie / pływanie | A D W S / strzałki | lewa gałka / krzyżak |
 | Skok, potwierdzenie | Spacja | ✕ |
-| Dash | Shift | ○ / R1 |
+| Dash | Shift | ○ |
 | Drapanie (trzymaj) | J / X | □ |
 | Atak pierdem | K / C | △ |
-| Rzut włóczką | L / V | L1 |
+| Rzut włóczką | L / V | R1 |
 | Pełny ekran | F / F11 (albo Opcje) | — |
 | Pauza | Esc / P | Options |
+| (podpowiedzi pokazują klawisze tego, czym grasz ostatnio: klawiatury albo pada) | | |
 | Menu: wybór / wstecz | Spacja, Enter / Backspace, Esc | ✕ / ○ |
 | Menu DEV | F1 (albo Pauza → OPCJE → DEV) | — |
 

@@ -35,7 +35,7 @@ var _hint_tween: Tween
 
 
 func _on_hint(text: String) -> void:
-	$HintBox/Text.text = tr(text)
+	$HintBox/Text.text = Game.keys(tr(text))
 	if _hint_tween:
 		_hint_tween.kill()
 	_hint_tween = create_tween()
@@ -67,6 +67,7 @@ func _on_hp_changed(hp: int, max_hp: int) -> void:
 
 
 func _on_level_done(stats: Dictionary) -> void:
+	$Summary/Panel/Hint.text = Game.keys(tr("Spacja / ✕ - dalej"))
 	$Summary/Panel/Title.text = tr("POZIOM %d") % (stats.level + 1)
 	$Summary/Panel/Row0/Count.text = "%d/%d" % [stats.coins, Game.COINS_PER_LEVEL]
 	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.LIVES_PER_LEVEL]
@@ -89,6 +90,6 @@ func _on_message(text: String) -> void:  # "title\nhint"; empty hides
 	refresh_hearts()  # game over never reloads the level, so hearts must update here
 	var lines := text.split("\n")
 	$Message/Title.text = lines[0]
-	$Message/Hint.text = lines[1] if lines.size() > 1 else ""
+	$Message/Hint.text = Game.keys(lines[1]) if lines.size() > 1 else ""
 	$Message/Title.modulate = Color(1, 0.35, 0.3) if lines[0] == "GAME OVER" else Color.WHITE
 	$Message.visible = text != ""

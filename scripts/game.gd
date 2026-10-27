@@ -5,6 +5,7 @@ signal hp_changed(hp: int, max_hp: int)  # cat health bar
 signal hint(text: String)  # tip in the dialog box at the bottom, fades on its own
 signal pickups_changed  # coin collected or life gained: the HUD redraws its counters
 signal level_done(stats: Dictionary)  # end-of-level board: counts and grade
+signal device_changed  # the player switched between keyboard and pad: on-screen key names change
 
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
@@ -34,6 +35,13 @@ var _players: Array[AudioStreamPlayer] = []
 var _music := AudioStreamPlayer.new()
 var _music_track := ""
 var level_index := 0
+var pad := false  # last input came from a gamepad: texts name pad buttons instead of keys
+# key names in the (translated) texts -> [keyboard, pad]; the font has ✕ but no ○ or arrows
+const KEY_NAMES := {
+	"pl": [["Spacja / ✕", "Spacja", "✕"], ["Esc - ", "Esc - ", "O - "], ["wciśnij W", "wciśnij W", "wychyl gałkę w górę"], ["W w górę, S w dół", "W w górę, S w dół", "gałka w górę i w dół"]],
+	"en": [["Space / ✕", "Space", "✕"], ["Esc - ", "Esc - ", "O - "], ["Press W", "Press W", "Push the stick up"], ["W up, S down", "W up, S down", "stick up and down"]],
+	"es": [["Espacio / ✕", "Espacio", "✕"], ["Esc - ", "Esc - ", "O - "], ["Pulsa W", "Pulsa W", "Empuja el stick arriba"], ["W sube, S baja", "W sube, S baja", "stick arriba y abajo"]],
+}
 var _on_confirm := Callable()  # set while a message is shown; Space runs it
 
 
@@ -63,14 +71,32 @@ func _ready() -> void:
 	_bind("up", [KEY_W, KEY_UP], [JOY_BUTTON_DPAD_UP], JOY_AXIS_LEFT_Y, -1.0)
 	_bind("down", [KEY_S, KEY_DOWN], [JOY_BUTTON_DPAD_DOWN], JOY_AXIS_LEFT_Y, 1.0)
 	_bind("jump", [KEY_SPACE], [JOY_BUTTON_A])
-	_bind("dash", [KEY_SHIFT], [JOY_BUTTON_B, JOY_BUTTON_RIGHT_SHOULDER])
+	_bind("dash", [KEY_SHIFT], [JOY_BUTTON_B])
 	_bind("attack", [KEY_J, KEY_X], [JOY_BUTTON_X])
 	_bind("fart", [KEY_K, KEY_C], [JOY_BUTTON_Y])  # Y = Triangle
-	_bind("throw", [KEY_L, KEY_V], [JOY_BUTTON_LEFT_SHOULDER])  # yarn ball
+	_bind("throw", [KEY_L, KEY_V], [JOY_BUTTON_RIGHT_SHOULDER])  # yarn ball: R1
 	_bind("fullscreen", [KEY_F, KEY_F11])
 	_bind("pause", [KEY_ESCAPE, KEY_P], [JOY_BUTTON_START])  # Start = Options on a DualShock
 	_bind("dev", [KEY_F1])
 	_bind("back", [KEY_BACKSPACE], [JOY_BUTTON_B])  # menus only: B = Circle (in game Circle is dash)
+
+
+func _input(event: InputEvent) -> void:
+	var now := pad
+	if event is InputEventKey or event is InputEventMouseButton:
+		now = false
+	elif event is InputEventJoypadButton or (event is InputEventJoypadMotion and absf(event.axis_value) > 0.5):
+		now = true
+	if now != pad:
+		pad = now
+		device_changed.emit()
+
+
+# a translated text with the key names of the device in use ("Spacja / ✕" -> "Spacja" or "✕")
+func keys(text: String) -> String:
+	for k in KEY_NAMES[language()]:
+		text = text.replace(k[0], k[2] if pad else k[1])
+	return text
 
 
 func _process(_delta: float) -> void:
