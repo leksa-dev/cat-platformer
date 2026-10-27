@@ -27,6 +27,7 @@ Platformówka 2D z pomarańczowym kotem. Wrogowie mają różne sposoby poruszan
 |---|---:|---|
 | Drapanie | 1 za machnięcie | wróg po trafieniu jest nietykalny 0,4 s, więc seria nie zabija od razu |
 | Pierd | 2 | + ogłuszenie wroga na 1 s |
+| Kłębek włóczki | 1 | + zaplątanie (ogłuszenie) na 2 s; rzucany z dystansu |
 | Skok na głowę | 3 | tylko **szczur i żabol**; kot odbija się w górę |
 
 ## Wspólne zasady AI

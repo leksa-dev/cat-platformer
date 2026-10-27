@@ -66,6 +66,7 @@ func _ready() -> void:
 	_bind("dash", [KEY_SHIFT], [JOY_BUTTON_B, JOY_BUTTON_RIGHT_SHOULDER])
 	_bind("attack", [KEY_J, KEY_X], [JOY_BUTTON_X])
 	_bind("fart", [KEY_K, KEY_C], [JOY_BUTTON_Y])  # Y = Triangle
+	_bind("throw", [KEY_L, KEY_V], [JOY_BUTTON_LEFT_SHOULDER])  # yarn ball
 	_bind("fullscreen", [KEY_F, KEY_F11])
 	_bind("pause", [KEY_ESCAPE, KEY_P], [JOY_BUTTON_START])  # Start = Options on a DualShock
 	_bind("dev", [KEY_F1])

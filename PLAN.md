@@ -12,6 +12,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 | Dash | Shift | ○ / R1 |
 | Drapanie (trzymaj) | J / X | □ |
 | Atak pierdem | K / C | △ |
+| Rzut włóczką | L / V | L1 |
 | Pełny ekran | F / F11 (albo Opcje) | — |
 | Pauza | Esc / P | Options |
 | Menu: wybór / wstecz | Spacja, Enter / Backspace, Esc | ✕ / ○ |
@@ -27,6 +28,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - [x] **6. Kocimiętka** — 4 s szybszego biegu i wyższego skoku
 - [x] **7. Wściekłe drapanie** — seria machnięć, sygnał `hit` gotowy pod wrogów
 - [x] **Extra: atak pierdem** — kot odwraca się tyłem do celu, chmura leci w stronę celu
+- [x] **Extra: rzut włóczką** — kłębek leci niskim łukiem, odbija się od ziemi, trafiony wróg traci 1 HP i jest zaplątany (ogłuszony 2 s); potem kłębek leży chwilę i znika
 - [x] **Extra: grafika** — kafelki, kot, tło, drzewa, pnącze, dekoracje wycięte z podglądów; mur z nieregularnych kamieni
 - [x] **Extra: DualShock 4**
 - [x] **Extra: woda** — kot pływa wolniej, Spacja/✕ = ruch pływacki, wyskok na brzeg

@@ -27,6 +27,7 @@ signal hit(body: Node2D)  # a scratch connected; nothing listens until enemies e
 @export var scratch_interval := 0.12  # holding attack = one swipe per interval
 @export var scratch_lunge := 40.0
 @export var fart_cloud_speed := 70.0
+@export var throw_velocity := Vector2(160, -60)  # yarn ball, x toward the facing side: a low arc at enemy height
 @export var max_hp := 6
 @export var hurt_invuln_time := 1.0
 @export var hurt_knockback := Vector2(120, -150)
@@ -57,6 +58,8 @@ var _scratch_cd := 0.0
 var _shake := 0.0
 var _fart_time := -1.0  # seconds into the fart attack, < 0 when not farting
 var _farted := false  # cloud already released this attack
+var _throw_time := -1.0  # seconds into the yarn throw, < 0 when not throwing
+var _thrown := false  # ball already released this throw
 var _in_water := false
 var hp := 0
 var fall_speed := 0.0  # vertical speed before the last move (landing zeroes velocity; enemies need it for stomps)
@@ -101,8 +104,12 @@ const DIE_TIME := 1.0  # death animation before the life is lost
 const FART_SEQ := [[46, 2, false], [47, 3, false], [48, 3, false], [49, 4, false], [50, 6, true], [51, 3, false], [52, 3, false]]
 const FART_RELEASE := 9  # 1/30 s ticks in: the squint frame, when the cloud comes out
 const FART_CLOUD := preload("res://scenes/objects/fart_cloud.tscn")
+const YARN_BALL := preload("res://scenes/objects/yarn_ball.tscn")
+const THROW := 119  # 8 frames: ready, grab the ball, wind up x2, throw (ball leaves at frame 5), follow-through, recover
+const THROW_RELEASE := 5
+const THROW_FPS := 20.0
 # sprite sheets: [texture, frames, sprite y so the feet stay on the ground]
-const SHEET_CAT := [preload("res://assets/game/cat.png"), 119, -70.0 / 6]
+const SHEET_CAT := [preload("res://assets/game/cat.png"), 127, -70.0 / 6]
 const SHEET_SURF := [preload("res://assets/game/beach/cat_surf.png"), 6, -8.0]  # idle, get on, surf 1-2, jump, land
 const SHEET_DRINK := [preload("res://assets/game/beach/cat_drink.png"), 6, -40.0 / 6]  # stand, coconut, sip x2, put down, happy (healed)
 const DRINK_FPS := 6.0
@@ -134,6 +141,7 @@ func take_damage(amount: int, from: Vector2) -> void:
 	_hurt_invuln = hurt_invuln_time
 	_climbing = false
 	_fart_time = -1.0
+	_throw_time = -1.0
 	_dash_left = minf(_dash_left, 0.0)
 	velocity = Vector2(signf(global_position.x - from.x) * hurt_knockback.x, hurt_knockback.y)
 	_lock = 0.25  # knocked back: no steering for a moment
@@ -162,6 +170,7 @@ func _die() -> void:  # the death animation plays, then the life goes
 	_die_time = 0.0
 	_climbing = false
 	_fart_time = -1.0
+	_throw_time = -1.0
 	_drink_time = -1.0
 	_set_sheet(SHEET_CAT)
 
@@ -185,6 +194,7 @@ func drink() -> void:  # at the beach bar: sit, drink, full HP
 	Game.sfx("drink", 0.0)
 	_climbing = false
 	_fart_time = -1.0
+	_throw_time = -1.0
 	_set_sheet(SHEET_DRINK)
 
 
@@ -326,8 +336,8 @@ func _physics_process(delta: float) -> void:
 	if on_wall and velocity.y > 0:
 		velocity.y = minf(velocity.y, wall_slide_speed)
 
-	if _fart_time >= 0:
-		pass  # committed to the fart: no jumping
+	if _fart_time >= 0 or _throw_time >= 0:
+		pass  # committed to the fart / throw: no jumping
 	elif _in_water and _buffer > 0:
 		velocity.y = swim_stroke
 		_buffer = 0
@@ -350,10 +360,13 @@ func _physics_process(delta: float) -> void:
 		_fart_time = 0.0
 		_farted = false
 		_fart_dir = visual.scale.x
+	if Input.is_action_just_pressed("throw") and _throw_time < 0 and _fart_time < 0 and is_on_floor():
+		_throw_time = 0.0
+		_thrown = false
 
 	_lock -= delta
 	if _lock <= 0:
-		var dir := Input.get_axis("left", "right") if _fart_time < 0 else 0.0
+		var dir := Input.get_axis("left", "right") if _fart_time < 0 and _throw_time < 0 else 0.0
 		if dir:
 			velocity.x = move_toward(velocity.x, dir * run_speed * _boost(catnip_speed_mult) * (water_speed_mult if _in_water else 1.0), acceleration * delta)
 			if signf(dir) != visual.scale.x and is_on_floor():
@@ -366,6 +379,8 @@ func _physics_process(delta: float) -> void:
 		_scratch()
 	if _fart_time >= 0:
 		_update_fart(delta)
+	if _throw_time >= 0:
+		_update_throw(delta)
 
 	fall_speed = velocity.y
 	move_and_slide()
@@ -380,6 +395,7 @@ func _surf(delta: float, wave: Area2D) -> void:
 		_surf_time = 0.0
 		_climbing = false
 		_fart_time = -1.0
+		_throw_time = -1.0
 		_set_sheet(SHEET_SURF)
 	_surf_time += delta
 	var surface := wave.global_position.y - 1  # 1 px above the shore's top edge, or the board snags on its corner
@@ -456,6 +472,21 @@ func _update_fart(delta: float) -> void:
 	_fart_time = -1.0  # sequence over
 
 
+func _update_throw(delta: float) -> void:
+	_throw_time += delta
+	var frame := int(_throw_time * THROW_FPS)
+	if not _thrown and frame >= THROW_RELEASE:
+		_thrown = true
+		Game.sfx("dash", 0.1, -4.0)
+		var ball := YARN_BALL.instantiate()
+		ball.velocity = Vector2(visual.scale.x * throw_velocity.x, throw_velocity.y)
+		ball.hit.connect(hit.emit)
+		get_parent().add_child(ball)
+		ball.global_position = global_position + Vector2(visual.scale.x * 8, -10)
+	if frame >= 8:
+		_throw_time = -1.0
+
+
 func _boost(mult: float) -> float:
 	return mult if _catnip_left > 0 else 1.0
 
@@ -526,6 +557,9 @@ func _animate(delta: float, sliding: bool) -> void:
 	_idle_time = _idle_time + delta if on_floor and absf(velocity.x) <= 5 and _fart_time < 0 else 0.0
 	if _fart_time >= 0:
 		return  # _update_fart drives the frames
+	if _throw_time >= 0:
+		sprite.frame = THROW + mini(int(_throw_time * THROW_FPS), 7)
+		return
 	if _hurt_time < 0.4:
 		_play("hurt")
 	elif _scratch_cd > -0.1:  # wind-up once, then swipes while the attack is held

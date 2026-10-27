@@ -1,0 +1,32 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/yarn_ball.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/yarn.png" id="2_t"]
+
+[sub_resource type="CircleShape2D" id="body"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="hit"]
+radius = 5.0
+
+[node name="YarnBall" type="CharacterBody2D"]
+z_index = 1
+collision_layer = 0
+script = ExtResource("1_s")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("2_t")
+hframes = 11
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("body")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("hit")
