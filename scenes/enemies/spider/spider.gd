@@ -8,6 +8,7 @@ extends "res://scenes/enemies/enemy.gd"
 @export var trigger_width := 20.0
 @export var bite_damage := 2
 @export var hold_time := 0.6
+@export var redrop_after := 0.4  # seconds of climbing before it can drop on the cat again
 
 enum { WAIT, DROP, HOLD, CLIMB }
 var _state := WAIT
@@ -54,9 +55,15 @@ func _ai(delta: float) -> void:
 			_timer -= delta
 			if _timer <= 0:
 				_state = CLIMB
+				_timer = 0.0
 		CLIMB:
 			play("hang")
 			velocity = Vector2(0, -climb_speed)
+			_timer += delta
+			var reach := home.y + max_drop - global_position.y  # thread left below it
+			if _timer > redrop_after and absf(d.x) < trigger_width and d.y > 0 and d.y < reach + 20:
+				_state = DROP  # the cat is underneath again: drop at once, no need to get home first
+				return
 			# back at the anchor; it hangs right under the ceiling, which can stop it a hair short of home.y
 			if global_position.y <= home.y + 1 or is_on_ceiling():
 				global_position.y = home.y
