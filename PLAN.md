@@ -63,6 +63,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
     - poziom 5 „Podgórze”: Rynek Podgórski z kościołem św. Józefa → Nadwiśle (bulwary) → kładka Bernatka (meta)
     - przeszkadzajki: rowerzyści i kukiryniarze (monocykle elektryczne) jeżdżą po ścieżce
     - nowi wrogowie: gołąb, kawka, pies na smyczy
+    - szkic: `docs/sketches/krakow_1-2.jpg`, `krakow_3-5.jpg` (5 odcinków: Kopiec, Parkowa, Dom na Parkowej/Park Bednarskiego, Rynek Podgórski, kładka Bernatka)
     - grafika generowana; najpierw szary poziom (gra się w prostych kafelkach), grafika na końcu
     - okolice dawnego getta (Plac Bohaterów Getta, mur na Lwowskiej) omijamy albo zostają spokojnym tłem, bez wrogów i żartów
 - [x] **Monety i 1up** — 10 monet na poziom w trudnych miejscach (licznik w HUD), 2 życia na poziom: jedno na trasie, jedno ukryte; zebrane zostają zebrane po utracie życia
