@@ -1,0 +1,38 @@
+@tool
+extends StaticBody2D
+# Floating grass block (art from the Kopiec sheet, drawn at 1/3): the node is the top-centre of the walkable grass;
+# `surface` is how far the grass tufts stick up above it. One-way, so the cat can jump up through it.
+
+@export var texture: Texture2D:
+	set(value):
+		texture = value
+		_build()
+@export var surface := 4.0:
+	set(value):
+		surface = value
+		_build()
+
+
+func _ready() -> void:
+	_build()
+
+
+func _build() -> void:
+	if not is_inside_tree() or texture == null:
+		return
+	for c in get_children():
+		c.free()
+	var w := texture.get_width() / 3.0
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.centered = false
+	sprite.scale = Vector2.ONE / 3
+	sprite.position = Vector2(-w / 2, -surface)
+	add_child(sprite)
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(w - 4, 6)
+	var shape := CollisionShape2D.new()
+	shape.shape = rect
+	shape.position = Vector2(0, 3)
+	shape.one_way_collision = true
+	add_child(shape)
