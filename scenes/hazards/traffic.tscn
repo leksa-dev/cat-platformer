@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/hazards/traffic.gd" id="1_s"]
+
+[node name="Traffic" type="Node2D"]
+script = ExtResource("1_s")
+damage = 2
+hit_size = Vector2(28, 10)
+hit_offset = Vector2(0, -5)

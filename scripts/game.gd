@@ -13,7 +13,7 @@ const VICTORY := "res://scenes/ui/victory.tscn"
 const COINS_PER_LEVEL := 10
 const DIAMONDS_PER_LEVEL := 4
 const LIVES_PER_LEVEL := 2  # 1ups hidden in each level
-const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn"]
+const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn", "res://scenes/level/level_04.tscn"]
 
 var lives := START_LIVES
 # dev menu toggles (persist across level reloads)

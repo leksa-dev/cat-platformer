@@ -59,6 +59,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] rozbudowa poziomu 2: pomost, wysoka wydma, wysepka-przystanek na morzu, dżungla z gęstych palm i krzaków (palmy do wspinania, 2 sadzawki), pustynia z dużymi kaktusami, dołem, ruinami i zasadzką krabów
   - [ ] poziom 3, nowe obiekty do wspinania (rury, płoty)
   - [ ] **Poziomy 4–5 — Kraków, Podgórze** (doklejone po ściekach; lore do ustalenia)
+    - [x] szary poziom 4 (`level_04.tscn`, generator w `tools/build_level4.py` + `paint_level4.gd`): nowe `traffic` (auta, pociąg; potem rowerzyści) i `crumble` (kruszejąca półka); bluszcz, maszt i wieża placu zabaw to na razie drabiny, zjeżdżalnia to pozioma rura
     - poziom 4 „Krzemionki”: Kopiec Krakusa (fort i kościółek św. Benedykta) → kładka → kamieniołom Libana → Park Bednarskiego
     - poziom 5 „Podgórze”: Rynek Podgórski z kościołem św. Józefa → Nadwiśle (bulwary) → kładka Bernatka (meta)
     - przeszkadzajki do omijania: rowerzyści (miejski — wolny, MTB — podskakuje na przeszkodach, szosowy — szybki) i kukiryniarze (monocykle elektryczne) jeżdżą po ścieżce
