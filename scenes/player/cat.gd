@@ -60,6 +60,7 @@ var _fart_time := -1.0  # seconds into the fart attack, < 0 when not farting
 var _farted := false  # cloud already released this attack
 var _throw_time := -1.0  # seconds into the yarn throw, < 0 when not throwing
 var _thrown := false  # ball already released this throw
+var _air_throw_cd := 0.0  # mid-air throws have no animation (yet): this paces them
 var _in_water := false
 var hp := 0
 var fall_speed := 0.0  # vertical speed before the last move (landing zeroes velocity; enemies need it for stomps)
@@ -360,9 +361,14 @@ func _physics_process(delta: float) -> void:
 		_fart_time = 0.0
 		_farted = false
 		_fart_dir = visual.scale.x
-	if Input.is_action_just_pressed("throw") and _throw_time < 0 and _fart_time < 0 and is_on_floor():
-		_throw_time = 0.0
-		_thrown = false
+	_air_throw_cd -= delta
+	if Input.is_action_just_pressed("throw") and _throw_time < 0 and _fart_time < 0:
+		if is_on_floor():
+			_throw_time = 0.0
+			_thrown = false
+		elif _air_throw_cd <= 0:  # mid-jump: the ball leaves at once, the cat keeps its jump frames and steering
+			_air_throw_cd = 0.4
+			_throw_yarn()
 
 	_lock -= delta
 	if _lock <= 0:
@@ -477,14 +483,19 @@ func _update_throw(delta: float) -> void:
 	var frame := int(_throw_time * THROW_FPS)
 	if not _thrown and frame >= THROW_RELEASE:
 		_thrown = true
-		Game.sfx("dash", 0.1, -4.0)
-		var ball := YARN_BALL.instantiate()
-		ball.velocity = Vector2(visual.scale.x * throw_velocity.x, throw_velocity.y)
-		ball.hit.connect(hit.emit)
-		get_parent().add_child(ball)
-		ball.global_position = global_position + Vector2(visual.scale.x * 8, -10)
+		_throw_yarn()
 	if frame >= 8:
 		_throw_time = -1.0
+
+
+func _throw_yarn() -> void:
+	Game.sfx("dash", 0.1, -4.0)
+	var ball := YARN_BALL.instantiate()
+	# half the cat's own speed on top, so a running or jumping cat doesn't overtake its ball
+	ball.velocity = Vector2(visual.scale.x * throw_velocity.x + velocity.x * 0.5, throw_velocity.y)
+	ball.hit.connect(hit.emit)
+	get_parent().add_child(ball)
+	ball.global_position = global_position + Vector2(visual.scale.x * 8, -10)
 
 
 func _boost(mult: float) -> float:
