@@ -27,7 +27,7 @@ func _ready() -> void:
 func _move(delta: float) -> void:
 	_t += delta
 	var cat: Node2D = get_tree().get_first_node_in_group("player")
-	if cat and absf(cat.global_position.x - global_position.x) < 96:
+	if cat and cat.visible and absf(cat.global_position.x - global_position.x) < 96:
 		var want := signf(cat.global_position.x - global_position.x)  # spotted: go for it
 		_turn = _turn + delta if want != _dir else 0.0
 		if _turn >= turn_delay:

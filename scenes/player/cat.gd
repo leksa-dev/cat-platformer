@@ -136,7 +136,7 @@ func _ready() -> void:
 
 
 func take_damage(amount: int, from: Vector2) -> void:
-	if _hurt_invuln > 0 or _dying or Game.god_mode:
+	if _hurt_invuln > 0 or _dying or Game.god_mode or not visible:  # not visible = travelling inside a pipe
 		return
 	hp = maxi(hp - amount, 0)
 	Game.hp_changed.emit(hp, max_hp)
@@ -158,7 +158,7 @@ func take_damage(amount: int, from: Vector2) -> void:
 
 
 func sting(amount: int) -> void:  # toxic sludge: hurts without knockback, the invulnerability paces it
-	if _hurt_invuln > 0 or _dying or Game.god_mode:
+	if _hurt_invuln > 0 or _dying or Game.god_mode or not visible:
 		return
 	hp = maxi(hp - amount, 0)
 	Game.hp_changed.emit(hp, max_hp)

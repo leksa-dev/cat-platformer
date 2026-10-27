@@ -132,9 +132,9 @@ func _animate(delta: float) -> void:
 
 # --- helpers for subclasses ---
 
-func to_cat() -> Vector2:  # vector to the cat, or far away if there is none
+func to_cat() -> Vector2:  # vector to the cat, or far away if there is none or it's hidden (inside a pipe)
 	var cat := find_cat()
-	return cat.global_position - global_position if cat else Vector2(INF, INF)
+	return cat.global_position - global_position if cat and cat.visible else Vector2(INF, INF)
 
 
 func face(dir_x: float) -> void:
