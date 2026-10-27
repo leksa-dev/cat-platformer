@@ -318,9 +318,6 @@ def lamp(x, ground_row, img="lamp"):   # a street lamp you can climb
     h = J["sizes"][img][1] / 3 / T
     deco(img, x, ground_row)
     pole(x, ground_row - h + 0.5, round(h - 0.5))
-def bike(name, x0, x1, row, speed, color, gap=1.8, phase=0.0):   # cyclist along the promenade: jump over
-    inst(name, "res://scenes/hazards/bike.tscn", x0 * T + 12, ty(row), [f"lane = {(x1 - x0) * T - 24}", f"speed = {speed}", f"gap = {gap}",
-         f"phase = {phase}", f"color = Color({color[0]}, {color[1]}, {color[2]}, 1)"])
 BG_SCALE = 0.4712   # the 2172 px backdrops -> 64 tiles
 BG_PAD = 220        # px of sky added on top of them
 
@@ -344,8 +341,9 @@ for name, x, row, w in [("Gallery", 30.5, 12.8, 7.6), ("ButtressL", 26.8, 9.4, 1
     inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round(x * T + T / 2), ty(row), [f"ledge_width = {w * T}"])
 pole(26.8, 9.4, 8); pole(34.2, 9.4, 8)   # corner towers, from the square up; pole(28.6, 6.6, 3); pole(30.5, 3.4, 3)
 lamp(2.5, G); lamp(20, G); lamp(38.5, G); lamp(58, G)
-inst("PgCrow1", "res://scenes/enemies/crow/crow.tscn", tx(16), ty(7))     # pigeons
-inst("PgCrow2", "res://scenes/enemies/crow/crow.tscn", tx(46), ty(8))
+for i, x in enumerate([9, 25, 33, 49]):   # pigeons strut about the square
+    inst(f"PigeonR{i + 1}", "res://scenes/enemies/pigeon/pigeon.tscn", tx(x), ty(G))
+inst("BikeR1", "res://scenes/hazards/bike_city.tscn", 19 * T + 12, ty(G), ["lane = 480"])   # a cyclist crosses the square in front of the church
 inst("PgDog1", "res://scenes/enemies/dog/dog.tscn", tx(23), ty(G), ["patrol_radius = 40.0"])
 inst("PgCheckpoint1", "res://scenes/objects/checkpoint.tscn", tx(37.5), ty(G))
 hint(3, G, "Rynek Podgórski! Na kościół wejdziesz po wieżyczkach w narożnikach.")
@@ -365,10 +363,11 @@ plat("Houseboat", "houseboat", W + 57, G - 0.2, 19)
 for img, x in [("lifebuoy", 1.5), ("bollard_rope", 15.7), ("bollard_rope", 39), ("crate_bush", 44), ("lifebuoy", 48.5)]:
     deco(img, W + x, G)
 deco("gull", W + 33, G - 0.6); deco("gull", W + 26, G + 0.3)
-bike("Bike1", W + 1, W + 17, G, 95, (0.2, 0.55, 0.85)); bike("Bike2", W + 1, W + 17, G, -150, (0.85, 0.3, 0.2), 2.5, 0.5)
-bike("Bike3", W + 38, W + 50, G, 70, (0.3, 0.7, 0.3), 1.2)
-inst("PgCrow3", "res://scenes/enemies/crow/crow.tscn", tx(W + 28), ty(10))  # gulls
-inst("PgCrow4", "res://scenes/enemies/crow/crow.tscn", tx(W + 56), ty(10))
+inst("Bike1", "res://scenes/hazards/bike_city.tscn", (W + 1) * T + 12, ty(G), ["lane = 232"])   # the promenade: a city bike, a road bike, an MTB
+inst("Bike2", "res://scenes/hazards/bike_road.tscn", (W + 1) * T + 12, ty(G), ["lane = 232", "phase = 0.5"])
+inst("Bike3", "res://scenes/hazards/bike_mtb.tscn", (W + 38) * T + 12, ty(G), ["lane = 168"])
+inst("PigeonW1", "res://scenes/enemies/pigeon/pigeon.tscn", tx(W + 9), ty(G))
+inst("PigeonW2", "res://scenes/enemies/pigeon/pigeon.tscn", tx(W + 44), ty(G))
 inst("PgCheckpoint2", "res://scenes/objects/checkpoint.tscn", tx(W + 2), ty(G))
 inst("PgCheckpoint3", "res://scenes/objects/checkpoint.tscn", tx(W + 40), ty(G))
 hint(W + 3, G, "Bulwary! Przeskakuj rowerzystów, a przez Wisłę przejdź po łodziach.")
@@ -431,12 +430,11 @@ for img, x, r, h in [("ivy", 46.3, 7.6, 0), ("chain_posts", 10.5, 12.4, 1.4), ("
                      ("bush_a", 44.5, 10.5, 1.3), ("padlock_heart", 32, 12.4, 0.6), ("padlock_gold", 32.7, 12.4, 0.6),
                      ("pigeon", 16.4, 5.2, 1), ("gull", 29.6, 3.6, 1.1), ("duck", 34, 13.6, 0.9)]:   # sheet items are drawn big: sized in tiles
     bdeco(img, x, r + BR, h_tiles=h)
-inst("BernBike1", "res://scenes/hazards/bike.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}", "speed = 110.0", "gap = 2.2"])
-inst("BernScooter", "res://scenes/hazards/bike.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}", "speed = -150.0", "gap = 3.0", "phase = 0.5",
-     f'texture = ExtResource("{R("res://assets/game/lvl4/bernatka/scooter.png", "Texture2D")}")'])
-inst("BernCrow1", "res://scenes/enemies/crow/crow.tscn", round((N + 12) * T), ty(1.5 + BR))   # pigeons and gulls
-inst("BernCrow2", "res://scenes/enemies/crow/crow.tscn", round((N + 37) * T), ty(2.5 + BR))
-inst("BernCrow3", "res://scenes/enemies/crow/crow.tscn", round((N + 40) * T), ty(1.5 + BR))
+inst("BernBike1", "res://scenes/hazards/bike_road.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}"])
+inst("BernBike2", "res://scenes/hazards/bike_mtb.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}", "phase = 0.45"])
+inst("BernScooter", "res://scenes/hazards/scooter.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}", "speed = -150.0", "gap = 3.0", "phase = 0.5"])
+for i, (x, r) in enumerate([(11.75, 4.6), (20.4, 4.1), (37.3, 7.1)]):   # pigeons on the stone blocks, as in the mockup
+    inst(f"BernPigeon{i + 1}", "res://scenes/enemies/pigeon/pigeon.tscn", round((N + x) * T), ty(r + BR))
 inst("CheckpointBern1", "res://scenes/objects/checkpoint.tscn", round((N + 1.5) * T), ty(16))
 inst("CheckpointBern2", "res://scenes/objects/checkpoint.tscn", round((N + 30) * T), ty(17))
 hint(N + 1, 16, "Kładka Bernatka! Legowisko czeka na murze po prawej - wejdź po bluszczu.")

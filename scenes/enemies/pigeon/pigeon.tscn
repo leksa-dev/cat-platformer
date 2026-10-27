@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/pigeon/pigeon.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/pigeon.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(10, 9)
+
+[node name="Pigeon" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_s")
+water_behavior = 1
+max_hp = 2
+stompable = true
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
+position = Vector2(0, -8.16667)
+texture = ExtResource("2_tex")
+hframes = 45
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("shape")

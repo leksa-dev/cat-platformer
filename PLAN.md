@@ -45,6 +45,8 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
   - [x] 🐝 osa — podlatuje, zawisa, szybkie ukłucie, odskok (przy kwiatach przed 2. dziurą)
   - [x] 🐸 żabol — skacze, pływa w basenie, język z własnym hitboxem; można na niego skoczyć
   - [x] 🦀 krab — chodzi bokiem, podchodzi do kota, unosi szczypce i szczypie; skok na niego rani kota (poziom 2 zamiast szczurów)
+  - [x] 🐦 gołąb (poziom 4) — drepcze po rynku, promenadzie i kamiennych blokach Bernatki, przystaje dziobać; gdy kot podejdzie, pochyla głowę i rzuca się w niskim podskoku ze skrzydłami; skok na niego go ogłusza i zabija; wrony wciąż są kawkami zastępczymi
+  - [x] 🚴 rowerzyści (poziom 4, `cyclist.gd`, nie do zabicia, jeżdżą tam i z powrotem i hamują przed zawrotką): miejski (wolny, 1 pkt), MTB (średni, podskakuje, 1 pkt), szosowy (szybki, 2 pkt, świst); hulajnoga jedzie jak dawniej (`traffic.gd`)
 - [~] **9. Obrażenia i śmierć**
   - [x] pasek HP kota w HUD (ramka z `hud.png`), odrzut i 1 s nietykalności po trafieniu, HP 0 = utrata życia
   - [x] checkpointy (flagi): po utracie życia kot wraca do ostatniej flagi
@@ -100,7 +102,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - `scenes/level/level_02.tscn` — poziom 2; `scenes/objects/surf_zone.tscn` (strefa surfowania), `bar.tscn` (leczenie)
 - `scenes/hazards/` — przeszkody: kaktus/skała (`spiky.tscn`), rekin, ryba, kokos
 - `scenes/objects/water.tscn` — woda; wstaw do poziomu i ustaw `width_tiles` / `depth_tiles` w Inspectorze
-- `scenes/enemies/` — wrogowie: `enemy.gd` (baza) + folder na każdego (`dog/`, `rat/`, `crab/`, `crow/`, `wasp/`, `frog/`)
+- `scenes/enemies/` — wrogowie: `enemy.gd` (baza) + folder na każdego (`dog/`, `rat/`, `crab/`, `crow/`, `wasp/`, `frog/`, `pigeon/`)
 - `scripts/game.gd` — życia, komunikaty, przejścia między poziomami, klawisze, flagi DEV (`god_mode`, `fly_mode`)
 - `scenes/ui/` — menu główne, pauza, menu DEV (`dev.gd`), HUD
 - `assets/game/` — gotowa grafika używana w grze (podglądy w `assets/` zostają jako wzór stylu)
