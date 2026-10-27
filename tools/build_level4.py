@@ -74,6 +74,13 @@ def fwall(x0, x1, top, bot):  # solid brick block from column x0 to x1, rows top
         f'texture = ExtResource("{R("res://assets/game/lvl4/fort/brick_fill.png", "Texture2D")}")', f"height_tiles = {bot - top}",
         f"width_tiles = {x1 - x0}", f'cap = ExtResource("{R("res://assets/game/lvl4/fort/ledge_grass.png", "Texture2D")}")'])
 
+SJ = __import__("json").load(open("assets/game/lvl4/stadion_sizes.json"))
+def sdeco(img, x, row, h_tiles=0, scale=0.333333, parent="DecorBack"):
+    w, h = SJ["sizes"][img]
+    if h_tiles: scale = round(h_tiles * T / h, 4)
+    node(uid(img + "_"), parent, "Sprite2D", props=[pos(round(x * T + T / 2), ty(row) + 2), f'texture = ExtResource("{R(f"res://assets/game/lvl4/stadion/{img}.png", "Texture2D")}")',
+        "centered = false", f"offset = Vector2({-(w // 2)}, {-h})", f"scale = Vector2({scale}, {scale})"])
+
 # ---------------- background: sunset sky over Kraków, behind the whole level ----------------
 node("Background", typ="CanvasLayer", props=["layer = -1"])
 node("Sky", "Background", "Sprite2D", props=["texture_repeat = 2", f'texture = ExtResource("{R("res://assets/game/lvl4/sky_city.png", "Texture2D")}")',
@@ -168,14 +175,43 @@ inst("Bat2", "res://scenes/enemies/bat/bat.tscn", tx(F + 47), ty(4), ["zone = Ve
 inst("CheckpointF", "res://scenes/objects/checkpoint.tscn", tx(F + 2), ty(15))
 hint(F + 4, 15, "Fort 31! Wespnij się po drabinie i przejdź górą po murach.")
 
-# everything after the footbridge (old greybox columns), shifted right by S tiles
-S = 108
-# ---------------- 2. ul. Parkowa + stadium ----------------
-inst("Dog1", "res://scenes/enemies/dog/dog.tscn", tx(104 + S), ty(12), ["patrol_radius = 24.0"])   # on a lead
-inst("Checkpoint2", "res://scenes/objects/checkpoint.tscn", tx(114 + S), ty(12))
-ladder(133 + S, 0, 12)                                 # floodlight mast
-inst("Crow4", "res://scenes/enemies/crow/crow.tscn", tx(133 + S), ty(4))
+# ---------------- 4. old Olympic stadium on Krzemionki (layout from assets/lvl4/krzemionki/platforms.png) ----------------
+# local column c of the mockup is global column C + c; some ledges and both yellow bridges crumble (design.md)
+C = 192
+node("StadionBg", "WorldBack", "Sprite2D", props=[f'texture = ExtResource("{R("res://assets/game/lvl4/stadion/bg.png", "Texture2D")}")',
+     "centered = false", pos(C * T, round(-KL_PAD * KL_BG_SCALE)), f"scale = Vector2({KL_BG_SCALE}, {KL_BG_SCALE})"])
+for img, x, row, sc in [("kiosk", 17, 12, 0.143), ("umbrella", 10.6, 10, 0.15), ("umbrella", 22.4, 11, 0.15), ("table_set", 25.5, 11, 0.15),
+                        ("menu", 14, 12, 0.11), ("welcome", 20, 12, 0.11), ("crates", 11.8, 10, 0.12), ("flowers_red", 7, 11, 0.12),
+                        ("bench", 31, 17, 0.333333), ("bench", 36.5, 15, 0.333333), ("goal", 41, 18, 0.25), ("flag", 51, 11, 0.333333),
+                        ("flag", 59.5, 15, 0.333333), ("fence_mesh", 3.5, 15, 0.25), ("fence_mesh", 11, 18, 0.25), ("fence_mesh", 46.5, 18, 0.25),
+                        ("fence_rail", 1, 9, 0.25), ("bins", 25, 17, 0.333333), ("dugout", 37.5, 18, 0.25), ("hedge", 16, 17, 0.333333),
+                        ("bush_round", 43.5, 18, 0.333333), ("bush_c", 60.5, 15, 0.333333), ("stairs_rail_a", 6.7, 11, 0.333333),
+                        ("stairs_rail_b", 29.4, 12, 0.333333), ("stairs_rail_a", 33.7, 15, 0.333333), ("stairs_rail_b", 22.6, 18, 0.333333),
+                        ("stairs_rail_a", 48.8, 17, 0.333333)]:
+    sdeco(img, C + x, row, scale=sc)
+for x, bottom in [(3, 10), (8, 11), (33.5, 11), (40, 11), (45.5, 12), (53, 11), (62, 10)]:   # floodlights, climbable
+    sdeco("floodlight_a", C + x, bottom, h_tiles=6)
+    pole(C + x, bottom - 5, 5)
+for x, row, img in [(10.5, 14.5, "grass_stone"), (43, 13, "grass_stone"), (54.2, 12.6, "grass_stone"), (55.2, 16, "grass_stone_s"),
+                    (29.6, 17, "panel_yellow"), (31.2, 17, "panel_yellow"), (53.6, 17, "panel_yellow"), (55.2, 17, "panel_yellow")]:
+    inst(uid("CrumbleS"), "res://scenes/objects/crumble.tscn", round(C * T + x * T), round(ty(row)), [
+        f'texture = ExtResource("{R(f"res://assets/game/lvl4/stadion/{img}.png", "Texture2D")}")', f"surface = {SJ['surface'][img]}", "delay = 0.6"])
+for i, x0 in enumerate([30, 54]):   # flooded pits under the bridges, with a ladder out
+    inst(f"PitWater{i + 1}", "res://scenes/objects/water.tscn", (C + x0) * T, ty(19), ["width_tiles = 3", "depth_tiles = 2"])
+    ladder(C + x0 + 2.5, 17, 4)
+for x, row in [(2, 9), (9.2, 10), (32, 12), (63, 11)]:
+    inst(uid("SnackS"), "res://scenes/objects/snack.tscn", tx(C + x), ty(row))
+inst("CatnipS", "res://scenes/objects/catnip.tscn", tx(C + 55.6), ty(16) - 2)
+inst("DogS1", "res://scenes/enemies/dog/dog.tscn", tx(C + 36), ty(18), ["patrol_radius = 40.0"])
+inst("DogS2", "res://scenes/enemies/dog/dog.tscn", tx(C + 46), ty(15), ["patrol_radius = 24.0"])
+inst("Crow4", "res://scenes/enemies/crow/crow.tscn", tx(C + 20), ty(5))
+inst("Crow8", "res://scenes/enemies/crow/crow.tscn", tx(C + 48), ty(6))
+inst("CheckpointS1", "res://scenes/objects/checkpoint.tscn", tx(C + 1), ty(14))
+inst("CheckpointS2", "res://scenes/objects/checkpoint.tscn", tx(C + 34), ty(18))
+hint(C + 2, 14, "Stary stadion! Uważaj, niektóre platformy i kładki się kruszą.")
 
+# everything after the stadium (old greybox columns), shifted right by S tiles
+S = 104
 # ---------------- 3. Plac Lasoty + Park Bednarskiego ----------------
 ladder(154 + S, 5, 7)                                  # ivy up Villa Mira
 ladder(169 + S, 0, 7)                                  # Villa Julia's clock tower
@@ -214,11 +250,13 @@ pickups("F",   # Fort 31
         [above(F + 16.5, 10.6), above(F + 23.5, 7.8), above(F + 27, 6.9), above(F + 27.2, 11, 10), above(F + 34, 7.7), above(F + 39.5, 12.5),
          above(F + 44.7, 7, 10), above(F + 48.4, 7.2), above(F + 50.7, 5, 10), above(F + 55.4, 14, 10)],
         [above(F + 4.5, 9, 30), above(F + 37.2, 8), above(F + 55.5, 8.1, 28), above(F + 57.5, 8, 10)])
-# greybox parts (Parkowa, stadium, Plac Lasoty, Park Bednarskiego) keep their few pickups until they get their art
-for i, (x, y) in enumerate([(tx(97 + S), ty(9) - 8), (tx(133 + S), -8), ((227 + S) * T, ty(10) - 8)]):
-    inst(f"CoinP{i + 1}", "res://scenes/objects/coin.tscn", x, y)
-for i, (x, y) in enumerate([((171 + S) * T, ty(1) - 8), (tx(148 + S), ty(8) - 8)]):
-    inst(f"DiamondP{i + 1}", "res://scenes/objects/diamond.tscn", x, y, [f"gem = {i}"])
+pickups("S",   # old stadium
+        [above(C + 4.6, 10, 28), above(C + 4.4, 15), above(C + 27.3, 11), above(C + 28.3, 17, 22), above(C + 36, 15), above(C + 36.8, 15),
+         above(C + 51.2, 17), above(C + 51.9, 17), above(C + 59, 10), above(C + 59.8, 10)],
+        [above(C + 11.2, 14.5), above(C + 44, 13), above(C + 55, 12.6), above(C + 58.5, 15)])
+# greybox parts (Plac Lasoty, Park Bednarskiego) keep their few pickups until they get their art
+inst("CoinP1", "res://scenes/objects/coin.tscn", (227 + S) * T, ty(10) - 8)
+inst("DiamondP1", "res://scenes/objects/diamond.tscn", (171 + S) * T, ty(1) - 8, ["gem = 0"])
 inst("Life1", "res://scenes/objects/life.tscn", tx(173 + S), ty(7))
 inst("Life2", "res://scenes/objects/life.tscn", tx(11), ty(16) - 18)    # hidden in the cave under the start, on the chest
 

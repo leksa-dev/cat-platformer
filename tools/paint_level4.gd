@@ -33,17 +33,16 @@ func _initialize():
 	fill(grass, B + 61, B + 61, 15); fill(grass, B + 62, B + 63, 13)
 	# 3. Fort 31: flat ground, the walls are brick blocks placed by the builder
 	fill(grass, 128, 191, 17)
-	# everything after the fort (old greybox columns), shifted right by S tiles
-	const S := 108
-	# 2. ul. Parkowa
-	fill(stone, 84 + S, 116 + S, 12)
-	fill(stone, 92 + S, 93 + S, 11, 11)             # bench
-	fill(stone, 95 + S, 99 + S, 9, 11)              # kiosk
-	fill(stone, 109 + S, 109 + S, 10, 11)           # fence
-	# stadium: stands, pitch, stands
-	fill(stone, 117 + S, 118 + S, 11); fill(stone, 119 + S, 120 + S, 10); fill(stone, 121 + S, 122 + S, 9); fill(stone, 123 + S, 124 + S, 8)
-	fill(grass, 125 + S, 141 + S, 12)               # pitch
-	fill(stone, 142 + S, 143 + S, 10); fill(stone, 144 + S, 149 + S, 8); fill(stone, 150 + S, 151 + S, 10)
+	# 4. old stadium (from krzemionki/platforms.png): an upper path along the stands, the lower ground by the pitch, two flooded pits
+	const C := 192
+	for r in [[0, 2, 9, 10], [3, 4, 10, 11], [5, 8, 11, 12], [9, 12, 10, 11], [12, 20, 12, 12], [21, 28, 11, 11], [30, 33, 12, 13],
+			[34, 34, 14, 14], [35, 39, 15, 15], [39, 39, 16, 17], [19, 21, 15, 16], [46, 49, 12, 12], [50, 52, 11, 11], [58, 60, 10, 10], [61, 63, 11, 12],
+			[0, 1, 14, BOTTOM], [2, 5, 15, BOTTOM], [6, 8, 16, BOTTOM], [9, 13, 18, BOTTOM], [14, 17, 17, BOTTOM], [18, 22, 18, BOTTOM],
+			[23, 29, 17, BOTTOM], [30, 32, 21, BOTTOM], [33, 42, 18, BOTTOM], [43, 48, 15, BOTTOM], [49, 53, 17, BOTTOM], [54, 56, 21, BOTTOM],
+			[57, 62, 15, BOTTOM], [63, 63, 14, BOTTOM]]:
+		fill(grass, C + r[0], C + r[1], r[2], r[3])
+	# everything after the stadium (old greybox columns), shifted right by S tiles
+	const S := 104
 	# 3. Plac Lasoty: Villa Mira, Villa Julia with the clock tower
 	fill(stone, 152 + S, 154 + S, 12)
 	fill(stone, 155 + S, 163 + S, 6); fill(stone, 156 + S, 162 + S, 5, 5)

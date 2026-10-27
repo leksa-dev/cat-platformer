@@ -1,8 +1,11 @@
 extends StaticBody2D
 # Crumbling ledge (eroded slope, rotten stand bench): shakes once the cat stands on it, drops away after `delay` s,
-# grows back after `respawn` s. Top-left at the node; drawn as a plain box until it gets art.
+# grows back after `respawn` s. Top-left at the node; a plain box, or `texture` (drawn at 1/3, its width wins) lying
+# `surface` px above the walkable top.
 
-@export var width_tiles := 2
+@export var width_tiles := 2.0
+@export var texture: Texture2D
+@export var surface := 0.0
 @export var delay := 0.5
 @export var respawn := 3.0
 
@@ -13,6 +16,14 @@ var _x0 := 0.0
 
 func _ready() -> void:
 	_x0 = position.x
+	if texture:
+		width_tiles = texture.get_width() / 48.0
+		var sprite := Sprite2D.new()
+		sprite.texture = texture
+		sprite.centered = false
+		sprite.scale = Vector2.ONE / 3
+		sprite.position.y = -surface
+		add_child(sprite)
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(width_tiles * 16.0, 6)
 	_shape = CollisionShape2D.new()
@@ -39,6 +50,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if texture:
+		return
 	var w := width_tiles * 16.0
 	draw_rect(Rect2(0, 0, w, 6), Color(0.55, 0.4, 0.25))
 	for x in range(4, int(w), 6):
