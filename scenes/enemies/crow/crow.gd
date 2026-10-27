@@ -3,11 +3,11 @@ extends "res://scenes/enemies/enemy.gd"
 # when the dive started (no homing — dodgeable), and climbs back up.
 
 @export var fly_speed := 50.0
-@export var dive_speed := 160.0
+@export var dive_speed := 110.0  # slow enough to dodge
 @export var detect_range := 100.0
 @export var hover_height := 60.0  # above the cat before diving
-@export var windup := 0.45
-@export var cooldown := 1.8
+@export var windup := 0.8  # a clear tell before the dive
+@export var cooldown := 2.4  # time to hit back
 @export var peck_damage := 2
 
 enum { PATROL, STALK, WINDUP, DIVE, RECOVER }

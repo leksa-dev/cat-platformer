@@ -8,7 +8,7 @@ extends "res://scenes/enemies/enemy.gd"
 @export var keep_distance := 22.0  # where it hovers before stinging
 @export var windup := 0.3
 @export var sting_time := 0.2
-@export var cooldown := 1.3
+@export var cooldown := 1.6
 @export var sting_damage := 2
 
 enum { PATROL, APPROACH, WINDUP, STING, RETREAT }
