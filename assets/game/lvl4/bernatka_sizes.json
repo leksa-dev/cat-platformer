@@ -1,0 +1,311 @@
+{
+"sizes": {
+"ledge_s": [
+108,
+106
+],
+"ledge_m": [
+189,
+117
+],
+"ledge_l": [
+239,
+119
+],
+"ledge_xl": [
+365,
+126
+],
+"pier_a": [
+101,
+128
+],
+"pier_b": [
+114,
+131
+],
+"pier_c": [
+126,
+132
+],
+"slope_a": [
+211,
+135
+],
+"slope_b": [
+198,
+135
+],
+"slope_c": [
+197,
+134
+],
+"quay_a": [
+260,
+126
+],
+"quay_b": [
+205,
+125
+],
+"quay_arch": [
+376,
+126
+],
+"quay_c": [
+169,
+126
+],
+"quay_arch_l": [
+403,
+124
+],
+"quay_d": [
+105,
+125
+],
+"quay_e": [
+112,
+124
+],
+"quay_arch_s": [
+162,
+123
+],
+"quay_f": [
+98,
+121
+],
+"railing_l": [
+393,
+109
+],
+"railing_m": [
+229,
+109
+],
+"railing_s": [
+52,
+113
+],
+"lamp": [
+68,
+180
+],
+"railing_post": [
+107,
+109
+],
+"planter_a": [
+162,
+118
+],
+"planter_b": [
+145,
+117
+],
+"bench": [
+246,
+115
+],
+"bin": [
+94,
+138
+],
+"chain_posts": [
+347,
+108
+],
+"ivy": [
+302,
+109
+],
+"bush_a": [
+154,
+93
+],
+"bush_b": [
+119,
+83
+],
+"stone_s1": [
+79,
+87
+],
+"stone_m": [
+139,
+87
+],
+"stone_s2": [
+92,
+86
+],
+"rock": [
+75,
+86
+],
+"stone_cap": [
+70,
+75
+],
+"ledge_grass_s": [
+102,
+92
+],
+"ledge_grass_m": [
+199,
+95
+],
+"slope_s": [
+111,
+96
+],
+"ledge_grass_l": [
+258,
+104
+],
+"duck": [
+118,
+151
+],
+"gull": [
+156,
+146
+],
+"pigeon": [
+146,
+120
+],
+"pretzel": [
+113,
+109
+],
+"bagel": [
+123,
+113
+],
+"boat_white": [
+449,
+107
+],
+"boat_wood": [
+337,
+105
+],
+"speedboat": [
+195,
+76
+],
+"buoy": [
+131,
+142
+],
+"lifebuoy": [
+147,
+145
+],
+"lamp_a": [
+68,
+210
+],
+"lamp_b": [
+100,
+213
+],
+"lamp_double": [
+49,
+202
+],
+"lamp_wall": [
+103,
+151
+],
+"flower_hang": [
+142,
+184
+],
+"planter": [
+177,
+140
+],
+"bike": [
+264,
+159
+],
+"scooter": [
+175,
+167
+],
+"padlock_gold": [
+85,
+117
+],
+"padlock_heart": [
+95,
+119
+]
+},
+"surface": {
+"ledge_s": 2.3,
+"ledge_m": 6.7,
+"ledge_l": 6.7,
+"ledge_xl": 8.3,
+"pier_a": 2.7,
+"pier_b": 2.3,
+"pier_c": 2.3,
+"slope_a": 21.0,
+"slope_b": 26.3,
+"slope_c": 25.7,
+"quay_a": 0.3,
+"quay_b": 0.3,
+"quay_arch": 0.3,
+"quay_c": 0.3,
+"quay_arch_l": 0.3,
+"quay_d": 0.3,
+"quay_e": 0.3,
+"quay_arch_s": 0.3,
+"quay_f": 0.0,
+"railing_l": 28.3,
+"railing_m": 28.3,
+"railing_s": 30.0,
+"lamp": 0,
+"railing_post": 28.3,
+"planter_a": 7.7,
+"planter_b": 6.7,
+"bench": 0.0,
+"bin": 0.7,
+"chain_posts": 0,
+"ivy": 7.3,
+"bush_a": 8.7,
+"bush_b": 8.7,
+"stone_s1": 0.0,
+"stone_m": 0.3,
+"stone_s2": 0.0,
+"rock": 8.0,
+"stone_cap": 0.7,
+"ledge_grass_s": 4.0,
+"ledge_grass_m": 5.0,
+"slope_s": 11.3,
+"ledge_grass_l": 5.7,
+"duck": 23.7,
+"gull": 23.3,
+"pigeon": 19.7,
+"pretzel": 2.3,
+"bagel": 3.7,
+"boat_white": 8.7,
+"boat_wood": 14.0,
+"speedboat": 8.3,
+"buoy": 26.7,
+"lifebuoy": 3.3,
+"lamp_a": 6.7,
+"lamp_b": 0,
+"lamp_double": 14.7,
+"lamp_wall": 0,
+"flower_hang": 16.0,
+"planter": 5.3,
+"bike": 0,
+"scooter": 0,
+"padlock_gold": 14.3,
+"padlock_heart": 14.3
+}
+}

@@ -10,7 +10,7 @@ signal device_changed  # the player switched between keyboard and pad: on-screen
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
 const VICTORY := "res://scenes/ui/victory.tscn"
-const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn", "res://scenes/level/level_04.tscn", "res://scenes/level/level_05.tscn"]
+const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn", "res://scenes/level/level_04.tscn"]
 
 var lives := START_LIVES
 # dev menu toggles (persist across level reloads)

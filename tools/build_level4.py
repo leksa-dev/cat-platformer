@@ -293,8 +293,161 @@ inst("DiamondL1", "res://scenes/objects/diamond.tscn", (171 + S) * T, ty(1) - 8,
 inst("Life1", "res://scenes/objects/life.tscn", tx(173 + S), ty(7))
 inst("Life2", "res://scenes/objects/life.tscn", tx(11), ty(16) - 18)    # hidden in the cave under the start, on the chest
 
+# ======== Podgórze: Rynek Podgórski (L .. L+63) and the Vistula boulevards (L+64 .. L+135) ========
+# Written with local columns (0 = the square's left edge): pos() is shifted by L tiles while this part is built.
+L = 358
+import json
+_pos = pos
+def pos(x, y): return _pos(x + L * T, y)
+J = json.load(open("assets/game/lvl4/podgorze/sizes.json"))
+def tex(img): return f'texture = ExtResource("{R(f"res://assets/game/lvl4/podgorze/{img}.png", "Texture2D")}")'
+def deco(img, x, row, h_tiles=0, scale=0.333333, parent="DecorBack", flip=False):   # bottom-centre on row, at tile column x
+    w, h = J["sizes"][img]
+    if h_tiles: scale = round(h_tiles * T / h, 4)
+    node(uid(img + "_"), parent, "Sprite2D", props=[pos(round(x * T + T / 2), ty(row) + 2), tex(img), "centered = false",
+         f"offset = Vector2({-(w // 2)}, {-h})", f"scale = Vector2({scale}, {scale})"] + (["flip_h = true"] if flip else []))
+def plat(name, img, x, walk_row, surface=None):   # one-way platform at walk_row; the sprite pokes `surface` px above it
+    inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round(x * T + T / 2), ty(walk_row), [tex(img),
+         f"surface = {J['surface'][img] if surface is None else surface}"])
+def standing(name, img, x, ground_row, surface):   # a prop standing on the ground whose top (surface px below its top) is walkable
+    h = J["sizes"][img][1] / 3
+    plat(name, img, x, ground_row - (h - surface) / T, surface)
+def pole(x, top, h):
+    inst(uid("Pole"), "res://scenes/objects/lvl4/pole.tscn", round(x * T + T / 2), ty(top), [f"height_tiles = {h}"])
+def lamp(x, ground_row, img="lamp"):   # a street lamp you can climb
+    h = J["sizes"][img][1] / 3 / T
+    deco(img, x, ground_row)
+    pole(x, ground_row - h + 0.5, round(h - 0.5))
+def bike(name, x0, x1, row, speed, color, gap=1.8, phase=0.0):   # cyclist along the promenade: jump over
+    inst(name, "res://scenes/hazards/bike.tscn", x0 * T + 12, ty(row), [f"lane = {(x1 - x0) * T - 24}", f"speed = {speed}", f"gap = {gap}",
+         f"phase = {phase}", f"color = Color({color[0]}, {color[1]}, {color[2]}, 1)"])
+BG_SCALE = 0.4712   # the 2172 px backdrops -> 64 tiles
+BG_PAD = 220        # px of sky added on top of them
+
+node("RynekBg", "WorldBack", "Sprite2D", props=[tex("rynek_bg"), "centered = false", pos(0, round(-BG_PAD * BG_SCALE)), f"scale = Vector2({BG_SCALE}, {BG_SCALE})"])
+W = 64
+node("BulwaryBg", "WorldBack", "Sprite2D", props=[tex("bulwary_bg"), "centered = false", pos(W * T, round(-BG_PAD * BG_SCALE)), f"scale = Vector2({BG_SCALE}, {BG_SCALE})"])
+# ---------------- 7. Rynek Podgórski ----------------
+G = 17   # ground row of the square
+for img, x in [("hedge_a", 1), ("tree_c", 13), ("bench", 21.5), ("bin", 23.5), ("cypress", 25), ("cypress", 36.5), ("chain_posts", 40),
+               ("hedge_pink", 43.5), ("pot_a", 49.5), ("pot_b", 50.7), ("fence_hedge", 61), ("signpost", 63)]:
+    deco(img, x, G)
+deco("church", 30.5, G)
+# tenements along the square: their roofs are walkable
+standing("TenementA", "tenement_a", 6.5, G, 9); standing("TenementB", "tenement_b", 10.6, G, 9)
+standing("TenementC", "tenement_c", 55.5, G, 9); standing("TenementD", "tenement_a", 60.4, G, 9)
+standing("Planter1", "planter_tree_a", 15, G, 44); standing("Planter2", "planter_tree_b", 47.5, G, 44); standing("Planter3", "planter_tree_a", 52, G, 44)
+standing("AdColumn", "ad_column", 18, G, 6)
+standing("Balustrade", "balustrade", 44.5, G, 30)
+# the church: gallery over the doors, buttress tops either side, the ridge, the spire; its corner towers are climbable
+for name, x, row, w in [("Gallery", 30.5, 12.8, 7.6), ("ButtressL", 26.8, 9.4, 1.6), ("ButtressR", 34.2, 9.4, 1.6), ("Ridge", 30.5, 6.6, 3), ("Spire", 30.5, 3.4, 1.2)]:
+    inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round(x * T + T / 2), ty(row), [f"ledge_width = {w * T}"])
+pole(26.8, 9.4, 8); pole(34.2, 9.4, 8)   # corner towers, from the square up; pole(28.6, 6.6, 3); pole(30.5, 3.4, 3)
+lamp(2.5, G); lamp(20, G); lamp(38.5, G); lamp(58, G)
+inst("PgCrow1", "res://scenes/enemies/crow/crow.tscn", tx(16), ty(7))     # pigeons
+inst("PgCrow2", "res://scenes/enemies/crow/crow.tscn", tx(46), ty(8))
+inst("PgDog1", "res://scenes/enemies/dog/dog.tscn", tx(23), ty(G), ["patrol_radius = 40.0"])
+inst("PgCheckpoint1", "res://scenes/objects/checkpoint.tscn", tx(37.5), ty(G))
+hint(3, G, "Rynek Podgórski! Na kościół wejdziesz po wieżyczkach w narożnikach.")
+
+# ---------------- 8. Bulwary wiślane ----------------
+# promenade (foreground strip) with two breaks where the river shows: cross on the moored boats or swim
+PROM = [(0, 17), (38, 50)]   # past the second break the Bernatka quay takes over   # promenade stretches, columns relative to W
+for i, (a, b) in enumerate(PROM):
+    node(f"Promenade{i + 1}", "DecorFront", "Sprite2D", props=["texture_repeat = 2", tex("promenade"), "centered = false",
+         pos((W + a) * T, ty(G) - 260 + 2), f"scale = Vector2({BG_SCALE}, {BG_SCALE})", "region_enabled = true",
+         f"region_rect = Rect2({round((a % 64) * T / BG_SCALE)}, 0, {round((b - a) * T / BG_SCALE)}, 724)"])
+for i, (a, b) in enumerate([(17, 38), (50, 64)]):
+    inst(f"River{i + 1}", "res://scenes/objects/water.tscn", (W + a) * T, ty(G + 1.5), [f"width_tiles = {b - a}", "depth_tiles = 6"])
+    deco("quay_wall", W + a - 1.1, G + 1.5, parent="DecorFront"); deco("quay_wall", W + b + 1.1, G + 1.5, parent="DecorFront", flip=True)
+plat("BoatSmall", "boat_small", W + 21.2, G + 0.6, 24); plat("Barge", "barge", W + 31.6, G + 0.4, 14)
+plat("Houseboat", "houseboat", W + 57, G - 0.2, 19)
+for img, x in [("lifebuoy", 1.5), ("bollard_rope", 15.7), ("bollard_rope", 39), ("crate_bush", 44), ("lifebuoy", 48.5)]:
+    deco(img, W + x, G)
+deco("gull", W + 33, G - 0.6); deco("gull", W + 26, G + 0.3)
+bike("Bike1", W + 1, W + 17, G, 95, (0.2, 0.55, 0.85)); bike("Bike2", W + 1, W + 17, G, -150, (0.85, 0.3, 0.2), 2.5, 0.5)
+bike("Bike3", W + 38, W + 50, G, 70, (0.3, 0.7, 0.3), 1.2)
+inst("PgCrow3", "res://scenes/enemies/crow/crow.tscn", tx(W + 28), ty(10))  # gulls
+inst("PgCrow4", "res://scenes/enemies/crow/crow.tscn", tx(W + 56), ty(10))
+inst("PgCheckpoint2", "res://scenes/objects/checkpoint.tscn", tx(W + 2), ty(G))
+inst("PgCheckpoint3", "res://scenes/objects/checkpoint.tscn", tx(W + 40), ty(G))
+hint(W + 3, G, "Bulwary! Przeskakuj rowerzystów, a przez Wisłę przejdź po łodziach.")
+
+def pickups(tag, coins, gems):
+    assert len(coins) == 10 and len(gems) == 4, tag
+    for i, (x, y) in enumerate(coins):
+        inst(f"Coin{tag}{i + 1}", "res://scenes/objects/coin.tscn", round(x), round(y))
+    for i, (x, y) in enumerate(gems):
+        inst(f"Diamond{tag}{i + 1}", "res://scenes/objects/diamond.tscn", round(x), round(y), [f"gem = {i}"])
+def above(x, row, up=14): return (x * T + T / 2, ty(row) - up)
+def node_y(name):   # walk row of a placed platform
+    for n in nodes:
+        if n.startswith(f'[node name="{name}"'):
+            return float(n.split("position = Vector2(")[1].split(")")[0].split(", ")[1]) / T
+pickups("R",
+        [above(6.5, node_y("TenementA")), above(10.6, node_y("TenementB")), above(15, node_y("Planter1")), above(18, node_y("AdColumn")),
+         above(28, 12.8), above(33, 12.8), above(30.5, 6.6), above(44.5, node_y("Balustrade")), above(55.5, node_y("TenementC")),
+         above(60.4, node_y("TenementD"))],
+        [above(26.8, 9.4), above(34.2, 9.4), above(52, node_y("Planter3")), above(9, G, 40)])
+pickups("W",
+        [above(W + 8, G, 30), above(W + 12, G, 30), above(W + 19, G + 0.6), above(W + 23, G + 0.6), above(W + 28, G + 0.4), above(W + 35, G + 0.4),
+         above(W + 44, G, 30), above(W + 53, G - 0.2), above(W + 60, G - 0.2), above(W + 62.5, G - 0.2)],
+        [above(W + 27.5, G + 3.5, 0), above(W + 31.6, G + 0.4, 34), above(W + 57, G + 3.5, 0), above(W + 46, G, 44)])
+inst("LifeR", "res://scenes/objects/life.tscn", tx(30.5), ty(3.4) - 2)   # on top of the spire
+inst("LifeW", "res://scenes/objects/life.tscn", tx(W + 33), ty(G + 6))   # on the riverbed under the barge
+
+pos = _pos
+
+# ======== 9. Kładka Bernatka (layout from assets/lvl4/kladkaBernatka/platforms.png, 48 columns x 16 rows) ========
+# local column c is global N + c; mockup row r is world row r + BR (its quay, row 12.4, meets the promenade, row 17)
+N = L + 128
+BR = 4.6
+BJ = json.load(open("assets/game/lvl4/bernatka_sizes.json"))
+def btex(img): return f'texture = ExtResource("{R(f"res://assets/game/lvl4/bernatka/{img}.png", "Texture2D")}")'
+def bdeco(img, x, row, h_tiles=0, scale=0.333333, parent="DecorBack"):
+    w, h = BJ["sizes"][img]
+    if h_tiles: scale = round(h_tiles * T / h, 4)
+    node(uid("b_" + img + "_"), parent, "Sprite2D", props=[pos(round((N + x) * T), round(ty(row)) + 2), btex(img), "centered = false",
+         f"offset = Vector2({-(w // 2)}, {-h})", f"scale = Vector2({scale}, {scale})"])
+def bplat(name, img, x, mrow, path=None):   # centred on mockup column x, walkable top on mockup row mrow
+    t = f'texture = ExtResource("{R(path, "Texture2D")}")' if path else btex(img)
+    inst(name, "res://scenes/objects/lvl4/float_platform.tscn", round((N + x) * T), round(ty(mrow + BR)), [t, f"surface = {0 if path else BJ['surface'][img]}"])
+def blamp(x, mrow_top, mrow_bottom):   # climbable street lamp from the mockup
+    h = mrow_bottom - mrow_top
+    bdeco("lamp_a", x, mrow_bottom + BR, h_tiles=h)
+    inst(uid("Pole"), "res://scenes/objects/lvl4/pole.tscn", round((N + x) * T), round(ty(mrow_top + BR + 0.4)), [f"height_tiles = {round(h - 0.4)}"])
+node("BernatkaBg", "WorldBack", "Sprite2D", props=[btex("bg"), "centered = false", pos(N * T, round(336 - 944 * KL_BG_SCALE)), f"scale = Vector2({KL_BG_SCALE}, {KL_BG_SCALE})"])   # bg2 (+220 px sky) at the other parts' scale, its bottom under the quay
+for name, img, x, r in [("BA", "ledge_l", 6.7, 7.4), ("BStep1", "ledge_grass_s", 9.2, 6.1), ("BB", "ledge_l", 11.75, 4.6), ("BC", "pier_c", 13.9, 7.6),
+                        ("BD", "ledge_s", 16.45, 5.2), ("BE", "ledge_m", 20.4, 4.1), ("BF", "ledge_m", 19.15, 8.6), ("BG", "ledge_m", 25.75, 5.2),
+                        ("BH", "pier_c", 29.8, 3.6), ("BI", "ledge_m", 32.8, 5.8), ("BJ", "pier_c", 32.85, 10.4), ("BK", "ledge_m", 37.3, 7.1),
+                        ("BStep2", "ledge_grass_s", 39.9, 8.0), ("BL", "ledge_m", 41.8, 9.1), ("BM", "pier_b", 44.75, 10.5), ("BN", "ledge_m", 44.2, 5.4)]:
+    bplat(name, img, x, r)
+bplat("BCrate", None, 13.5, 6.6, "res://assets/game/lvl3/crate.png")
+for x, top, bottom in [(2.0, 7.8, 12.4), (3.4, 5.8, 12.4), (19.2, 5.8, 8.6), (36.7, 4.9, 7.1), (39.0, 9.7, 12.4)]:
+    blamp(x, top, bottom)
+inst(uid("Pole"), "res://scenes/objects/lvl4/pole.tscn", round((N + 45.6) * T), round(ty(5.6 + BR)), ["height_tiles = 5"])   # ivy up the quay wall
+for img, x, r, h in [("ivy", 46.3, 7.6, 0), ("chain_posts", 10.5, 12.4, 1.4), ("bench", 14, 12.4, 1.2), ("bin", 16, 12.4, 1.1), ("chain_posts", 21, 12.4, 1.4),
+                     ("chain_posts", 29, 12.4, 1.4), ("chain_posts", 37, 12.4, 1.4), ("lifebuoy", 23.4, 13.6, 1.3), ("planter_a", 1, 11.2, 1.3),
+                     ("bush_a", 44.5, 10.5, 1.3), ("padlock_heart", 32, 12.4, 0.6), ("padlock_gold", 32.7, 12.4, 0.6),
+                     ("pigeon", 16.4, 5.2, 1), ("gull", 29.6, 3.6, 1.1), ("duck", 34, 13.6, 0.9)]:   # sheet items are drawn big: sized in tiles
+    bdeco(img, x, r + BR, h_tiles=h)
+inst("BernBike1", "res://scenes/hazards/bike.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}", "speed = 110.0", "gap = 2.2"])
+inst("BernScooter", "res://scenes/hazards/bike.tscn", (N + 6) * T, ty(17), [f"lane = {38 * T}", "speed = -150.0", "gap = 3.0", "phase = 0.5",
+     f'texture = ExtResource("{R("res://assets/game/lvl4/bernatka/scooter.png", "Texture2D")}")'])
+inst("BernCrow1", "res://scenes/enemies/crow/crow.tscn", round((N + 12) * T), ty(1.5 + BR))   # pigeons and gulls
+inst("BernCrow2", "res://scenes/enemies/crow/crow.tscn", round((N + 37) * T), ty(2.5 + BR))
+inst("BernCrow3", "res://scenes/enemies/crow/crow.tscn", round((N + 40) * T), ty(1.5 + BR))
+inst("CheckpointBern1", "res://scenes/objects/checkpoint.tscn", round((N + 1.5) * T), ty(16))
+inst("CheckpointBern2", "res://scenes/objects/checkpoint.tscn", round((N + 30) * T), ty(17))
+hint(N + 1, 16, "Kładka Bernatka! Legowisko czeka na murze po prawej - wejdź po bluszczu.")
+def babove(x, mrow, up=14): return ((N + x) * T, ty(mrow + BR) - up)
+pickups("N",
+        [babove(5.5, 7.4), babove(7.9, 7.4), babove(10.8, 4.6), babove(12.7, 4.6), babove(20.4, 4.1), babove(24.9, 5.2), babove(26.6, 5.2),
+         babove(36.2, 7.1), babove(38.4, 7.1), babove(44.2, 5.4, 30)],
+        [babove(16.45, 5.2), babove(29.8, 3.6), babove(41.8, 9.1, 28), babove(44.75, 10.5)])
+
 node("Spawn", typ="Marker2D", props=[pos(tx(4), ty(10))])
-inst("Goal", "res://scenes/objects/goal.tscn", tx(P + 69), ty(13))
+inst("Goal", "res://scenes/objects/goal.tscn", tx(N + 46.5), ty(10))   # on the quay wall past the Bernatka footbridge
 inst("Cat", "res://scenes/player/cat.tscn", 0, 0); nodes[-1] = nodes[-1].replace("position = Vector2(0, 0)\n", "")
 inst("HUD", "res://scenes/ui/hud.tscn", 0, 0); nodes[-1] = nodes[-1].replace("position = Vector2(0, 0)\n", "")
 

@@ -1,6 +1,6 @@
 # Usage: python3 tools/extract_podgorze.py . contact_sheet.png   (needs Pillow, numpy, scipy)
-# Cuts the level 5 sprites (Rynek Podgórski, bulwary wiślane) out of assets/lvl4/{rynekPodgorski,bulwaryWislane}/items.png
-# into assets/game/lvl5/<name>.png. Alpha is made binary at 128; sprites are picked by a point in the sheet's own pixels.
+# Cuts the level 4 Podgórze sprites (Rynek Podgórski, bulwary wiślane) out of assets/lvl4/{rynekPodgorski,bulwaryWislane}/items.png
+# into assets/game/lvl4/podgorze/<name>.png. Alpha is made binary at 128; sprites are picked by a point in the sheet's own pixels.
 import os, sys, json
 import numpy as np
 from PIL import Image, ImageDraw
@@ -24,7 +24,7 @@ SHEETS = {
         "quay_wall": (1440, 790), "quay_ramp": (1640, 790),
     },
 }
-out = f"{proj}/assets/game/lvl5"
+out = f"{proj}/assets/game/lvl4/podgorze"
 os.makedirs(out, exist_ok=True)
 sizes = {}
 sheet = Image.new("RGBA", (1800, 2400), (40, 40, 60, 255)); d = ImageDraw.Draw(sheet); x = y = 0; rowh = 0

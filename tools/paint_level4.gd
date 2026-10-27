@@ -55,6 +55,16 @@ func _initialize():
 	fill(grass, P, P + 4, 11); fill(grass, P + 5, P + 5, 12); fill(grass, P + 6, P + 6, 13); fill(grass, P + 7, P + 8, 15)
 	fill(grass, P + 9, P + 9, 16); fill(grass, P + 10, P + 10, 17); fill(grass, P + 11, P + 17, 18)
 	fill(grass, P + 64, P + 72, 13)
+	# 7-8. Podgórze (local columns from the square's left edge): the square, the promenade broken twice by the river, the riverbed
+	const L := 358
+	for r in [[0, 63], [64, 80], [102, 113]]:
+		fill(stone, L + r[0], L + r[1], 17)
+	fill(stone, L + 81, L + 127, 23)
+	# 9. Kładka Bernatka: the upper quay at the start, the quay to the end, the quay wall with the lair
+	const N := L + 128
+	fill(stone, N, N + 4, 16)
+	fill(stone, N + 5, N + 45, 17)
+	fill(stone, N + 46, N + 48, 10)
 	g.clear()
 	for t in [grass, stone, autumn]:
 		var list: Array[Vector2i] = []
