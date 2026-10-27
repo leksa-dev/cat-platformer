@@ -20,10 +20,10 @@ func _move(_delta: float) -> void:
 
 func hit_cat() -> bool:
 	var shape := RectangleShape2D.new()
-	shape.size = hit_size
+	shape.size = hit_size * scale  # scaled instances (smaller cacti) shrink their hit rect too
 	var query := PhysicsShapeQueryParameters2D.new()
 	query.shape = shape
-	query.transform = Transform2D(0, global_position + hit_offset)
+	query.transform = Transform2D(0, global_position + hit_offset * scale)
 	query.collision_mask = 1
 	for result in get_world_2d().direct_space_state.intersect_shape(query):
 		if result.collider.is_in_group("player"):

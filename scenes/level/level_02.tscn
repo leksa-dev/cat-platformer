@@ -686,6 +686,7 @@ scale = Vector2(0.333333, 0.333333)
 
 [node name="Cactus1" parent="." instance=ExtResource("r28")]
 position = Vector2(5672, 224)
+scale = Vector2(0.8, 0.8)
 hit_size = Vector2(12, 18)
 hit_offset = Vector2(0, -10)
 
@@ -695,6 +696,7 @@ offset = Vector2(-24, -63)
 
 [node name="Cactus2" parent="." instance=ExtResource("r28")]
 position = Vector2(5896, 224)
+scale = Vector2(0.8, 0.8)
 hit_size = Vector2(19, 27)
 hit_offset = Vector2(0, -15)
 
@@ -704,6 +706,7 @@ offset = Vector2(-35, -91)
 
 [node name="Cactus3" parent="." instance=ExtResource("r28")]
 position = Vector2(5944, 256)
+scale = Vector2(0.8, 0.8)
 hit_size = Vector2(17, 16)
 hit_offset = Vector2(0, -9)
 
@@ -713,6 +716,7 @@ offset = Vector2(-31, -59)
 
 [node name="Cactus4" parent="." instance=ExtResource("r28")]
 position = Vector2(6024, 224)
+scale = Vector2(0.8, 0.8)
 hit_size = Vector2(19, 27)
 hit_offset = Vector2(0, -15)
 
@@ -722,6 +726,7 @@ offset = Vector2(-35, -91)
 
 [node name="Cactus5" parent="." instance=ExtResource("r28")]
 position = Vector2(6296, 224)
+scale = Vector2(0.8, 0.8)
 hit_size = Vector2(20, 28)
 hit_offset = Vector2(0, -15)
 
