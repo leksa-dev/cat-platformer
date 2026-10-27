@@ -63,7 +63,7 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - [x] **Zapis postępu** — po każdym ukończonym poziomie (`user://save.cfg`: poziom, życia, znajdźki, czas); GRAJ → DALEJ / NOWA GRA; checkpointy nie są zapisywane; game over i koniec gry kasują zapis
 - [x] **Głośność** — osobno muzyka i efekty (0–100 %, strzałki ←/→ albo Spacja), zapamiętana w `settings.cfg`
 - [x] **Wibracje pada** — trafienie, utrata życia, game over, trafienia wrogów (drapanie, kłębek, skok na głowę), zabicie, pierd, dash, 1up, diament, długi upadek, surfowanie, koniec poziomu; OPCJE: WIBRACJE TAK/NIE (menu: strona DŹWIĘK, pauza zamiast JĘZYKA)
-- [x] **Ekran końcowy** — czas gry, monety ze wszystkich poziomów, życia
+- [x] **Ekran końcowy** — czas gry, monety ze wszystkich poziomów, życia; ukryta nagroda „POKOJOWE PRZEJŚCIE”, gdy kot nie zabił żadnego wroga w całej grze
 - [ ] **13. Szlif grafiki** — klatki wspinaczki i drapania, pasek kocimiętki w HUD, lepsze tło, cząsteczki
 - [ ] **14. Wydanie** — eksport HTML5, itch.io
 

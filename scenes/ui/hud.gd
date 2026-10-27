@@ -72,7 +72,6 @@ func _on_level_done(stats: Dictionary) -> void:
 	$Summary/Panel/Row0/Count.text = "%d/%d" % [stats.coins, Game.COINS_PER_LEVEL]
 	$Summary/Panel/Row1/Count.text = "%d/%d" % [stats.lives, Game.LIVES_PER_LEVEL]
 	$Summary/Panel/Row2/Count.text = "%d/%d" % [stats.diamonds, Game.DIAMONDS_PER_LEVEL]
-	$Summary/Panel/Row3/Count.text = "%d/%d" % [stats.kills, stats.enemies]
 	$Summary/Panel/Grade.text = tr("OCENA: %s") % stats.grade
 	$Summary.visible = true
 	var grade: Label = $Summary/Panel/Grade

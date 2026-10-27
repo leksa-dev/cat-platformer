@@ -11,6 +11,14 @@ func _ready() -> void:
 	$Item1.text = tr("CZAS %d:%02d") % [t / 60, t % 60]
 	$Item2.text = tr("MONETY %d/%d") % [Game.coins(), Game.COINS_PER_LEVEL * Game.LEVELS.size()]
 	$Lives.text = Game.keys(tr("Życia: %d      Spacja / ✕ - menu")) % Game.lives
+	# hidden reward: the whole game without killing a single enemy
+	if Game.killed.values().all(func(k): return k.is_empty()):
+		$Peace.text = tr("POKOJOWE PRZEJŚCIE") + "\n" + tr("Kot nikogo nie skrzywdził")
+		$Peace.visible = true
+		Game.sfx("oneup", 0.0)
+		var glow := create_tween().set_loops()
+		glow.tween_property($Peace, "scale", Vector2.ONE * 1.08, 0.5)
+		glow.tween_property($Peace, "scale", Vector2.ONE, 0.5)
 	_ready_at = Engine.get_process_frames()
 	var tween := create_tween().set_loops()  # the title plank glows
 	tween.tween_property($Plank, "modulate", Color(1.15, 1.1, 0.9), 0.6)
