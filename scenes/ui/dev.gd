@@ -94,7 +94,7 @@ func _on_chosen(index: int) -> void:
 				return
 		4:
 			for node in level.get_children():
-				if node.has_method("hurt") and not node.dead:
+				if node is Enemy and not node.dead:
 					node.hurt(999, node.global_position)
 		5:
 			if cat:
