@@ -45,7 +45,7 @@ func _set_items(texts: Array) -> void:
 			items.append(labels[i])
 
 
-const PLANK_Y := [57.7, 73.7, 90.0]  # the glow ring's top for each plank pair of the signpost (titel_screen2.png)
+const PLANK_Y := [36.3, 59.7, 81.3]  # the glow ring's top for each plank pair of the signpost (title_screen3.png)
 
 
 func _on_select(index: int) -> void:  # the glow ring moves around the chosen pair of planks
