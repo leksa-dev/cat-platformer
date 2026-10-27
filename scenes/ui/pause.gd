@@ -35,7 +35,7 @@ func _process(delta: float) -> void:
 			_close()
 		return
 	if visible and _in_options and selected in [1, 2] and nudge_volume("Music" if selected == 1 else "SFX"):
-		items[selected].text = volume_text("Music" if selected == 1 else "SFX")
+		fit_text(items[selected], volume_text("Music" if selected == 1 else "SFX"))
 	super._process(delta)
 
 
@@ -75,7 +75,7 @@ func _set_items(texts: Array) -> void:
 	var labels := [$Panel/Item0, $Panel/Item1, $Panel/Item2, $Panel/Item3, $Panel/Item4]
 	items.clear()
 	for i in labels.size():
-		labels[i].text = texts[i] if i < texts.size() else ""
+		fit_text(labels[i], texts[i] if i < texts.size() else "")
 		if i < texts.size():
 			items.append(labels[i])
 	select(0)
@@ -91,15 +91,15 @@ func _on_chosen(index: int) -> void:
 		match index:
 			0:
 				Game.toggle_fullscreen()
-				$Panel/Item0.text = fullscreen_text()
+				fit_text($Panel/Item0, fullscreen_text())
 				select(0)
 			1, 2:  # Space steps the volume up, wrapping to 0; left/right in _process
 				var bus := "Music" if index == 1 else "SFX"
 				Game.set_volume(bus, (Game.volume[bus] + 1) % 11)
-				items[index].text = volume_text(bus)
+				fit_text(items[index], volume_text(bus))
 			3:
 				Game.toggle_vibration()
-				items[3].text = vibration_text()
+				fit_text(items[3], vibration_text())
 			4: _show_main()
 		return
 	match index:

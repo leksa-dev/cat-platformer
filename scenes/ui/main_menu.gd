@@ -40,7 +40,7 @@ func _set_items(texts: Array) -> void:
 	var labels := [$Item0, $Item1, $Item2]
 	items.clear()
 	for i in labels.size():
-		labels[i].text = texts[i] if i < texts.size() else ""
+		fit_text(labels[i], texts[i] if i < texts.size() else "")
 		if i < texts.size():
 			items.append(labels[i])
 

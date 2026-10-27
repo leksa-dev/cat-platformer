@@ -40,6 +40,20 @@ func _on_select(_index: int) -> void:
 	pass
 
 
+# sets the text, shrinking the font just enough for a long one ("WIBRACJE: TAK", Spanish...) to fit its plank
+func fit_text(label: Label, text: String) -> void:
+	if not label.has_meta("plank_width"):  # a too long text widens the label past the plank: remember the real width
+		label.set_meta("plank_width", label.size.x)
+	var room: float = label.get_meta("plank_width")
+	label.remove_theme_font_size_override("font_size")
+	label.text = text
+	var size := label.get_theme_font_size("font_size")
+	while size > 9 and label.get_minimum_size().x > room - 8:  # the label's own measure; 4 px clear of the plank's edges
+		size -= 1
+		label.add_theme_font_size_override("font_size", size)
+	label.size.x = room
+
+
 func volume_text(bus: String) -> String:
 	return (tr("MUZYKA") if bus == "Music" else tr("EFEKTY")) + ": %d%%" % (Game.volume[bus] * 10)
 
