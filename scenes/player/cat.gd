@@ -67,7 +67,8 @@ var hp := 0
 var fall_speed := 0.0  # vertical speed before the last move (landing zeroes velocity; enemies need it for stomps)
 var _hurt_invuln := 0.0
 var _dying := false
-var _fart_dir := 1.0  # facing when the attack started: the target side
+var _fart_dir := 1.0  # horizontal side of the target: the cat turns its butt that way
+var _fart_aim := Vector2.RIGHT  # where the cloud goes: held direction (8-way), the facing when nothing is held
 var _surfing := false
 var _surf_air := false
 var _surf_time := 0.0
@@ -368,6 +369,8 @@ func _physics_process(delta: float) -> void:
 		_fart_time = 0.0
 		_farted = false
 		_fart_dir = visual.scale.x
+		_fart_aim = Vector2(_fart_dir, 0)
+		_aim_fart()
 	_air_throw_cd -= delta
 	if Input.is_action_just_pressed("throw") and _throw_time < 0 and _fart_time < 0:
 		if is_on_floor():
@@ -464,17 +467,29 @@ func _on_crown() -> bool:
 	return false
 
 
+# Direction keys / left stick held during the wind-up aim the cloud (8 ways); it can still be changed until it comes out.
+func _aim_fart() -> void:
+	var v := Vector2(Input.get_axis("left", "right"), Input.get_axis("up", "down"))
+	if v.length() < 0.3:
+		return
+	_fart_aim = v.normalized()
+	if absf(v.x) > 0.3:
+		_fart_dir = signf(v.x)
+
+
 func _update_fart(delta: float) -> void:
 	_fart_time += delta
+	if not _farted:
+		_aim_fart()
 	var tick := _fart_time * 30.0
 	if not _farted and tick >= FART_RELEASE:
 		_farted = true
 		Game.sfx("fart", 0.1)
 		Game.rumble(0.2, 0.5, 0.25)
 		var cloud := FART_CLOUD.instantiate()
-		cloud.velocity = Vector2(_fart_dir * fart_cloud_speed, 0)  # the cat has turned: its butt points at the target
+		cloud.velocity = _fart_aim * fart_cloud_speed  # the cat has turned: its butt points at the target
 		get_parent().add_child(cloud)
-		cloud.global_position = global_position + Vector2(_fart_dir * 8, -6)
+		cloud.global_position = global_position + _fart_aim * 8 + Vector2(0, -6)
 		cloud.hit.connect(hit.emit)
 		_shake = 0.15
 	var t := 0
