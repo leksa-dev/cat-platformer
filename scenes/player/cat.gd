@@ -365,7 +365,7 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_released("jump") and velocity.y < 0:
 		velocity.y *= jump_cut_mult
 
-	if Input.is_action_just_pressed("fart") and _fart_time < 0 and is_on_floor():
+	if Input.is_action_just_pressed("fart") and _fart_time < 0 and not _in_water:
 		_fart_time = 0.0
 		_farted = false
 		_fart_dir = visual.scale.x
