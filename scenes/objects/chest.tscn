@@ -1,0 +1,35 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/chest.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/kopiec/chest.png" id="2_t"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(30, 18)
+
+[node name="Chest" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="Body" type="Sprite2D" parent="."]
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("2_t")
+centered = false
+offset = Vector2(-37, -35)
+region_enabled = true
+region_rect = Rect2(0, 22, 74, 35)
+
+[node name="Lid" type="Node2D" parent="."]
+position = Vector2(-12, -11.667)
+
+[node name="Sprite" type="Sprite2D" parent="Lid"]
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("2_t")
+centered = false
+offset = Vector2(0, -22)
+region_enabled = true
+region_rect = Rect2(0, 0, 74, 22)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("shape")

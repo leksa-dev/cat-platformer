@@ -141,7 +141,7 @@ func _initialize() -> void:
 		out.poles.append(p)
 	for n in lvl.level_objects():
 		var nm := str(n.name)
-		if nm.begins_with("Coin") or nm.begins_with("Diamond") or nm.begins_with("Life"):
+		if nm.begins_with("Coin") or nm.begins_with("Diamond") or nm.begins_with("Life") or nm.begins_with("Key") or nm.begins_with("Chest"):
 			var pp: Vector2 = n.global_position
 			var ok := false
 			for i in ns:

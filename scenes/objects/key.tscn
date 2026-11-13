@@ -1,0 +1,21 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/key.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/key_gold.png" id="2_t"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(12, 14)
+
+[node name="Key" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_s")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("2_t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("shape")

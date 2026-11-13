@@ -49,7 +49,7 @@ func _ready() -> void:
 	var found := {"Coin": 0, "Life": 0, "Diamond": 0}
 	for n in objects:
 		for prefix in found:
-			if n.name.begins_with(prefix) or (prefix == "Life" and n.name.begins_with("BerryBush")):  # the bush gives a hidden 1up
+			if n.name.begins_with(prefix) or (prefix == "Life" and (n.name.begins_with("BerryBush") or n.name.begins_with("Chest"))):  # bush / chest give a hidden 1up
 				found[prefix] += 1
 	Game.totals[Game.level_index] = found
 	Game.pickups_changed.emit()  # the HUD may have drawn the coin counter before the totals were known
