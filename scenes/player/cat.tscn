@@ -7,7 +7,7 @@
 size = Vector2(10, 12)
 
 [sub_resource type="RectangleShape2D" id="shape_claws"]
-size = Vector2(14, 12)
+size = Vector2(22, 16)
 
 [sub_resource type="RectangleShape2D" id="shape_water"]
 size = Vector2(4, 4)
@@ -57,7 +57,7 @@ hframes = 127
 
 [node name="Claws" type="Node2D" parent="Visual"]
 visible = false
-position = Vector2(10, -6)
+position = Vector2(14, -7)
 
 [node name="Slash1" type="Line2D" parent="Visual/Claws"]
 points = PackedVector2Array(-4, -4, 2, 2)
