@@ -2124,10 +2124,10 @@ width_tiles = 1.0
 cap = ExtResource("162_4ivyc")
 
 [node name="FM1" parent="3_Fort31/Platformy" instance=ExtResource("mover_scene")]
-position = Vector2(3820, 262)
-texture = ExtResource("tex_ledge_c")
-distance = 112.0
-size_mult = 3.0
+position = Vector2(3830, 262)
+texture = ExtResource("tex_slab")
+distance = 100.0
+surface = 1.0
 speed = 34.0
 
 [node name="CrumbleH1" parent="3_Fort31/Platformy" instance=ExtResource("137_kgc5m")]
