@@ -234,6 +234,10 @@
 [ext_resource type="PackedScene" path="res://scenes/hazards/crusher.tscn" id="crusher_scene"]
 [ext_resource type="PackedScene" path="res://scenes/hazards/cannon.tscn" id="cannon_scene"]
 [ext_resource type="PackedScene" path="res://scenes/objects/lvl4/chain.tscn" id="chain_scene"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/slab_fort31.png" id="tex_slab"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/wall_fort31.png" id="tex_wallf"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/ruin_fort31.png" id="tex_ruin"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/winch.png" id="tex_winch"]
 
 [node name="Level04" type="Node2D" unique_id=1795149945]
 script = ExtResource("1_dw70t")
@@ -1887,6 +1891,38 @@ width_tiles = 2
 [node name="Dekoracje_tyl" type="Node2D" parent="3_Fort31" unique_id=1969944715]
 z_index = -1
 
+[node name="castle_wall_h" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
+z_index = 3
+position = Vector2(5242, 274)
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("tex_wallf")
+centered = false
+offset = Vector2(-277.5, -192)
+
+[node name="ruin_g1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
+z_index = -1
+position = Vector2(4160, 274)
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("tex_ruin")
+centered = false
+offset = Vector2(-110, -175)
+
+[node name="ruin_h1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
+z_index = -1
+position = Vector2(5800, 274)
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("tex_ruin")
+centered = false
+offset = Vector2(-110, -175)
+
+[node name="winch_g1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
+z_index = -1
+position = Vector2(4476, 120)
+scale = Vector2(0.333333, 0.333333)
+texture = ExtResource("tex_winch")
+centered = false
+offset = Vector2(-91.5, -180)
+
 [node name="gate_f1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
 z_index = 3
 position = Vector2(3312, 274)
@@ -1894,46 +1930,6 @@ scale = Vector2(0.333333, 0.333333)
 texture = ExtResource("t_gate")
 centered = false
 offset = Vector2(-88, -240)
-
-[node name="battle_f1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
-z_index = 3
-position = Vector2(3312, 180)
-scale = Vector2(0.333333, 0.333333)
-texture = ExtResource("t_battle")
-centered = false
-offset = Vector2(-163.5, -103)
-
-[node name="window_h1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
-z_index = 3
-position = Vector2(5200, 274)
-scale = Vector2(0.333333, 0.333333)
-texture = ExtResource("t_window")
-centered = false
-offset = Vector2(-66, -240)
-
-[node name="window_h2" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
-z_index = 3
-position = Vector2(5284, 274)
-scale = Vector2(0.333333, 0.333333)
-texture = ExtResource("t_window")
-centered = false
-offset = Vector2(-66, -240)
-
-[node name="battle_h1" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
-z_index = 3
-position = Vector2(5200, 196)
-scale = Vector2(0.333333, 0.333333)
-texture = ExtResource("t_battle")
-centered = false
-offset = Vector2(-163.5, -103)
-
-[node name="battle_h2" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
-z_index = 3
-position = Vector2(5284, 196)
-scale = Vector2(0.333333, 0.333333)
-texture = ExtResource("t_battle")
-centered = false
-offset = Vector2(-163.5, -103)
 
 [node name="stable_h" type="Sprite2D" parent="3_Fort31/Dekoracje_tyl"]
 position = Vector2(5960, 274)
@@ -2090,18 +2086,21 @@ offset = Vector2(-47.5, -49)
 
 [node name="FP1" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
 position = Vector2(3192, 264)
-texture = ExtResource("162_4ivyc")
+texture = ExtResource("tex_slab")
 body_depth = 0.0
+surface = 1.0
 
 [node name="FP2" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(3476, 192)
-texture = ExtResource("162_4ivyc")
+position = Vector2(3480, 192)
+texture = ExtResource("tex_slab")
 body_depth = 0.0
+surface = 1.0
 
 [node name="FP3" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
 position = Vector2(3576, 264)
-texture = ExtResource("158_mh864")
+texture = ExtResource("tex_slab")
 body_depth = 0.0
+surface = 1.0
 
 [node name="FPillarHigh" parent="3_Fort31/Platformy" instance=ExtResource("145_5oyw8")]
 position = Vector2(3733, 240)
@@ -2357,7 +2356,7 @@ lift = 88.0
 [node name="Inne" type="Node2D" parent="3_Fort31" unique_id=366148703]
 
 [node name="LadderF1" parent="3_Fort31/Inne" instance=ExtResource("163_uilgp")]
-position = Vector2(3436, 192)
+position = Vector2(3448, 192)
 height_tiles = 5
 
 [node name="CheckpointF1" parent="3_Fort31/Inne" instance=ExtResource("143_oaxcq")]
