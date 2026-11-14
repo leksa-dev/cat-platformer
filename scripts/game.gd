@@ -14,8 +14,10 @@ const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_0
 
 var lives := START_LIVES
 # dev menu toggles (persist across level reloads)
-var god_mode := false
+var god_mode := false  # dev menu switches: remembered between runs (user://settings.cfg, section "dev")
 var fly_mode := false
+var dev_sub := 0  # last sub-level picked in the dev menu (index into dev.gd's SECTIONS)
+var dev_spawn := Vector2.INF  # where the next loaded level starts (dev menu sub-level jump), consumed by _load_level
 var volume := {"Music": 8, "SFX": 8}  # bus -> 0..10 (OPCJE > MUZYKA / EFEKTY), 0 = muted
 const LANGUAGES := ["pl", "en", "es"]  # Polish texts are the translation keys (assets/i18n/strings.csv)
 const LANGUAGE_NAMES := {"pl": "POLSKI", "en": "ENGLISH", "es": "ESPAÑOL"}
@@ -67,6 +69,9 @@ func _ready() -> void:
 		AudioServer.set_bus_name(AudioServer.bus_count - 1, bus)
 		set_volume(bus, cfg.get_value("audio", bus, volume[bus]), false)
 	vibration_on = cfg.get_value("input", "vibration", true)
+	god_mode = cfg.get_value("dev", "god", false)
+	fly_mode = cfg.get_value("dev", "fly", false)
+	dev_sub = cfg.get_value("dev", "sub", 0)
 	# Pad buttons use Godot's Xbox-style names: A = Cross, B = Circle, X = Square (DualShock 4 / DualSense).
 	_bind("left", [KEY_A, KEY_LEFT], [JOY_BUTTON_DPAD_LEFT], JOY_AXIS_LEFT_X, -1.0)
 	_bind("right", [KEY_D, KEY_RIGHT], [JOY_BUTTON_DPAD_RIGHT], JOY_AXIS_LEFT_X, 1.0)
@@ -99,6 +104,14 @@ func _input(event: InputEvent) -> void:
 func rumble(weak: float, strong: float, duration: float) -> void:
 	if vibration_on and pad:
 		Input.start_joy_vibration(_pad_device, weak, strong, duration)
+
+
+func set_dev(key: String, value: Variant) -> void:
+	match key:
+		"god": god_mode = value
+		"fly": fly_mode = value
+		"sub": dev_sub = value
+	_store_setting("dev", key, value)
 
 
 func toggle_vibration() -> void:
@@ -338,7 +351,8 @@ func _restart() -> void:
 
 
 func _load_level() -> void:
-	checkpoint = Vector2.INF  # a new level (or a restart) starts at its beginning
+	checkpoint = dev_spawn  # a new level (or a restart) starts at its beginning (or where the dev menu sent it)
+	dev_spawn = Vector2.INF
 	get_tree().change_scene_to_file(LEVELS[level_index])
 
 
