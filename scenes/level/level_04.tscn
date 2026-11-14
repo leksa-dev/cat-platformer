@@ -2093,13 +2093,6 @@ position = Vector2(3192, 264)
 texture = ExtResource("162_4ivyc")
 body_depth = 0.0
 
-[node name="FTower" parent="3_Fort31/Platformy" instance=ExtResource("145_5oyw8")]
-position = Vector2(3312, 176)
-texture = ExtResource("157_hclpc")
-height_tiles = 6
-width_tiles = 5.0
-cap = ExtResource("162_4ivyc")
-
 [node name="FP2" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
 position = Vector2(3476, 192)
 texture = ExtResource("162_4ivyc")
@@ -2111,16 +2104,16 @@ texture = ExtResource("158_mh864")
 body_depth = 0.0
 
 [node name="FPillarHigh" parent="3_Fort31/Platformy" instance=ExtResource("145_5oyw8")]
-position = Vector2(3733, 208)
+position = Vector2(3733, 240)
 texture = ExtResource("157_hclpc")
-height_tiles = 4
+height_tiles = 2
 width_tiles = 2.0
 cap = ExtResource("162_4ivyc")
 
 [node name="FPillarFloat" parent="3_Fort31/Platformy" instance=ExtResource("145_5oyw8")]
-position = Vector2(3674, 176)
+position = Vector2(3674, 208)
 texture = ExtResource("157_hclpc")
-height_tiles = 4
+height_tiles = 2
 width_tiles = 1.0
 cap = ExtResource("162_4ivyc")
 
@@ -2148,13 +2141,6 @@ surface = 0.0
 position = Vector2(4505, 249)
 texture = ExtResource("56_3dkev")
 surface = 0.0
-
-[node name="FCastle" parent="3_Fort31/Platformy" instance=ExtResource("145_5oyw8")]
-position = Vector2(5242, 192)
-texture = ExtResource("157_hclpc")
-height_tiles = 5
-width_tiles = 11.0
-cap = ExtResource("162_4ivyc")
 
 [node name="CrumbleH1" parent="3_Fort31/Platformy" instance=ExtResource("137_kgc5m")]
 position = Vector2(5416, 272)
@@ -2187,10 +2173,10 @@ delay = 0.7
 position = Vector2(3192, 252)
 
 [node name="CoinF2" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(3292, 164)
+position = Vector2(3292, 258)
 
 [node name="CoinF3" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(3332, 164)
+position = Vector2(3332, 258)
 
 [node name="CoinF4" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
 position = Vector2(3448, 180)
@@ -2205,7 +2191,7 @@ position = Vector2(3576, 252)
 position = Vector2(3640, 262)
 
 [node name="CoinF8" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(3733, 196)
+position = Vector2(3733, 228)
 
 [node name="CoinF9" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
 position = Vector2(3860, 250)
@@ -2259,10 +2245,10 @@ position = Vector2(5656, 260)
 position = Vector2(5728, 260)
 
 [node name="CoinH6" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(5200, 180)
+position = Vector2(5200, 258)
 
 [node name="CoinH7" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(5290, 180)
+position = Vector2(5290, 258)
 
 [node name="CoinH8" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
 position = Vector2(5360, 260)
@@ -2278,7 +2264,7 @@ position = Vector2(3480, 172)
 gem = 2
 
 [node name="DiamondF2" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
-position = Vector2(3674, 164)
+position = Vector2(3674, 196)
 gem = 3
 
 [node name="DiamondF3" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
@@ -2310,7 +2296,7 @@ position = Vector2(5576, 230)
 gem = 2
 
 [node name="DiamondH2" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
-position = Vector2(5242, 176)
+position = Vector2(5242, 244)
 gem = 3
 
 [node name="DiamondH3" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
