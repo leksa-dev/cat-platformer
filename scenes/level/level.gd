@@ -8,8 +8,10 @@ extends Node2D
 @export var backdrop: Texture2D  # dark earth tiled below backdrop_top, so pits don't show the sky/forest layers
 @export var backdrop_top := 236.0
 @export var camera_bottom := 0.0  # px: lowest point the camera shows; 0 = the bottom of the painted tiles
+@export var deep_zones: Array[Vector3] = []  # (x from, x to, camera bottom): stretches with caves/pits where the camera may follow lower
 
 var _death_y := 0.0
+var _default_bottom := 0  # camera bottom limit outside the deep zones
 var _bg_time := 0.0
 var _bg_base_y := 0.0  # camera centre y with the cat on the ground (bottom limit): vertical parallax is measured from it
 var _cam: Camera2D
@@ -31,6 +33,7 @@ func _ready() -> void:
 	_add_edge_walls(cam.limit_left, cam.limit_right)
 	if backdrop:
 		_add_backdrop(cam.limit_left, cam.limit_right, _death_y)
+	_default_bottom = cam.limit_bottom
 	_bg_base_y = cam.limit_bottom - get_viewport().get_visible_rect().size.y / 2
 	for layer in $Background.get_children():
 		layer.set_meta("y0", layer.position.y)
@@ -134,7 +137,13 @@ func leave_room() -> void:
 	_cam.reset_smoothing.call_deferred()
 
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
+	if not deep_zones.is_empty() and not in_room:
+		var target := _default_bottom
+		for z in deep_zones:
+			if cat.position.x >= z.x and cat.position.x <= z.y:
+				target = int(z.z)
+		_cam.limit_bottom = int(move_toward(_cam.limit_bottom, target, 240.0 * delta))
 	if cat.position.y > _death_y and not Game.fly_mode:
 		if Game.god_mode:
 			cat.position = $Spawn.position if Game.checkpoint == Vector2.INF else Game.checkpoint

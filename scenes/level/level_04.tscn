@@ -217,6 +217,7 @@ script = ExtResource("1_dw70t")
 backdrop = ExtResource("2_u6bpg")
 backdrop_top = 336.0
 camera_bottom = 344.0
+deep_zones = Array[Vector3]([Vector3(0, 1030, 408)])
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=667907858]
 layer = -1
