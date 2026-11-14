@@ -49,7 +49,7 @@ func _texts() -> Array:
 		t.append(tr("POZIOM %d") % (i + 1) + (" ▸" if i == LEVEL4 else ""))
 	t.append("GOD MODE: " + tr("TAK" if Game.god_mode else "NIE"))
 	t.append(tr("LATANIE") + ": " + tr("TAK" if Game.fly_mode else "NIE"))
-	t += ["PEŁNE HP + ŻYCIA", "DO METY", "BEZ WROGÓW", "KOCIMIĘTKA", "WRÓĆ"].map(tr)
+	t += ["PEŁNE HP + ŻYCIA", "DO METY", "BEZ WROGÓW", "KOCIMIĘTKA", "GALERIA ASSETÓW", "WRÓĆ"].map(tr)
 	return t
 
 
@@ -164,6 +164,11 @@ func _on_chosen(index: int) -> void:
 				_resume()
 				return
 		6:
+			visible = false
+			get_tree().paused = false
+			get_tree().change_scene_to_file("res://scenes/gallery.tscn")
+			return
+		7:
 			_close_to_pause()
 			return
 	get_parent().update_dev_badge()
