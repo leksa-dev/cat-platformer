@@ -238,6 +238,7 @@
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/wall_fort31.png" id="tex_wallf"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/ruin_fort31.png" id="tex_ruin"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/fort/winch.png" id="tex_winch"]
+[ext_resource type="PackedScene" path="res://scenes/objects/crate.tscn" id="crate_scene"]
 
 [node name="Level04" type="Node2D" unique_id=1795149945]
 script = ExtResource("1_dw70t")
@@ -2121,26 +2122,6 @@ position = Vector2(3822, 262)
 texture = ExtResource("tex_ledge_c")
 distance = 74.0
 
-[node name="CrateG1" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(4430, 249)
-texture = ExtResource("56_3dkev")
-surface = 0.0
-
-[node name="CrateG2" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(4455, 249)
-texture = ExtResource("56_3dkev")
-surface = 0.0
-
-[node name="CrateG3" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(4480, 249)
-texture = ExtResource("56_3dkev")
-surface = 0.0
-
-[node name="CrateG4" parent="3_Fort31/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(4505, 249)
-texture = ExtResource("56_3dkev")
-surface = 0.0
-
 [node name="CrumbleH1" parent="3_Fort31/Platformy" instance=ExtResource("137_kgc5m")]
 position = Vector2(5416, 272)
 width_tiles = 3.0
@@ -2197,12 +2178,6 @@ position = Vector2(3860, 250)
 
 [node name="CoinF10" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
 position = Vector2(4000, 260)
-
-[node name="CoinG1" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(4430, 236)
-
-[node name="CoinG2" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(4505, 236)
 
 [node name="CoinG3" parent="3_Fort31/Znajdzki" instance=ExtResource("191_c1va1")]
 position = Vector2(4476, 258)
@@ -2282,14 +2257,6 @@ gem = 2
 position = Vector2(4757, 160)
 gem = 3
 
-[node name="DiamondG3" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
-position = Vector2(4815, 192)
-gem = 0
-
-[node name="DiamondG4" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
-position = Vector2(5040, 208)
-gem = 1
-
 [node name="DiamondH1" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
 position = Vector2(5576, 230)
 gem = 2
@@ -2305,6 +2272,33 @@ gem = 0
 [node name="DiamondH4" parent="3_Fort31/Znajdzki" instance=ExtResource("193_66wnt")]
 position = Vector2(5900, 258)
 gem = 1
+
+[node name="CrateG1" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(4430, 272)
+
+[node name="CoinCrateG1" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(4455, 272)
+contents = 1
+
+[node name="CoinCrateG2" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(4480, 272)
+contents = 1
+
+[node name="CrateG4" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(4505, 272)
+
+[node name="DiamondCrateH1" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(5030, 224)
+contents = 2
+gem = 1
+
+[node name="CrateH2" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(5055, 224)
+
+[node name="DiamondCrateH3" parent="3_Fort31/Znajdzki" instance=ExtResource("crate_scene")]
+position = Vector2(5080, 224)
+contents = 2
+gem = 0
 
 [node name="Wrogowie" type="Node2D" parent="3_Fort31" unique_id=1674502321]
 

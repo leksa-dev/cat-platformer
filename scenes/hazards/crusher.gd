@@ -47,6 +47,11 @@ func _move(delta: float) -> void:
 	var h := _tex.get_height() * width / TEX_UP.get_width()
 	hit_size = Vector2(width - 8, h * 0.85)
 	hit_offset = Vector2(0, -_y - h / 2)
+	if _t >= wait_up and _t < wait_up + fall_time + wait_down:   # falling or slammed: smash crates in its way
+		var box := Rect2(global_position.x - width / 2, global_position.y - _y - h, width, h)
+		for c in get_tree().get_nodes_in_group("breakable"):
+			if is_instance_valid(c) and box.has_point(c.global_position + Vector2(0, -10)):
+				c.smash(global_position)
 	queue_redraw()
 
 
