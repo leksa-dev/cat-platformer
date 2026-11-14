@@ -7,7 +7,11 @@ const SECTIONS := [["KOPIEC 1", 0], ["KOPIEC 2 - LAS", 64], ["KOPIEC 3 - RÓWNIN
 		["STADION", 387], ["PARK", 451], ["RYNEK", 524], ["BULWARY", 588], ["KŁADKA BERNATKA", 652]]
 const LEVEL4 := 3
 
-var _page := 0  # 0 = main, 1 = level 4 sub-levels
+# the test level ("Poligon"): hub + 7 rooms, 84 columns apart (see tools/build_test_level.py)
+const POLIGON := ["HUB", "1. RUCH", "2. WSPINANIE", "3. PLATFORMY", "4. PRZESZKODY", "5. WODA I SURFING", "6. WROGOWIE I BROŃ", "7. SEKRETY"]
+const POLIGON_STRIDE := 84
+
+var _page := 0  # 0 = main, 1 = level 4 sub-levels, 2 = test level stations
 
 var _pause: Control
 var _opened_frame := -1  # the key that opened the menu is still "just pressed" this frame
@@ -40,6 +44,10 @@ func _resume() -> void:
 
 func _texts() -> Array:
 	var t := []
+	if _page == 2:
+		t.assign(POLIGON.map(func(n): return n))
+		t.append(tr("WRÓĆ"))
+		return t
 	if _page == 1:
 		for sec in SECTIONS:
 			t.append(("▸ " if SECTIONS.find(sec) == Game.dev_sub else "") + sec[0])
@@ -49,7 +57,7 @@ func _texts() -> Array:
 		t.append(tr("POZIOM %d") % (i + 1) + (" ▸" if i == LEVEL4 else ""))
 	t.append("GOD MODE: " + tr("TAK" if Game.god_mode else "NIE"))
 	t.append(tr("LATANIE") + ": " + tr("TAK" if Game.fly_mode else "NIE"))
-	t += ["PEŁNE HP + ŻYCIA", "DO METY", "BEZ WROGÓW", "KOCIMIĘTKA", "GALERIA ASSETÓW", "WRÓĆ"].map(tr)
+	t += ["PEŁNE HP + ŻYCIA", "DO METY", "BEZ WROGÓW", "KOCIMIĘTKA", "GALERIA ASSETÓW", "POLIGON ▸", "WRÓĆ"].map(tr)
 	return t
 
 
@@ -76,6 +84,11 @@ func _process(delta: float) -> void:
 	if not visible or Engine.get_process_frames() == _opened_frame:
 		return
 	if Input.is_action_just_pressed("pause") or Input.is_action_just_pressed("dev") or Input.is_action_just_pressed("back"):
+		if _page == 2:
+			_page = 0
+			_refresh()
+			select(Game.LEVELS.size() + 7)
+			return
 		if _page == 1:   # one step back: from the sub-levels to the main page
 			_page = 0
 			_refresh()
@@ -119,7 +132,34 @@ func _ground_spot(level: Node, col: int) -> Vector2:
 	return Vector2(col * 16 + 8, 100)
 
 
+func _go_to_station(index: int) -> void:
+	var spot := Vector2(3 * 16, 17 * 16 - 2) if index == 0 else Vector2((index * POLIGON_STRIDE + 7) * 16, 17 * 16 - 2)
+	var level := get_tree().current_scene
+	var cat: Node2D = get_tree().get_first_node_in_group("player")
+	if Game.level_index == Game.TEST_INDEX and cat:
+		cat.global_position = spot
+		cat.velocity = Vector2.ZERO
+		Game.checkpoint = spot
+		if index == 0:
+			level.leave_room()
+		else:
+			level.enter_room(Rect2(index * POLIGON_STRIDE * 16, -160, 64 * 16, 544))
+		level.get_node("Cat/Camera2D").reset_smoothing()
+		_resume()
+	else:
+		visible = false
+		Game.load_test_level(spot)
+
+
 func _on_chosen(index: int) -> void:
+	if _page == 2:
+		if index < POLIGON.size():
+			_go_to_station(index)
+		else:
+			_page = 0
+			_refresh()
+			select(Game.LEVELS.size() + 7)
+		return
 	if _page == 1:
 		if index < SECTIONS.size():
 			_go_to_section(index)
@@ -169,6 +209,11 @@ func _on_chosen(index: int) -> void:
 			get_tree().change_scene_to_file("res://scenes/gallery.tscn")
 			return
 		7:
+			_page = 2
+			_refresh()
+			select(0)
+			return
+		8:
 			_close_to_pause()
 			return
 	get_parent().update_dev_badge()
