@@ -81,6 +81,8 @@ func _initialize() -> void:
 		var sc: String = n.get_script().resource_path if n.get_script() else ""
 		if n is Area2D and n.collision_layer & 2:
 			var sh = n.get_node_or_null("Shape")
+			if sh == null:
+				sh = n.get_node_or_null("CollisionShape2D")   # ladders, chains
 			if sh and sh.shape is RectangleShape2D:
 				var gp: Vector2 = sh.global_position
 				poles.append({"x": gp.x, "y0": gp.y - sh.shape.size.y / 2, "y1": gp.y + sh.shape.size.y / 2, "name": str(n.name)})

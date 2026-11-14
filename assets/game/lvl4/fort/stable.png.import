@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwrshr7eitc6a"
-path="res://.godot/imported/kopiec3_fort.png-9ea8e604dbd8a080f30d5f6f9c15c49f.ctex"
+uid="uid://da4r13ucijuns"
+path="res://.godot/imported/stable.png-6d45ae62785d97224744f3461c415152.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/export/kopiec3_fort.png"
-dest_files=["res://.godot/imported/kopiec3_fort.png-9ea8e604dbd8a080f30d5f6f9c15c49f.ctex"]
+source_file="res://assets/game/lvl4/fort/stable.png"
+dest_files=["res://.godot/imported/stable.png-6d45ae62785d97224744f3461c415152.ctex"]
 
 [params]
 
