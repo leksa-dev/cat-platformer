@@ -95,7 +95,7 @@ func _initialize() -> void:
 			pillar_h[surfaces.size()] = n.height_tiles * 16.0
 			surfaces.append({"x0": n.global_position.x - w / 2 + 1, "x1": n.global_position.x + w / 2 - 1, "y": n.global_position.y, "kind": "pillar", "name": str(n.name)})
 		elif sc.ends_with("mover.gd"):
-			var mw: float = n.texture.get_width() / 3.0
+			var mw: float = n.texture.get_width() / 3.0 * n.size_mult
 			var dirn: Vector2 = n.direction.normalized()
 			for f in [0.0, 0.5, 1.0]:   # the ends and the middle of its path, as separate surfaces
 				var at: Vector2 = n.global_position + dirn * n.distance * f

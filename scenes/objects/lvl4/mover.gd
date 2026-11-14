@@ -12,6 +12,7 @@ extends AnimatableBody2D
 @export var direction := Vector2.RIGHT
 @export var distance := 80.0
 @export var speed := 30.0
+@export var size_mult := 1.0  # the block drawn and its one-way top made this many times wider (and taller)
 @export var phase := 0.0  # 0..1 of the cycle, so neighbours don't move in step
 
 var _start := Vector2.ZERO
@@ -29,12 +30,12 @@ func _build() -> void:
 		return
 	for c in get_children():
 		c.free()
-	var w := texture.get_width() / 3.0
+	var w := texture.get_width() / 3.0 * size_mult
 	var sprite := Sprite2D.new()
 	sprite.texture = texture
 	sprite.centered = false
-	sprite.scale = Vector2.ONE / 3
-	sprite.position = Vector2(-w / 2, -surface)
+	sprite.scale = Vector2.ONE / 3 * size_mult
+	sprite.position = Vector2(-w / 2, -surface * size_mult)
 	add_child(sprite)
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(w - 4, 6)

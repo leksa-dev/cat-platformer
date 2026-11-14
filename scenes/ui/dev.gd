@@ -3,8 +3,8 @@ extends "res://scenes/ui/menu_list.gd"
 # flight, refill, warp to the goal... God mode, flight and the last sub-level are remembered between runs.
 
 # level 4 sub-levels: [name, column to start on (a few columns in; Fort 1 starts earlier, its first pit is at 195)]
-const SECTIONS := [["KOPIEC 1", 0], ["KOPIEC 2 - LAS", 64], ["KOPIEC 3 - RÓWNINA", 128], ["FORT 1", 190], ["FORT 2", 256], ["FORT 3", 320],
-		["STADION", 384], ["PARK", 448], ["RYNEK", 521], ["BULWARY", 585], ["KŁADKA BERNATKA", 649]]
+const SECTIONS := [["KOPIEC 1", 0], ["KOPIEC 2 - LAS", 64], ["KOPIEC 3 - RÓWNINA", 128], ["FORT 1", 190], ["FORT 2", 259], ["FORT 3", 323],
+		["STADION", 387], ["PARK", 451], ["RYNEK", 524], ["BULWARY", 588], ["KŁADKA BERNATKA", 652]]
 const LEVEL4 := 3
 
 var _page := 0  # 0 = main, 1 = level 4 sub-levels
