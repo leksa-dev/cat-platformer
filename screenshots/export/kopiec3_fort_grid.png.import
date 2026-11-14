@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3g0ixvsnq5n0"
-path="res://.godot/imported/compare_16_vs_48.png-b80fab13bd53a9f9b428b4d6ce788281.ctex"
+uid="uid://ddudtbd52o0th"
+path="res://.godot/imported/kopiec3_fort_grid.png-879ece94d72ed252cd089547787e444e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/compare_16_vs_48.png"
-dest_files=["res://.godot/imported/compare_16_vs_48.png-b80fab13bd53a9f9b428b4d6ce788281.ctex"]
+source_file="res://screenshots/export/kopiec3_fort_grid.png"
+dest_files=["res://.godot/imported/kopiec3_fort_grid.png-879ece94d72ed252cd089547787e444e.ctex"]
 
 [params]
 

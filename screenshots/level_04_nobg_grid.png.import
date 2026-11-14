@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rikrbrryph5p"
-path="res://.godot/imported/level_02.png-07ff390c9ef4094c763fdcd5d6a0bb16.ctex"
+uid="uid://cf0m5xb0h3alr"
+path="res://.godot/imported/level_04_nobg_grid.png-b57a10516a82c0da5a35ca1d21b9eb9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/level_02.png"
-dest_files=["res://.godot/imported/level_02.png-07ff390c9ef4094c763fdcd5d6a0bb16.ctex"]
+source_file="res://screenshots/level_04_nobg_grid.png"
+dest_files=["res://.godot/imported/level_04_nobg_grid.png-b57a10516a82c0da5a35ca1d21b9eb9c.ctex"]
 
 [params]
 

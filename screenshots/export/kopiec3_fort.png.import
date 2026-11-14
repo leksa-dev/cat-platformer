@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b346h1w0wsb5w"
-path="res://.godot/imported/level_03.png-1540c85b468bbf7daea57bf6f2aa3e61.ctex"
+uid="uid://dwrshr7eitc6a"
+path="res://.godot/imported/kopiec3_fort.png-9ea8e604dbd8a080f30d5f6f9c15c49f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://screenshots/level_03.png"
-dest_files=["res://.godot/imported/level_03.png-1540c85b468bbf7daea57bf6f2aa3e61.ctex"]
+source_file="res://screenshots/export/kopiec3_fort.png"
+dest_files=["res://.godot/imported/kopiec3_fort.png-9ea8e604dbd8a080f30d5f6f9c15c49f.ctex"]
 
 [params]
 
