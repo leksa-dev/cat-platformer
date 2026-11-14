@@ -1,11 +1,10 @@
 extends "res://scenes/hazards/hazard.gd"
 # Spiked stone slab hanging on a chain over the path (art from the Fort 31 sheet): waits up, drops fast, rests on the ground,
 # rises slowly, repeats. The node is the bottom-centre of the slab resting on the ground; `lift` px up is where it hangs. The
-# whole slab hurts. The three sprites are the slab hanging, falling and slammed down.
+# whole slab hurts. Two sprites: hanging and falling (on the ground it keeps the falling one, with dust).
 
 const TEX_UP := preload("res://assets/game/lvl4/fort/crusher_up.png")
 const TEX_MID := preload("res://assets/game/lvl4/fort/crusher_mid.png")
-const TEX_SLAM := preload("res://assets/game/lvl4/fort/crusher_slam.png")
 
 @export var width := 144.0      # drawn width of the slab (the art is scaled to it)
 @export var lift := 88.0
@@ -40,7 +39,7 @@ func _move(delta: float) -> void:
 		_tex = TEX_MID
 	elif _t < wait_up + fall_time + wait_down:
 		_y = 0.0
-		_tex = TEX_SLAM
+		_tex = TEX_MID   # spikes stay visible; the slam is shown by the dust
 	else:
 		_y = lift * (_t - wait_up - fall_time - wait_down) / rise_time
 		_tex = TEX_UP
@@ -61,3 +60,9 @@ func _draw() -> void:
 	var top := -_y - size.y
 	draw_line(Vector2(0, top + 4), Vector2(0, top - chain), Color(0.22, 0.22, 0.26), 2.0)
 	draw_texture_rect(_tex, Rect2(-size.x / 2, top, size.x, size.y), false)
+	var since := _t - wait_up - fall_time
+	if _y == 0.0 and since >= 0.0 and since < wait_down:   # dust puffs rolling out of both sides
+		var k := since / wait_down
+		for side in [-1.0, 1.0]:
+			for i in 3:
+				draw_circle(Vector2(side * (width / 2 + 2 + k * (10 + i * 8)), -3 - i * 2.0 - k * 4), 4.0 + i * 1.5, Color(0.82, 0.74, 0.6, 0.65 * (1.0 - k)))

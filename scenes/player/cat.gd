@@ -131,8 +131,21 @@ const DRINK_FPS := 6.0
 const CROWN_LAYER := 3  # tree crowns: one-way platforms the cat must pass through while climbing
 
 
+var _coords: Label  # god mode: where the cat is on the level grid (a tile = 16 px), for placing things in the editor
+
+
 func _ready() -> void:
 	hp = max_hp
+	_coords = Label.new()
+	_coords.add_theme_font_size_override("font_size", 8)
+	_coords.add_theme_color_override("font_outline_color", Color.BLACK)
+	_coords.add_theme_constant_override("outline_size", 3)
+	_coords.position = Vector2(-40, 6)
+	_coords.size = Vector2(80, 20)
+	_coords.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_coords.z_index = 20
+	_coords.visible = false
+	add_child(_coords)
 	Game.hp_changed.emit.call_deferred(hp, max_hp)  # deferred: the HUD is ready after the cat
 
 
@@ -218,6 +231,9 @@ func eat_catnip() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	_coords.visible = Game.god_mode
+	if Game.god_mode:
+		_coords.text = "kol %d wiersz %d\n(%d, %d)" % [floori(global_position.x / 16.0), floori((global_position.y - 1.0) / 16.0), global_position.x, global_position.y]
 	$CollisionShape2D.disabled = Game.fly_mode
 	if Game.fly_mode:  # dev: noclip flight, Shift = faster
 		var dir := Input.get_vector("left", "right", "up", "down")
