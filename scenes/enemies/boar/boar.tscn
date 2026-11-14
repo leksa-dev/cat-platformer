@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/boar/boar.gd" id="1_boar"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/boar.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape_boar"]
+size = Vector2(18, 13)
+
+[node name="Boar" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_boar")
+max_hp = 4
+contact_damage = 1
+water_behavior = 1
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.42, 0.42)
+position = Vector2(0, -12)
+texture = ExtResource("2_tex")
+hframes = 21
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6.5)
+shape = SubResource("shape_boar")
