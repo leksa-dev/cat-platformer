@@ -22,6 +22,7 @@ const LANGUAGE_NAMES := {"pl": "POLSKI", "en": "ENGLISH", "es": "ESPAÑOL"}
 const SETTINGS := "user://settings.cfg"
 const SAVE := "user://save.cfg"  # progress written after each finished level (checkpoints are not saved)
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
+var cam_zoom := 1.0  # camera zoom (L1 + right stick, see camera_zoom.gd); kept between levels, not saved
 var totals := {}  # level index -> {"Coin": n, "Life": n, "Diamond": n}: pickups placed there, counted when it loads
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen

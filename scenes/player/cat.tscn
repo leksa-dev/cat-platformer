@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://scenes/player/cat.gd" id="1_cat"]
 [ext_resource type="Texture2D" path="res://assets/game/cat.png" id="2_sheet"]
 
+[ext_resource type="Script" path="res://scenes/player/camera_zoom.gd" id="camzoom"]
+
 [sub_resource type="RectangleShape2D" id="shape_cat"]
 size = Vector2(10, 12)
 
@@ -85,3 +87,4 @@ shape = SubResource("shape_claws")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
+script = ExtResource("camzoom")
