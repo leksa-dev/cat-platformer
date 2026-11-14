@@ -53,7 +53,7 @@ for (const f of walk(assets, [...IMG, ...SND]).sort()) {
     const quoted = `"${key}"`;
     used = gameSources.filter((s) => s.text.includes(res) || (base.startsWith("music_") ? s.text.includes(`music = ${quoted}`) || s.text.includes(`play_music(${quoted}`) : s.text.includes(`sfx(${quoted}`))).map((s) => s.file);
   }
-  const cut = kind === "sheet" ? toolSources.filter((s) => s.text.includes("assets/" + rel) || s.text.includes(path.basename(f))).map((s) => s.file) : [];
+  const cut = kind === "sheet" ? toolSources.filter((s) => s.text.includes("assets/" + rel)).map((s) => s.file) : [];
   const [w, h] = isSound ? [0, 0] : size(buf, f);
   const dir = path.dirname(rel);
   items.push({
