@@ -21,8 +21,8 @@ for r in range(im.height // 16 + 1):
     d.line([(0, y), (g.width, y)], fill=(255, 0, 255, 200 if r % 5 == 0 else 70), width=2 if r % 5 == 0 else 1)
     for cx in range(0, g.width, 40 * T):
         d.rectangle([cx + 2, y + 2, cx + 26, y + 18], fill=(0, 0, 0, 170)); d.text((cx + 4, y + 2), str(r), fill=(0, 255, 255), font=f)
-for name, c in [("Kopiec 1", 0), ("Kopiec 2 - las", 64), ("Kopiec 3 - rownina", 128), ("Kładka", 192), ("Fort 31", 256), ("Stadion", 320),
-                ("Park Bednarskiego", 384), ("Rynek Podgórski", 457), ("Bulwary", 521), ("Kładka Bernatka", 585)]:
+for name, c in [("Kopiec 1", 0), ("Kopiec 2 - las", 64), ("Kopiec 3 - rownina", 128), ("Fort 31", 192), ("Stadion", 256),
+                ("Park Bednarskiego", 320), ("Rynek Podgórski", 393), ("Bulwary", 457), ("Kładka Bernatka", 521)]:
     d.rectangle([c * T + 4, 22, c * T + 12 + 9 * len(name), 42], fill=(0, 0, 0, 200)); d.text((c * T + 8, 24), name, fill=(255, 255, 255), font=f)
 g.save(grid, optimize=True)
 print(g.size)

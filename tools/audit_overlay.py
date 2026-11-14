@@ -19,7 +19,7 @@ for p in d["poles"]:
 for p in d["pickups"]:
     c = (0, 255, 255) if p["reach"] else (255, 0, 0)
     dr.ellipse([p["x"] * S - 7, p["y"] * S - 7, p["x"] * S + 7, p["y"] * S + 7], outline=c, width=3)
-LOC = [("kopiec1", 0), ("kopiec2_las", 64), ("kopiec3_rownina", 128), ("kladka", 192), ("fort", 256), ("stadion", 320), ("park", 384), ("rynek", 457), ("bulwary", 521), ("bernatka", 585)]
+LOC = [("kopiec1", 0), ("kopiec2_las", 64), ("kopiec3_rownina", 128), ("fort", 192), ("stadion", 256), ("park", 320), ("rynek", 393), ("bulwary", 457), ("bernatka", 521)]
 for i, (n, c0) in enumerate(LOC):
-    c1 = LOC[i + 1][1] if i + 1 < len(LOC) else 634
+    c1 = LOC[i + 1][1] if i + 1 < len(LOC) else 570
     im.crop((c0 * 16 * S, 0, c1 * 16 * S, im.height)).save("%s_%s.png" % (sys.argv[3], n))
