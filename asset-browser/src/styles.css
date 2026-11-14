@@ -31,3 +31,10 @@ figcaption.used b { color: var(--ok); } figcaption.unused b { color: var(--no); 
 dl { display: grid; grid-template-columns: 70px 1fr; gap: 6px 10px; } dt { color: var(--dim); } dd { margin: 0; word-break: break-all; }
 code { background: #12151a; padding: 1px 5px; border-radius: 4px; } ul { margin: 0; padding-left: 16px; }
 @media (max-width: 800px) { .app { grid-template-columns: 1fr; } aside { position: static; height: auto; } .detail { grid-template-columns: 1fr; } }
+
+.kinds { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 6px; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.kinds button { all: unset; cursor: pointer; padding: 5px 8px; border-radius: 6px; display: flex; justify-content: space-between; color: var(--dim); }
+.kinds button:hover { background: #2a303b; color: var(--txt); } .kinds button.on { background: #3a3350; color: var(--txt); }
+.kinds button span { opacity: .7; font-size: 12px; }
+figcaption em { font-style: normal; font-size: 10px; background: #3a3350; color: #c9b8ff; border-radius: 4px; padding: 0 5px; align-self: center; }
+.sound .thumb { min-width: 260px; } .sound audio { width: 260px; height: 36px; }
