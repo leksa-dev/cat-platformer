@@ -118,8 +118,10 @@ func _input(event: InputEvent) -> void:
 
 func _apply_passthrough() -> void:
 	var ar: bool = not Game.show_background
+	print("Vr: want AR=", ar, " passthrough supported=", _xr.is_passthrough_supported(), " blend modes=", _xr.get_supported_environment_blend_modes())
 	if ar and _xr.is_passthrough_supported():
 		ar = _xr.start_passthrough()
+		print("Vr: start_passthrough -> ", ar, " enabled=", _xr.is_passthrough_enabled())
 	elif ar and _xr.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
 		_xr.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND
 	else:

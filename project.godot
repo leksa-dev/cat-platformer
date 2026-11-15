@@ -53,4 +53,5 @@ environment/defaults/default_clear_color=Color(0.45, 0.7, 0.9, 1)
 
 openxr/enabled.android=true
 openxr/startup_alert=false
+openxr/extensions/meta/passthrough=true
 shaders/enabled=true
