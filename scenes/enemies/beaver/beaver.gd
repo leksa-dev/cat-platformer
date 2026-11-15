@@ -199,7 +199,7 @@ func _throw(target: Vector2, i: int) -> void:
 
 
 func _start_fight() -> void:
-	var level := get_tree().current_scene
+	var level := Game.scene()
 	_rest(THROW)
 	_timer = 1.0
 	if level.has_method("enter_room"):
@@ -249,7 +249,7 @@ func hurt(amount: int, from: Vector2, stun := 0.0) -> void:
 func _on_defeated() -> void:
 	flying = false
 	sprite.modulate = Color.WHITE
-	var level := get_tree().current_scene
+	var level := Game.scene()
 	if level.has_method("leave_room"):
 		level.leave_room()
 	if _wall:

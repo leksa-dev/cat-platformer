@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 
 
 func warp(cat: CharacterBody2D) -> void:
-	var level := get_tree().current_scene
+	var level := Game.scene()
 	cat.global_position = get_node(target).global_position
 	cat.velocity = Vector2.ZERO
 	Game.sfx("splash" if push_dir else "dash", 0.0)

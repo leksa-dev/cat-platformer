@@ -20,6 +20,7 @@ config/features=PackedStringArray("4.7")
 
 [autoload]
 
+Vr="*res://scripts/vr.gd"
 Game="*res://scripts/game.gd"
 
 [display]
@@ -45,3 +46,9 @@ locale/fallback="pl"
 textures/canvas_textures/default_texture_filter=0
 environment/defaults/default_clear_color=Color(0.45, 0.7, 0.9, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
+
+[xr]
+
+openxr/enabled.android=true
+openxr/startup_alert=false
+shaders/enabled=true

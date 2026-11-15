@@ -68,7 +68,7 @@ func _show_main() -> void:
 
 func _show_options() -> void:
 	_in_options = true
-	_set_items([fullscreen_text(), volume_text("Music"), volume_text("SFX"), vibration_text(), tr("WRÓĆ")])  # language: main menu only (5 planks)
+	_set_items([display_text(), volume_text("Music"), volume_text("SFX"), vibration_text(), tr("WRÓĆ")])  # language: main menu only (5 planks)
 
 
 func _set_items(texts: Array) -> void:
@@ -90,8 +90,8 @@ func _on_chosen(index: int) -> void:
 	if _in_options:
 		match index:
 			0:
-				Game.toggle_fullscreen()
-				fit_text($Panel/Item0, fullscreen_text())
+				toggle_display()
+				fit_text($Panel/Item0, display_text())
 				select(0)
 			1, 2:  # Space steps the volume up, wrapping to 0; left/right in _process
 				var bus := "Music" if index == 1 else "SFX"
@@ -107,7 +107,7 @@ func _on_chosen(index: int) -> void:
 		1: _show_options()
 		2:
 			_close()
-			get_tree().reload_current_scene()
+			Game.reload()
 		3: _open_dev()
 		4:
 			visible = false

@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		if riding or (cat and cat.global_position.distance_to(global_position) < 40):
 			cat.global_position = get_node(target).global_position
 			cat.velocity = Vector2.ZERO
-			get_tree().current_scene.leave_room()
+			Game.scene().leave_room()
 		position = _start
 		_moving = false
 		_wait = 0.0

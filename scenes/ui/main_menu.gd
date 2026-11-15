@@ -29,7 +29,7 @@ func _show_main(index := 0) -> void:
 
 
 func _show_options(index := 0) -> void:
-	_show_page("options", [fullscreen_text(), tr("DŹWIĘK"), language_text()], index)
+	_show_page("options", [display_text(), tr("DŹWIĘK"), language_text()], index)
 
 
 func _show_sound(index := 0) -> void:
@@ -81,7 +81,7 @@ func _on_chosen(index: int) -> void:
 			_show_sound(index)
 		"options":
 			match index:
-				0: Game.toggle_fullscreen()
+				0: toggle_display()
 				1:
 					_show_sound()
 					return

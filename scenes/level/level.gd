@@ -34,6 +34,8 @@ func _ready() -> void:
 	if backdrop:
 		_add_backdrop(cam.limit_left, cam.limit_right, _death_y)
 	_default_bottom = cam.limit_bottom
+	Game.background_changed.connect(_apply_background)
+	_apply_background()
 	_bg_base_y = cam.limit_bottom - get_viewport().get_visible_rect().size.y / 2
 	for layer in $Background.get_children():
 		layer.set_meta("y0", layer.position.y)
@@ -79,8 +81,18 @@ func _add_backdrop(left: float, right: float, bottom: float) -> void:
 	sprite.region_enabled = true
 	sprite.region_rect = Rect2(0, 0, (right - left) * 3, (bottom - backdrop_top) * 3)
 	sprite.position = Vector2(left, backdrop_top)
+	sprite.add_to_group("pit_backdrop")
 	add_child(sprite)
 	move_child(sprite, ground.get_index())  # behind the tiles, in front of the parallax layers
+
+
+# OPCJE > TŁO (headset build): off hides the sky / panorama layers and the earth under the pits, so only tiles and props float
+func _apply_background() -> void:
+	for n in ["Background", "WorldBack", "KopiecBg", "CaveBack"]:
+		if has_node(n):
+			get_node(n).visible = Game.show_background
+	for n in get_tree().get_nodes_in_group("pit_backdrop"):
+		n.visible = Game.show_background
 
 
 # invisible walls at the map's left/right edges, so the cat can't walk or swim off the map

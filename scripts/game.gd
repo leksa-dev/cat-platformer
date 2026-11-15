@@ -5,6 +5,7 @@ signal hp_changed(hp: int, max_hp: int)  # cat health bar
 signal hint(text: String)  # tip in the dialog box at the bottom, fades on its own
 signal pickups_changed  # coin collected or life gained: the HUD redraws its counters
 signal level_done(stats: Dictionary)  # end-of-level board: counts and grade
+signal background_changed  # OPCJE > TŁO (headset build): level backdrops on / off
 signal device_changed  # the player switched between keyboard and pad: on-screen key names change
 
 const START_LIVES := 3
@@ -40,6 +41,7 @@ var _music_track := ""
 var level_index := 0
 var pad := false  # last input came from a gamepad: texts name pad buttons instead of keys
 var _pad_device := 0  # the pad that sent the last input: it is the one that rumbles
+var show_background := true  # off = AR in the headset: no backdrop, the room shows through
 var vibration_on := true  # OPCJE > WIBRACJE
 # key names in the (translated) texts -> [keyboard, pad]; the font has ✕ but no ○ or arrows
 const KEY_NAMES := {
@@ -71,6 +73,7 @@ func _ready() -> void:
 		AudioServer.set_bus_name(AudioServer.bus_count - 1, bus)
 		set_volume(bus, cfg.get_value("audio", bus, volume[bus]), false)
 	vibration_on = cfg.get_value("input", "vibration", true)
+	show_background = cfg.get_value("video", "background", true)
 	god_mode = cfg.get_value("dev", "god", false)
 	fly_mode = cfg.get_value("dev", "fly", false)
 	dev_sub = cfg.get_value("dev", "sub", 0)
@@ -116,6 +119,31 @@ func set_dev(key: String, value: Variant) -> void:
 	_store_setting("dev", key, value)
 
 
+func toggle_background() -> void:
+	show_background = not show_background
+	_store_setting("video", "background", show_background)
+	background_changed.emit()
+
+
+# scene changes go through here: in the headset the scenes live inside Vr's screen viewport, not under the root
+func goto(path: String) -> void:
+	if Vr.active:
+		Vr.load_scene.call_deferred(path)
+	else:
+		get_tree().change_scene_to_file(path)
+
+
+func reload() -> void:
+	if Vr.active:
+		Vr.load_scene.call_deferred(Vr.path)
+	else:
+		get_tree().reload_current_scene()
+
+
+func scene() -> Node:
+	return Vr.content if Vr.active else get_tree().current_scene
+
+
 func toggle_vibration() -> void:
 	vibration_on = not vibration_on
 	_store_setting("input", "vibration", vibration_on)
@@ -145,7 +173,7 @@ func lose_life() -> void:
 	if lives > 0:
 		sfx("lose_life", 0.0)
 		rumble(0.6, 1.0, 0.5)
-		get_tree().reload_current_scene.call_deferred()
+		reload.call_deferred()
 	else:
 		sfx("game_over", 0.0)
 		rumble(0.5, 1.0, 0.8)
@@ -163,7 +191,7 @@ func level_complete() -> void:
 		_save()
 	else:
 		DirAccess.remove_absolute(SAVE)  # game finished: the next one starts from scratch
-	_on_confirm = _load_level if level_index < LEVELS.size() else func(): get_tree().change_scene_to_file(VICTORY)
+	_on_confirm = _load_level if level_index < LEVELS.size() else func(): goto(VICTORY)
 
 
 # Grade: the share of pickups taken (coins, 1ups, diamonds); kills are shown on the summary but not graded.
@@ -281,7 +309,7 @@ func message_open() -> bool:
 # The game renders at 320x180 and scales by whole numbers. The window takes the largest multiple that fits ~90%
 # of the screen (sizes are physical pixels: on a Retina Mac 1920x1080 px is only half the screen), centred.
 func _fit_window() -> void:
-	if DisplayServer.get_name() == "headless" or DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
+	if Vr.active or DisplayServer.get_name() == "headless" or DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_WINDOWED:
 		return
 	if Engine.is_embedded_in_editor():  # the editor's Game tab owns the window size
 		return
@@ -352,7 +380,7 @@ func _save() -> void:
 
 func go_to_menu() -> void:
 	get_tree().paused = false
-	get_tree().change_scene_to_file(MENU)
+	goto(MENU)
 
 
 func _restart() -> void:
@@ -370,7 +398,7 @@ func _restart() -> void:
 func _load_level() -> void:
 	checkpoint = dev_spawn  # a new level (or a restart) starts at its beginning (or where the dev menu sent it)
 	dev_spawn = Vector2.INF
-	get_tree().change_scene_to_file(LEVELS[level_index])
+	goto(LEVELS[level_index])
 
 
 func _bind(action: StringName, keys: Array, buttons: Array = [], axis := -1, axis_dir := 0.0) -> void:

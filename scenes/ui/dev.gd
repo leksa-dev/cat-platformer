@@ -94,7 +94,7 @@ func select(index: int) -> void:
 
 func _go_to_section(index: int) -> void:
 	var col: int = SECTIONS[index][1]
-	var level := get_tree().current_scene
+	var level := Game.scene()
 	var cat: Node2D = get_tree().get_first_node_in_group("player")
 	var spot := Vector2(72, 160) if index == 0 else _ground_spot(level, col + 3)
 	Game.set_dev("sub", index)
@@ -129,7 +129,7 @@ func _on_chosen(index: int) -> void:
 			select(LEVEL4)
 		return
 	var levels := Game.LEVELS.size()
-	var level := get_tree().current_scene
+	var level := Game.scene()
 	var cat: Node2D = get_tree().get_first_node_in_group("player")
 	if index == LEVEL4:   # opens the sub-levels of level 4
 		_page = 1
@@ -169,7 +169,7 @@ func _on_chosen(index: int) -> void:
 		7:
 			visible = false
 			get_tree().paused = false
-			get_tree().change_scene_to_file("res://scenes/gallery.tscn")
+			Game.goto("res://scenes/gallery.tscn")
 			return
 		8:
 			_close_to_pause()

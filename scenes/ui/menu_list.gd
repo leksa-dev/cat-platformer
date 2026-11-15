@@ -73,6 +73,18 @@ func fullscreen_text() -> String:
 	return tr("PEŁNY EKRAN") if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN else tr("OKNO")  # longer labels overflow the plank
 
 
+# first options row: the window mode on a desktop, the background (AR) switch in the headset
+func display_text() -> String:
+	return tr("TŁO") + ": " + tr("TAK" if Game.show_background else "NIE") if Vr.active else fullscreen_text()
+
+
+func toggle_display() -> void:
+	if Vr.active:
+		Game.toggle_background()
+	else:
+		Game.toggle_fullscreen()
+
+
 func vibration_text() -> String:
 	return tr("WIBRACJE") + ": " + tr("TAK" if Game.vibration_on else "NIE")
 
