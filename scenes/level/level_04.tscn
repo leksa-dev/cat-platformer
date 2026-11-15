@@ -239,7 +239,6 @@
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/floodlight_a.png" id="st_floodlight_a"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/duck/duck.tscn" id="duck_scene"]
 [ext_resource type="PackedScene" path="res://scenes/hazards/fish.tscn" id="bw_fish"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/swan/swan.tscn" id="bw_swan"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/bernatka/boat_wood.png" id="bw_boat_wood"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/boat_small.png" id="bw_boat_small"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/bernatka/speedboat.png" id="bw_speedboat"]
@@ -3777,12 +3776,6 @@ position = Vector2(11460, 296)
 
 [node name="DuckW4" parent="7_Bulwary/Wrogowie" instance=ExtResource("duck_scene")]
 position = Vector2(11830, 296)
-
-[node name="SwanW1" parent="7_Bulwary/Wrogowie" instance=ExtResource("bw_swan")]
-position = Vector2(11150, 272)
-
-[node name="SwanW2" parent="7_Bulwary/Wrogowie" instance=ExtResource("bw_swan")]
-position = Vector2(11690, 272)
 
 [node name="PigeonW1" parent="7_Bulwary/Wrogowie" unique_id=1723346990 instance=ExtResource("202_omwxs")]
 position = Vector2(10072, 272)

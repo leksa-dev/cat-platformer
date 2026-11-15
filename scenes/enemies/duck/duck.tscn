@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/game/enemies/duck.png" id="2_tex"]
 
 [sub_resource type="RectangleShape2D" id="shape"]
-size = Vector2(14, 10)
+size = Vector2(9, 6)
 
 [node name="Duck" type="CharacterBody2D"]
 collision_layer = 8
@@ -15,11 +15,11 @@ max_hp = 2
 stompable = true
 
 [node name="Sprite" type="Sprite2D" parent="."]
-scale = Vector2(0.333333, 0.333333)
-position = Vector2(0, -10.5)
+scale = Vector2(0.2, 0.2)
+position = Vector2(0, -6.3)
 texture = ExtResource("2_tex")
 hframes = 27
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, -3)
 shape = SubResource("shape")
