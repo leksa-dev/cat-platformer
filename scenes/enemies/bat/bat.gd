@@ -28,7 +28,7 @@ func _ai(delta: float) -> void:
 	_t += delta
 	_timer -= delta
 	var cat := find_cat()
-	var cat_in := cat != null and _in_zone(cat.global_position)
+	var cat_in := cat != null and not cat_unseen(cat) and _in_zone(cat.global_position)
 	match _state:
 		SLEEP:
 			velocity = Vector2.ZERO

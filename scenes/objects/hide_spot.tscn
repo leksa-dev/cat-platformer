@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/objects/hide_spot.gd" id="1_s"]
+
+[node name="HideSpot" type="Node2D"]
+z_index = 1
+script = ExtResource("1_s")

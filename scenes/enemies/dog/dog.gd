@@ -32,7 +32,7 @@ func _ai(delta: float) -> void:
 	_cooldown -= delta
 	_bark_cd -= delta
 	var cat := find_cat()
-	var to_cat := cat.global_position - global_position if cat else Vector2(INF, INF)
+	var to_cat := cat.global_position - global_position if cat and not cat_unseen(cat) else Vector2(INF, INF)
 	var sees := absf(to_cat.x) < detect_range and absf(to_cat.y) < 100  # tall enough to spot the cat on a tree crown
 	match _state:
 		WINDUP:

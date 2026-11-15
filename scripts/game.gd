@@ -25,6 +25,8 @@ const SETTINGS := "user://settings.cfg"
 const SAVE := "user://save.cfg"  # progress written after each finished level (checkpoints are not saved)
 var checkpoint := Vector2.INF  # respawn point in the current level; INF = level start
 var cam_zoom := 1.0  # camera zoom (L1 + right stick, see camera_zoom.gd); kept between levels, not saved
+var spent := 0  # coins spent in shops (the coins themselves stay counted for the grades)
+var upgrades := {}  # bought in shops: "double_jump": true, "hp_bonus": n
 var totals := {}  # level index -> {"Coin": n, "Life": n, "Diamond": n}: pickups placed there, counted when it loads
 var collected := {}  # level index -> names of the coins / 1ups taken there (they stay taken after a lost life)
 var run_time := 0.0  # seconds spent in levels this game, for the victory screen
@@ -82,6 +84,7 @@ func _ready() -> void:
 	_bind("attack", [KEY_J, KEY_X], [JOY_BUTTON_X])
 	_bind("fart", [KEY_K, KEY_C], [JOY_BUTTON_Y])  # Y = Triangle
 	_bind("throw", [KEY_L, KEY_V], [JOY_BUTTON_RIGHT_SHOULDER])  # yarn ball: R1
+	_bind("grapple", [KEY_U, KEY_B], [], JOY_AXIS_TRIGGER_RIGHT, 1.0)  # yarn hook: R2
 	_bind("fullscreen", [KEY_F, KEY_F11])
 	_bind("pause", [KEY_ESCAPE, KEY_P], [JOY_BUTTON_START])  # Start = Options on a DualShock
 	_bind("dev", [KEY_F1])
@@ -213,6 +216,19 @@ func coins(level := -1, prefix := "Coin") -> int:  # coins (or other pickups) ta
 	return n
 
 
+func wallet() -> int:  # coins to spend: all taken so far minus what the shops got
+	return maxi(coins() - spent, 0)
+
+
+func buy(price: int) -> bool:
+	if wallet() < price:
+		return false
+	spent += price
+	sfx("coin", 0.0)
+	pickups_changed.emit()
+	return true
+
+
 func gain_life() -> void:
 	lives += 1
 	sfx("oneup", 0.0)
@@ -325,7 +341,7 @@ func continue_game() -> void:
 	_load_level()
 
 
-const SAVED := ["level_index", "lives", "collected", "killed", "enemies", "totals", "run_time"]
+const SAVED := ["level_index", "lives", "collected", "killed", "enemies", "totals", "run_time", "spent", "upgrades"]
 
 
 func _save() -> void:
@@ -343,6 +359,8 @@ func go_to_menu() -> void:
 func _restart() -> void:
 	lives = START_LIVES
 	level_index = 0
+	spent = 0
+	upgrades.clear()
 	collected.clear()
 	killed.clear()
 	run_time = 0.0
