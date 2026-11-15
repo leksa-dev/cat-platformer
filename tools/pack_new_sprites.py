@@ -66,14 +66,19 @@ def pack(fs, cell=None, center_x=None):
 # --- cat: standing frame of the new art is ~153 px tall, the game's ~40 px
 K_CAT = 40 / 153
 new = [scaled(f, K_CAT) for r in (0, 1, 2) for f in frames("cat", r)]
+# cat.png is a grid of 128x70 cells, CAT_COLS per row (one strip would be wider than a GPU texture may be: 16384 px)
+CAT_COLS = 16
 cat = Image.open("assets/game/cat.png")
-cat = cat.crop((0, 0, 127 * 128, 70))   # the original 127 frames: running this again replaces the appended ones
+cols = cat.width // 128
+base = [cat.crop(((i % cols) * 128, (i // cols) * 70, (i % cols) * 128 + 128, (i // cols) * 70 + 70)) for i in range(127)]   # the original 127
 extra, _ = pack(new, (128, 70), center_x=62)
-out = Image.new("RGBA", (cat.width + extra.width, 70), (0, 0, 0, 0))
-out.paste(cat, (0, 0))
-out.paste(extra, (cat.width, 0))
+cells = base + [extra.crop((i * 128, 0, i * 128 + 128, 70)) for i in range(len(new))]
+rows = (len(cells) + CAT_COLS - 1) // CAT_COLS
+out = Image.new("RGBA", (CAT_COLS * 128, rows * 70), (0, 0, 0, 0))
+for i, c in enumerate(cells):
+    out.paste(c, ((i % CAT_COLS) * 128, (i // CAT_COLS) * 70))
 out.save("assets/game/cat.png")
-print("cat.png:", out.width // 128, "frames (new from", cat.width // 128, ")", [len(frames("cat", r)) for r in (0, 1, 2)])
+print("cat.png:", len(cells), "frames in a", CAT_COLS, "x", rows, "grid", [len(frames("cat", r)) for r in (0, 1, 2)])
 
 # --- hiding box
 box = [scaled(f, K_CAT) for r in (3, 4) for f in frames("cat", r)]

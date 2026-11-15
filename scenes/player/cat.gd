@@ -120,7 +120,7 @@ const THROW := 119  # 8 frames: ready, grab the ball, wind up x2, throw (ball le
 const THROW_RELEASE := 5
 const THROW_FPS := 20.0
 # sprite sheets: [texture, frames, sprite y so the feet stay on the ground]
-const SHEET_CAT := [preload("res://assets/game/cat.png"), 144, -70.0 / 6]
+const SHEET_CAT := [preload("res://assets/game/cat.png"), 16, -70.0 / 6, 9]  # a 16 x 9 grid (one strip would be too wide a texture)
 const SHEET_SURF := [preload("res://assets/game/beach/cat_surf.png"), 6, -8.0]  # idle, get on, surf 1-2, jump, land
 const SHEET_DRINK := [preload("res://assets/game/beach/cat_drink.png"), 6, -40.0 / 6]  # stand, coconut, sip x2, put down, happy (healed)
 const DRINK_FPS := 6.0
@@ -229,6 +229,7 @@ func drink() -> void:  # at the beach bar: sit, drink, full HP
 func _set_sheet(sheet: Array) -> void:
 	sprite.texture = sheet[0]
 	sprite.hframes = sheet[1]
+	sprite.vframes = sheet[3] if sheet.size() > 3 else 1
 	sprite.position.y = sheet[2]
 	sprite.frame = 0
 
@@ -630,6 +631,7 @@ func _spawn_ghost() -> void:
 	var ghost := Sprite2D.new()
 	ghost.texture = sprite.texture
 	ghost.hframes = sprite.hframes
+	ghost.vframes = sprite.vframes
 	ghost.frame = sprite.frame
 	ghost.modulate = Color(1, 0.8, 0.5, 0.5)
 	ghost.z_index = -1
