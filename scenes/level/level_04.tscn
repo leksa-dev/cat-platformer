@@ -242,6 +242,14 @@
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/bernatka/boat_white.png" id="bw_boat_white"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/barge.png" id="bw_barge"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/beaver/beaver.tscn" id="beaver_scene"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/stands_a.png" id="st_stands_a"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/ledge_a.png" id="st_ledge_a"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/stone_arch.png" id="st_stone_arch"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/railing_yellow.png" id="st_railing_yellow"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/board.png" id="st_board"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/ruin_a.png" id="st_ruin_a"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/ruin_b.png" id="st_ruin_b"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/floodlight_d.png" id="st_floodlight_d"]
 
 [node name="Level04" type="Node2D" unique_id=1795149945]
 script = ExtResource("1_dw70t")
@@ -2578,42 +2586,138 @@ texture = ExtResource("73_rm7vj")
 centered = false
 offset = Vector2(-28, -53)
 
+[node name="arch_1" type="Sprite2D" parent="4_Stadion/Dekoracje_tyl"]
+position = Vector2(6492, 274)
+scale = Vector2(0.3333, 0.3333)
+texture = ExtResource("st_stone_arch")
+centered = false
+offset = Vector2(-71.5, -84)
+
+[node name="arch_2" type="Sprite2D" parent="4_Stadion/Dekoracje_tyl"]
+position = Vector2(7150, 274)
+scale = Vector2(0.3333, 0.3333)
+texture = ExtResource("st_stone_arch")
+centered = false
+offset = Vector2(-71.5, -84)
+
+[node name="pole_sb_1" type="Sprite2D" parent="4_Stadion/Dekoracje_tyl"]
+position = Vector2(7122, 274)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("st_floodlight_d")
+centered = false
+offset = Vector2(-25.5, -228)
+
+[node name="pole_sb_2" type="Sprite2D" parent="4_Stadion/Dekoracje_tyl"]
+position = Vector2(7178, 274)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("st_floodlight_d")
+centered = false
+offset = Vector2(-25.5, -228)
+
+[node name="tower_s1" type="Sprite2D" parent="4_Stadion/Dekoracje_tyl"]
+position = Vector2(6742, 274)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("st_floodlight_a")
+centered = false
+offset = Vector2(-38.5, -229)
+
 [node name="Platformy" type="Node2D" parent="4_Stadion" unique_id=1261348594]
 
 [node name="StandS1" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(6432, 240)
+position = Vector2(6452, 240)
 texture = ExtResource("st_stands_b")
-surface = 1.0
+surface = 0.0
 body_depth = 0.0
 
 [node name="StandS2" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(6496, 208)
+position = Vector2(6520, 208)
 texture = ExtResource("st_stands_b")
-surface = 1.0
+surface = 0.0
 body_depth = 0.0
 
 [node name="StandS3" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(6560, 176)
+position = Vector2(6588, 176)
 texture = ExtResource("st_stands_b")
-surface = 1.0
+surface = 0.0
 body_depth = 0.0
 
 [node name="StandTop" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
 position = Vector2(6640, 144)
 texture = ExtResource("st_grass_stone_long")
-surface = 4.0
+surface = 1.7
+body_depth = 0.0
+
+[node name="ScaffoldA" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(6712, 144)
+texture = ExtResource("st_railing_yellow")
+surface = 0.7
+body_depth = 0.0
+
+[node name="ScaffoldA2" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(6770, 112)
+texture = ExtResource("st_railing_yellow")
+surface = 0.7
+body_depth = 0.0
+
+[node name="StandD1" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(6728, 176)
+texture = ExtResource("st_stands_a")
+surface = 0.3
+body_depth = 0.0
+
+[node name="StandD2" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(6790, 208)
+texture = ExtResource("st_stands_a")
+surface = 0.3
 body_depth = 0.0
 
 [node name="GoalS1" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(6816, 245)
+position = Vector2(6870, 245)
 texture = ExtResource("65_786w2")
-surface = 1.0
+surface = 0.0
+body_depth = 0.0
+
+[node name="RuinB" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(7030, 240)
+texture = ExtResource("st_ruin_b")
+surface = 4.7
+body_depth = 0.0
+
+[node name="RuinA" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(7084, 208)
+texture = ExtResource("st_ruin_a")
+surface = 0.7
+body_depth = 0.0
+
+[node name="Scoreboard" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(7150, 176)
+texture = ExtResource("st_board")
+surface = 0.0
+body_depth = 0.0
+size_mult = 4
+
+[node name="ScaffoldC" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(7250, 144)
+texture = ExtResource("st_railing_yellow")
+surface = 0.7
+body_depth = 0.0
+
+[node name="ScaffoldD" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(7322, 112)
+texture = ExtResource("st_railing_yellow")
+surface = 0.7
+body_depth = 0.0
+
+[node name="StandE" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
+position = Vector2(7400, 176)
+texture = ExtResource("st_stands_a")
+surface = 0.3
 body_depth = 0.0
 
 [node name="GoalS2" parent="4_Stadion/Platformy" instance=ExtResource("128_mu151")]
-position = Vector2(7472, 245)
+position = Vector2(7480, 245)
 texture = ExtResource("65_786w2")
-surface = 1.0
+surface = 0.0
 body_depth = 0.0
 
 [node name="Znajdzki" type="Node2D" parent="4_Stadion" unique_id=1084638382]
@@ -2622,25 +2726,25 @@ body_depth = 0.0
 position = Vector2(6416, 228)
 
 [node name="CoinS2" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(6448, 228)
+position = Vector2(6490, 264)
 
 [node name="CoinS3" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(6496, 196)
+position = Vector2(6520, 196)
 
 [node name="CoinS4" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(6560, 164)
+position = Vector2(6588, 164)
 
 [node name="CoinS5" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(6624, 132)
+position = Vector2(7150, 264)
 
 [node name="CoinS6" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(6656, 132)
+position = Vector2(6712, 130)
 
 [node name="CoinS7" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(6816, 233)
+position = Vector2(6870, 233)
 
 [node name="CoinS8" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
-position = Vector2(7472, 233)
+position = Vector2(7480, 233)
 
 [node name="CoinS9" parent="4_Stadion/Znajdzki" instance=ExtResource("191_c1va1")]
 position = Vector2(6744, 276)
@@ -2649,11 +2753,11 @@ position = Vector2(6744, 276)
 position = Vector2(7632, 180)
 
 [node name="DiamondS1" parent="4_Stadion/Znajdzki" instance=ExtResource("193_66wnt")]
-position = Vector2(6640, 118)
+position = Vector2(6770, 88)
 gem = 1
 
 [node name="DiamondS2" parent="4_Stadion/Znajdzki" instance=ExtResource("193_66wnt")]
-position = Vector2(6680, 126)
+position = Vector2(7322, 88)
 gem = 2
 
 [node name="DiamondS3" parent="4_Stadion/Znajdzki" instance=ExtResource("193_66wnt")]
@@ -2678,20 +2782,29 @@ position = Vector2(7602, 272)
 
 [node name="Wrogowie" type="Node2D" parent="4_Stadion" unique_id=368981590]
 
-[node name="DogS3" parent="4_Stadion/Wrogowie" instance=ExtResource("141_420ba")]
-position = Vector2(7140, 272)
-
 [node name="DogS1" parent="4_Stadion/Wrogowie" instance=ExtResource("141_420ba")]
-position = Vector2(6980, 272)
+position = Vector2(6990, 272)
 
-[node name="DogS2" parent="4_Stadion/Wrogowie" instance=ExtResource("141_420ba")]
-position = Vector2(7300, 272)
+[node name="DogS3" parent="4_Stadion/Wrogowie" instance=ExtResource("141_420ba")]
+position = Vector2(7340, 272)
+
+[node name="RatS1" parent="4_Stadion/Wrogowie" instance=ExtResource("rat_kopiec")]
+position = Vector2(6510, 272)
+
+[node name="RatS2" parent="4_Stadion/Wrogowie" instance=ExtResource("rat_kopiec")]
+position = Vector2(7150, 272)
+
+[node name="PigeonS1" parent="4_Stadion/Wrogowie" instance=ExtResource("202_omwxs")]
+position = Vector2(6588, 176)
+
+[node name="PigeonS2" parent="4_Stadion/Wrogowie" instance=ExtResource("202_omwxs")]
+position = Vector2(7150, 176)
 
 [node name="Crow4" parent="4_Stadion/Wrogowie" instance=ExtResource("139_xota5")]
-position = Vector2(6600, 80)
+position = Vector2(6700, 80)
 
 [node name="Crow8" parent="4_Stadion/Wrogowie" instance=ExtResource("139_xota5")]
-position = Vector2(7200, 96)
+position = Vector2(7230, 84)
 
 [node name="Przeszkody" type="Node2D" parent="4_Stadion" unique_id=1949175335]
 
@@ -2703,13 +2816,16 @@ position = Vector2(6224, 272)
 [node name="CheckpointS2" parent="4_Stadion/Inne" instance=ExtResource("143_oaxcq")]
 position = Vector2(7660, 176)
 
+[node name="CheckpointS3" parent="4_Stadion/Inne" instance=ExtResource("143_oaxcq")]
+position = Vector2(6806, 272)
+
 [node name="DugoutHide" parent="4_Stadion/Inne" instance=ExtResource("hide_scene")]
 position = Vector2(6744, 288)
 texture = ExtResource("70_qnv0w")
 
 [node name="Hint2" parent="4_Stadion/Inne" unique_id=1893820743 instance=ExtResource("169_tradt")]
 position = Vector2(6232, 272)
-text = "Stary stadion! Trybuny prowadzą na górę, a w ławce rezerwowych można się schować."
+text = "Stary stadion! Trybuny to piętra, pod nimi są tunele, a tablicę wyników i rusztowania pod reflektorami da się zdobyć skokami."
 
 [node name="5_Park" type="Node2D" parent="." unique_id=1726267123]
 
