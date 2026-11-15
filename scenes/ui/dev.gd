@@ -4,7 +4,7 @@ extends "res://scenes/ui/menu_list.gd"
 
 # level 4 sub-levels: [name, column to start on (a few columns in; Fort 1 starts earlier, its first pit is at 195)]
 const SECTIONS := [["KOPIEC 1", 0], ["KOPIEC 2 - LAS", 64], ["KOPIEC 3 - RÓWNINA", 128], ["FORT 1", 190], ["FORT 2", 259], ["FORT 3", 323],
-		["STADION", 387], ["PARK", 483], ["RYNEK", 556], ["BULWARY", 620], ["KŁADKA BERNATKA", 684]]
+		["STADION", 387], ["PARK", 483], ["RYNEK", 556], ["BULWARY", 620], ["KŁADKA BERNATKA", 748]]
 const LEVEL4 := 3
 
 var _page := 0  # 0 = main, 1 = level 4 sub-levels

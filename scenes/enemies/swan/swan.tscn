@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/swan/swan.gd" id="1_s"]
+[ext_resource type="Texture2D" path="res://assets/game/enemies/swan.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="shape"]
+size = Vector2(18, 14)
+
+[node name="Swan" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("1_s")
+max_hp = 4
+contact_damage = 1
+water_behavior = 1
+patrol_radius = 32.0
+charge_speed = 130.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.48, 0.48)
+position = Vector2(0, -15)
+texture = ExtResource("2_tex")
+hframes = 27
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("shape")
