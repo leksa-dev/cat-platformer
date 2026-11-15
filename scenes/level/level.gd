@@ -39,6 +39,16 @@ func _ready() -> void:
 	_bg_base_y = cam.limit_bottom - get_viewport().get_visible_rect().size.y / 2
 	for layer in $Background.get_children():
 		layer.set_meta("y0", layer.position.y)
+	for holder in ["WorldBack", "Parallax"]:  # world sprites with metadata "f" (1 = fixed to the world, <1 = lags behind the camera = farther away)
+		if has_node(holder):
+			for s in get_node(holder).get_children():
+				if s is Sprite2D and s.has_meta("f"):
+					var ref_x: float = s.position.x
+					if not s.centered and s.offset == Vector2.ZERO and s.texture:
+						ref_x += s.texture.get_width() * s.scale.x / 2.0  # top-left panoramas align by their middle
+					s.set_meta("base", s.position)
+					s.set_meta("ref_x", ref_x)
+					_parallax.append(s)
 	cat.position = $Spawn.position if Game.checkpoint == Vector2.INF else Game.checkpoint
 	Game.play_music(music)
 	var objects := level_objects()
@@ -88,7 +98,7 @@ func _add_backdrop(left: float, right: float, bottom: float) -> void:
 
 # OPCJE > TŁO (headset build): off hides the sky / panorama layers and the earth under the pits, so only tiles and props float
 func _apply_background() -> void:
-	for n in ["Background", "WorldBack", "KopiecBg", "CaveBack"]:
+	for n in ["Background", "WorldBack", "Parallax", "KopiecBg", "CaveBack"]:
 		if has_node(n):
 			get_node(n).visible = Game.show_background
 	for n in get_tree().get_nodes_in_group("pit_backdrop"):
@@ -108,6 +118,9 @@ func _add_edge_walls(left: float, right: float) -> void:
 	add_child(walls)
 
 
+var _parallax: Array[Sprite2D] = []
+
+
 func _process(delta: float) -> void:
 	Game.run_time += delta  # the level doesn't process while paused
 	var center := _cam.get_screen_center_position()
@@ -119,6 +132,16 @@ func _process(delta: float) -> void:
 			layer.region_rect.position.x = (center.x * layer.get_meta("scroll", background_scroll) + _bg_time * layer.get_meta("drift", 0.0)) / layer.scale.x
 			# vertical: "vscroll" 1 = stays on the world's horizon when the camera climbs (islands), 0 = fixed on screen (sky)
 			layer.position.y = layer.get_meta("y0") - (center.y - _bg_base_y) * layer.get_meta("vscroll", 0.0)
+			if layer.has_meta("fade"):  # [in from, in to, out from, out to] in world x: a layer that only shows in some stretch of the level
+				var w: Array = layer.get_meta("fade")
+				layer.modulate.a = clampf(inverse_lerp(w[0], w[1], center.x), 0.0, 1.0) * clampf(inverse_lerp(w[3], w[2], center.x), 0.0, 1.0)
+	for s in _parallax:
+		var f: float = s.get_meta("f")
+		var sway: float = s.get_meta("sway", 0.0)  # far boats rock gently
+		var off := Vector2((center.x - s.get_meta("ref_x")) * (1.0 - f), (center.y - _bg_base_y) * (1.0 - f))
+		if sway > 0.0:
+			off += Vector2(sin(_bg_time * 0.35 + s.position.x * 0.01) * sway, sin(_bg_time * 0.9 + s.position.x) * 1.2)
+		s.position = (s.get_meta("base") as Vector2) + off
 	if has_node("Leaves"):
 		$Leaves.position = center + Vector2(40, -100)  # emit above the screen, drift left-down
 

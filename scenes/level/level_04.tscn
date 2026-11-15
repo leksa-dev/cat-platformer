@@ -5,10 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://25ylljhylpj4" path="res://assets/game/lvl4/sky_city.png" id="3_se28u"]
 [ext_resource type="Texture2D" uid="uid://b5adav5p7cxk0" path="res://assets/game/lvl4/kladka/bg.png" id="4_q6obw"]
 [ext_resource type="Texture2D" uid="uid://m1so0wkka8xb" path="res://assets/game/lvl4/fort/bg.png" id="5_wgnhc"]
-[ext_resource type="Texture2D" uid="uid://c54jl8hb8n13i" path="res://assets/game/lvl4/stadion/bg.png" id="6_w4gsr"]
-[ext_resource type="Texture2D" uid="uid://bx74x63owip52" path="res://assets/game/lvl4/park/bg.png" id="7_bgpxf"]
-[ext_resource type="Texture2D" uid="uid://b7ix7wseybary" path="res://assets/game/lvl4/podgorze/rynek_bg.png" id="8_blwqv"]
-[ext_resource type="Texture2D" uid="uid://d2u71ri1pwlcg" path="res://assets/game/lvl4/podgorze/bulwary_bg.png" id="9_b4b6f"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/bg_nosky.png" id="6_w4gsr"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/park/bg_nosky.png" id="7_bgpxf"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/rynek_bg_nosky.png" id="8_blwqv"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/bulwary_bg_nosky.png" id="9_b4b6f"]
 [ext_resource type="Texture2D" uid="uid://drgcgokone60l" path="res://assets/game/lvl4/bernatka/bg.png" id="10_xlr7l"]
 [ext_resource type="Texture2D" uid="uid://ceokv2j8jfttx" path="res://assets/game/lvl4/kopiec/bg.png" id="11_eywvy"]
 [ext_resource type="Texture2D" uid="uid://dqxltp0xati4q" path="res://assets/game/lvl4/kopiec/tree_big.png" id="12_ea15l"]
@@ -250,6 +250,14 @@
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/ruin_a.png" id="st_ruin_a"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/ruin_b.png" id="st_ruin_b"]
 [ext_resource type="Texture2D" path="res://assets/game/lvl4/stadion/floodlight_d.png" id="st_floodlight_d"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/sky.png" id="px_sky_day"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/tree_d.png" id="px_tree_d"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/tree_e.png" id="px_tree_e"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/quay_tree_a.png" id="px_qtree"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/park/villa_mira.png" id="px_villa_m"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/park/villa_julia.png" id="px_villa_j"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/houseboat.png" id="px_houseboat"]
+[ext_resource type="Texture2D" path="res://assets/game/lvl4/podgorze/barge_restaurant.png" id="px_barge"]
 
 [node name="Level04" type="Node2D" unique_id=1795149945]
 script = ExtResource("1_dw70t")
@@ -270,6 +278,18 @@ region_enabled = true
 region_rect = Rect2(0, 0, 1400, 340)
 metadata/scroll = 0.1
 metadata/vscroll = 0.0
+
+[node name="SkyDay" type="Sprite2D" parent="Background"]
+texture_repeat = 2
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("px_sky_day")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 2000, 300)
+metadata/scroll = 0.08
+metadata/drift = 7.0
+metadata/vscroll = 0.0
+metadata/fade = [5800.0, 6400.0, 11200.0, 11968.0]
 
 [node name="WorldBack" type="Node2D" parent="." unique_id=2021618584]
 z_index = -2
@@ -303,42 +323,49 @@ position = Vector2(6192, -104)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("6_w4gsr")
 centered = false
+metadata/f = 0.8
 
 [node name="StadionBg2" type="Sprite2D" parent="WorldBack"]
 position = Vector2(6704, -104)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("6_w4gsr")
 centered = false
+metadata/f = 0.8
 
 [node name="ParkBg" type="Sprite2D" parent="WorldBack" unique_id=365350927]
 position = Vector2(7728, -104)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("7_bgpxf")
 centered = false
+metadata/f = 0.8
 
 [node name="RynekBg" type="Sprite2D" parent="WorldBack" unique_id=1977295543]
 position = Vector2(8896, -104)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("8_blwqv")
 centered = false
+metadata/f = 0.8
 
 [node name="BulwaryBg" type="Sprite2D" parent="WorldBack" unique_id=1568482023]
 position = Vector2(9920, -104)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("9_b4b6f")
 centered = false
+metadata/f = 0.8
 
 [node name="BulwaryBg2" type="Sprite2D" parent="WorldBack"]
 position = Vector2(10944, -104)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("9_b4b6f")
 centered = false
+metadata/f = 0.8
 
 [node name="BernatkaBg" type="Sprite2D" parent="WorldBack" unique_id=573357889]
 position = Vector2(11968, -109)
 scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("10_xlr7l")
 centered = false
+metadata/f = 0.8
 
 [node name="BernatkaBg2" type="Sprite2D" parent="WorldBack"]
 position = Vector2(12991, -109)
@@ -346,6 +373,7 @@ scale = Vector2(0.4712, 0.4712)
 texture = ExtResource("10_xlr7l")
 centered = false
 flip_h = true
+metadata/f = 0.8
 
 [node name="KopiecLasBg" type="Sprite2D" parent="WorldBack"]
 position = Vector2(1024, -20)
@@ -358,6 +386,246 @@ position = Vector2(2048, -20)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("bg_rownina")
 centered = false
+
+[node name="Parallax" type="Node2D" parent="."]
+z_index = -1
+
+[node name="pxS0" type="Sprite2D" parent="Parallax"]
+position = Vector2(6230, 300)
+scale = Vector2(0.27, 0.27)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="pxS1" type="Sprite2D" parent="Parallax"]
+position = Vector2(6470, 300)
+scale = Vector2(0.30000000000000004, 0.30000000000000004)
+texture = ExtResource("px_tree_e")
+centered = false
+offset = Vector2(-131.0, -353)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="pxS2" type="Sprite2D" parent="Parallax"]
+position = Vector2(6700, 300)
+scale = Vector2(0.27, 0.27)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="pxS3" type="Sprite2D" parent="Parallax"]
+position = Vector2(6930, 300)
+scale = Vector2(0.30000000000000004, 0.30000000000000004)
+texture = ExtResource("px_tree_e")
+centered = false
+offset = Vector2(-131.0, -353)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="pxS4" type="Sprite2D" parent="Parallax"]
+position = Vector2(7160, 300)
+scale = Vector2(0.27, 0.27)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="pxS5" type="Sprite2D" parent="Parallax"]
+position = Vector2(7390, 300)
+scale = Vector2(0.30000000000000004, 0.30000000000000004)
+texture = ExtResource("px_tree_e")
+centered = false
+offset = Vector2(-131.0, -353)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="pxS6" type="Sprite2D" parent="Parallax"]
+position = Vector2(7600, 300)
+scale = Vector2(0.27, 0.27)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.9
+
+[node name="villa_1" type="Sprite2D" parent="Parallax"]
+position = Vector2(7990, 300)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("px_villa_m")
+centered = false
+offset = Vector2(-190.0, -375)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.86
+
+[node name="villa_2" type="Sprite2D" parent="Parallax"]
+position = Vector2(8480, 300)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("px_villa_j")
+centered = false
+offset = Vector2(-188.0, -375)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.86
+
+[node name="pxP0" type="Sprite2D" parent="Parallax"]
+position = Vector2(7790, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxP1" type="Sprite2D" parent="Parallax"]
+position = Vector2(8130, 300)
+scale = Vector2(0.33999999999999997, 0.33999999999999997)
+texture = ExtResource("px_tree_e")
+centered = false
+offset = Vector2(-131.0, -353)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxP2" type="Sprite2D" parent="Parallax"]
+position = Vector2(8260, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxP3" type="Sprite2D" parent="Parallax"]
+position = Vector2(8640, 300)
+scale = Vector2(0.33999999999999997, 0.33999999999999997)
+texture = ExtResource("px_tree_e")
+centered = false
+offset = Vector2(-131.0, -353)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxP4" type="Sprite2D" parent="Parallax"]
+position = Vector2(8800, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_tree_d")
+centered = false
+offset = Vector2(-157.5, -365)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxR0" type="Sprite2D" parent="Parallax"]
+position = Vector2(9000, 300)
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxR1" type="Sprite2D" parent="Parallax"]
+position = Vector2(9780, 300)
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(0.9, 0.95, 1, 1)
+metadata/f = 0.92
+
+[node name="pxB0" type="Sprite2D" parent="Parallax"]
+position = Vector2(10100, 296)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.88
+
+[node name="pxB1" type="Sprite2D" parent="Parallax"]
+position = Vector2(10650, 296)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.88
+
+[node name="pxB2" type="Sprite2D" parent="Parallax"]
+position = Vector2(11300, 296)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.88
+
+[node name="pxB3" type="Sprite2D" parent="Parallax"]
+position = Vector2(11800, 296)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.88
+
+[node name="far_houseboat_1" type="Sprite2D" parent="Parallax"]
+position = Vector2(10350, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_houseboat")
+centered = false
+offset = Vector2(-335.5, -208)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.8
+metadata/sway = 50
+
+[node name="far_barge" type="Sprite2D" parent="Parallax"]
+position = Vector2(11150, 300)
+scale = Vector2(0.28, 0.28)
+texture = ExtResource("px_barge")
+centered = false
+offset = Vector2(-525.5, -211)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.8
+metadata/sway = 60
+
+[node name="far_houseboat_2" type="Sprite2D" parent="Parallax"]
+position = Vector2(11700, 300)
+scale = Vector2(-0.3, 0.3)
+texture = ExtResource("px_houseboat")
+centered = false
+offset = Vector2(-335.5, -208)
+modulate = Color(0.82, 0.9, 0.98, 1)
+metadata/f = 0.8
+metadata/sway = 45
+
+[node name="pxN0" type="Sprite2D" parent="Parallax"]
+position = Vector2(12080, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(1, 0.8, 0.66, 1)
+metadata/f = 0.9
+
+[node name="pxN1" type="Sprite2D" parent="Parallax"]
+position = Vector2(12560, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(1, 0.8, 0.66, 1)
+metadata/f = 0.9
+
+[node name="pxN2" type="Sprite2D" parent="Parallax"]
+position = Vector2(12900, 300)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("px_qtree")
+centered = false
+offset = Vector2(-233.0, -331)
+modulate = Color(1, 0.8, 0.66, 1)
+metadata/f = 0.9
 
 [node name="KopiecBg" type="Sprite2D" parent="." unique_id=1411031045]
 z_index = -2
