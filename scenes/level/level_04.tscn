@@ -178,9 +178,6 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/coin.tscn" id="191_c1va1"]
 [ext_resource type="PackedScene" path="res://scenes/objects/diamond.tscn" id="193_66wnt"]
 [ext_resource type="PackedScene" path="res://scenes/objects/life.tscn" id="194_sgkp5"]
-[ext_resource type="Texture2D" uid="uid://dhn514j4wio6s" path="res://assets/game/lvl4/podgorze/tenement_a.png" id="195_s36f6"]
-[ext_resource type="Texture2D" uid="uid://dvktu4xi42o25" path="res://assets/game/lvl4/podgorze/tenement_b.png" id="196_ii0kr"]
-[ext_resource type="Texture2D" uid="uid://dov0rvjwhnlba" path="res://assets/game/lvl4/podgorze/tenement_c.png" id="197_ba2ar"]
 [ext_resource type="Texture2D" uid="uid://b0fx1rml8mwon" path="res://assets/game/lvl4/podgorze/planter_tree_a.png" id="198_fvray"]
 [ext_resource type="Texture2D" uid="uid://daw54br0it13x" path="res://assets/game/lvl4/podgorze/planter_tree_b.png" id="199_5u2dv"]
 [ext_resource type="Texture2D" uid="uid://cpf12eyvpghfm" path="res://assets/game/lvl4/podgorze/ad_column.png" id="200_tejrj"]
@@ -3270,28 +3267,6 @@ offset = Vector2(-38, -310)
 
 [node name="Platformy" type="Node2D" parent="6_Rynek" unique_id=531050270]
 
-[node name="TenementA" parent="6_Rynek/Platformy" unique_id=790799641 instance=ExtResource("128_mu151")]
-position = Vector2(9008, 207)
-texture = ExtResource("195_s36f6")
-surface = 9.0
-
-[node name="TenementB" parent="6_Rynek/Platformy" unique_id=872482029 instance=ExtResource("128_mu151")]
-position = Vector2(9074, 208.33333)
-texture = ExtResource("196_ii0kr")
-surface = 9.0
-gap_x = -13.0
-
-[node name="TenementC" parent="6_Rynek/Platformy" unique_id=1600522270 instance=ExtResource("128_mu151")]
-position = Vector2(9792, 210.66667)
-texture = ExtResource("197_ba2ar")
-surface = 9.0
-
-[node name="TenementD" parent="6_Rynek/Platformy" unique_id=1753030093 instance=ExtResource("128_mu151")]
-position = Vector2(9870, 207)
-texture = ExtResource("195_s36f6")
-surface = 9.0
-gap_x = -38.0
-
 [node name="Planter1" parent="6_Rynek/Platformy" unique_id=797072121 instance=ExtResource("128_mu151")]
 position = Vector2(9144, 250.33333)
 texture = ExtResource("198_fvray")
@@ -3471,14 +3446,13 @@ position = Vector2(9432, 272)
 [node name="PigeonR4" parent="6_Rynek/Wrogowie" unique_id=60687662 instance=ExtResource("202_omwxs")]
 position = Vector2(9688, 272)
 
+[node name="PigeonR5" parent="6_Rynek/Wrogowie" instance=ExtResource("202_omwxs")]
+position = Vector2(9212, 272)
+
 [node name="PgDog1" parent="6_Rynek/Wrogowie" unique_id=901586768 instance=ExtResource("141_420ba")]
 position = Vector2(9272, 272)
 
 [node name="Przeszkody" type="Node2D" parent="6_Rynek" unique_id=581567541]
-
-[node name="BikeR1" parent="6_Rynek/Przeszkody" unique_id=416519616 instance=ExtResource("204_62xfr")]
-position = Vector2(9212, 272)
-lane = 480.0
 
 [node name="Inne" type="Node2D" parent="6_Rynek" unique_id=1529531225]
 
