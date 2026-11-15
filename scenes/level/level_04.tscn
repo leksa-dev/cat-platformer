@@ -241,7 +241,6 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/crate.tscn" id="crate_scene"]
 [ext_resource type="PackedScene" path="res://scenes/objects/shop.tscn" id="shop_scene"]
 [ext_resource type="PackedScene" path="res://scenes/objects/hide_spot.tscn" id="hide_scene"]
-[ext_resource type="PackedScene" path="res://scenes/objects/grapple_point.tscn" id="grapple_scene"]
 
 [node name="Level04" type="Node2D" unique_id=1795149945]
 script = ExtResource("1_dw70t")
@@ -1885,9 +1884,6 @@ position = Vector2(2920, 272)
 position = Vector2(1860, 336)
 texture = ExtResource("29_tia7m")
 
-[node name="GrappleT1" parent="1_Kopiec/Inne" instance=ExtResource("grapple_scene")]
-position = Vector2(1384, 200)
-
 [node name="Przeszkody" type="Node2D" parent="1_Kopiec"]
 
 [node name="SpikesT1" parent="1_Kopiec/Przeszkody" instance=ExtResource("165_n7jw8")]
@@ -2409,15 +2405,6 @@ position = Vector2(3460, 272)
 
 [node name="BoxG1" parent="3_Fort31/Inne" instance=ExtResource("hide_scene")]
 position = Vector2(5060, 224)
-
-[node name="GrappleF1" parent="3_Fort31/Inne" instance=ExtResource("grapple_scene")]
-position = Vector2(3880, 190)
-
-[node name="GrappleH1" parent="3_Fort31/Inne" instance=ExtResource("grapple_scene")]
-position = Vector2(5560, 180)
-
-[node name="GrappleH2" parent="3_Fort31/Inne" instance=ExtResource("grapple_scene")]
-position = Vector2(5700, 180)
 
 [node name="4_Stadion" type="Node2D" parent="." unique_id=63452699]
 

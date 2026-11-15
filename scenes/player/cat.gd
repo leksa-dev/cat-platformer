@@ -76,9 +76,6 @@ var _drink_time := -1.0  # seconds into the drink at the bar, < 0 when not drink
 var sneaking := false  # holding down on the ground: slow, enemies notice it only up close (enemy.gd cat_unseen)
 var _hidden_in: Node2D = null  # hiding spot the cat sits in (box, bush): invisible, enemies don't see it
 var _air_jump := true  # bought double jump: one extra jump per air time, refilled like the dash
-var _swing_point: Node2D = null  # yarn hook: the grapple point the cat hangs from
-var _rope := 0.0
-var _rope_line: Line2D
 var at_bar := false  # standing at the bar counter: jump orders another drink instead
 var _drank := false
 var _land_time := 1.0  # since touching the ground
@@ -143,13 +140,6 @@ var _coords: Label  # god mode: where the cat is on the level grid (a tile = 16 
 func _ready() -> void:
 	max_hp += int(Game.upgrades.get("hp_bonus", 0))
 	hp = max_hp
-	_rope_line = Line2D.new()
-	_rope_line.top_level = true
-	_rope_line.width = 1.0
-	_rope_line.default_color = Color(0.85, 0.3, 0.45)
-	_rope_line.z_index = 1
-	_rope_line.visible = false
-	add_child(_rope_line)
 	_coords = Label.new()
 	_coords.add_theme_font_size_override("font_size", 8)
 	_coords.add_theme_color_override("font_outline_color", Color.BLACK)
@@ -262,54 +252,6 @@ func _update_hidden() -> void:
 		_buffer = 0.0
 
 
-# --- yarn hook: a grapple point in range above the cat; hold the button to swing, let go (or jump) to fly off
-func _try_grapple() -> void:
-	var best: Node2D = null
-	var best_d := INF
-	for p in get_tree().get_nodes_in_group("grapple"):
-		var d := global_position.distance_to(p.global_position)
-		if d < p.reach and d < best_d and p.global_position.y < global_position.y - 8:
-			best = p
-			best_d = d
-	if best == null:
-		return
-	_swing_point = best
-	_rope = clampf(best_d, 24.0, best.reach)
-	_climbing = false
-	_air_jump = true
-	_can_dash = true
-	Game.sfx("dash", 0.1, -4.0)
-
-
-func _swing(delta: float) -> void:
-	var p := _swing_point.global_position
-	if not Input.is_action_pressed("grapple") or Input.is_action_just_pressed("jump") or is_on_floor():
-		if Input.is_action_just_pressed("jump"):
-			velocity.y = minf(velocity.y, jump_velocity * 0.75)
-		_swing_point = null
-		_rope_line.visible = false
-		_buffer = 0.0
-		return
-	var h_in := Input.get_axis("left", "right")
-	_rope = clampf(_rope + Input.get_axis("up", "down") * 70.0 * delta, 20.0, _swing_point.reach)   # climb the yarn up / let it out
-	velocity.y += gravity * delta
-	velocity.x += h_in * 260.0 * delta   # pump the swing
-	if h_in:
-		visual.scale.x = signf(h_in)
-	fall_speed = velocity.y
-	move_and_slide()
-	var d := global_position - p
-	if d.length() > _rope:   # the yarn is taut: back onto the circle, the outward part of the speed gone
-		var n := d.normalized()
-		global_position = p + n * _rope
-		var out := velocity.dot(n)
-		if out > 0:
-			velocity -= n * out
-	_rope_line.visible = true
-	_rope_line.points = PackedVector2Array([global_position + Vector2(0, -8), p])
-	sprite.frame = JUMP + 2
-
-
 func eat_catnip() -> void:
 	_catnip_left = catnip_time  # eating again refreshes, doesn't stack
 	Game.sfx("catnip", 0.0)
@@ -357,13 +299,6 @@ func _physics_process(delta: float) -> void:
 	if _hidden_in:
 		_update_hidden()
 		return
-	if _swing_point:
-		_swing(delta)
-		return
-	if Input.is_action_just_pressed("grapple"):
-		_try_grapple()
-		if _swing_point:
-			return
 	if is_on_floor() and Input.is_action_just_pressed("down") and _try_hide():
 		return
 
