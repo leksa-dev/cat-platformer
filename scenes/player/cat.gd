@@ -76,6 +76,8 @@ var _drink_time := -1.0  # seconds into the drink at the bar, < 0 when not drink
 var sneaking := false  # holding down on the ground: slow, enemies notice it only up close (enemy.gd cat_unseen)
 var _hidden_in: Node2D = null  # hiding spot the cat sits in (box, bush): invisible, enemies don't see it
 var _air_jump := true  # bought double jump: one extra jump per air time, refilled like the dash
+var _air_jump_time := 1.0  # since the double jump: the spin frames
+var _sneak_time := 0.0  # since the cat crouched down
 var at_bar := false  # standing at the bar counter: jump orders another drink instead
 var _drank := false
 var _land_time := 1.0  # since touching the ground
@@ -94,7 +96,9 @@ var _scratch_time := 1.0  # since the flurry started
 const ANIMS := {"idle": [0, 4, 5.0], "yarn": [5, 6, 6.0], "walk": [11, 8, 12.0], "run": [19, 8, 14.0],
 	"fall": [33, 4, 10.0], "land": [37, 4, 20.0], "hurt": [58, 4, 10.0],
 	# from assets/cat_scratch_climb.png
-	"climb_up": [82, 8, 12.0], "climb_down": [90, 8, 12.0], "climb_idle": [98, 4, 5.0], "fall_climb": [115, 4, 10.0]}
+	"climb_up": [82, 8, 12.0], "climb_down": [90, 8, 12.0], "climb_idle": [98, 4, 5.0], "fall_climb": [115, 4, 10.0],
+	# from assets/lvl4/new_sprites/cat_extra.png (tools/pack_new_sprites.py)
+	"crouch": [127, 3, 14.0], "sneak": [130, 8, 10.0], "air_jump": [138, 6, 18.0]}
 const SCRATCH_GROUND := 68  # 8 frames: ready, wind-up, 4 swipes, recover x2
 const SCRATCH_AIR := 76  # 6 frames: ready, wind-up, 3 swipes, recover
 const REACH_UP := 102  # 4 frames grabbing a climbable, then REACH_DOWN (4) when grabbing it going down
@@ -116,7 +120,7 @@ const THROW := 119  # 8 frames: ready, grab the ball, wind up x2, throw (ball le
 const THROW_RELEASE := 5
 const THROW_FPS := 20.0
 # sprite sheets: [texture, frames, sprite y so the feet stay on the ground]
-const SHEET_CAT := [preload("res://assets/game/cat.png"), 127, -70.0 / 6]
+const SHEET_CAT := [preload("res://assets/game/cat.png"), 144, -70.0 / 6]
 const SHEET_SURF := [preload("res://assets/game/beach/cat_surf.png"), 6, -8.0]  # idle, get on, surf 1-2, jump, land
 const SHEET_DRINK := [preload("res://assets/game/beach/cat_drink.png"), 6, -40.0 / 6]  # stand, coconut, sip x2, put down, happy (healed)
 const DRINK_FPS := 6.0
@@ -234,7 +238,7 @@ func _try_hide() -> bool:
 	for spot in get_tree().get_nodes_in_group("hide_spot"):
 		if spot.covers(global_position):
 			_hidden_in = spot
-			spot.occupied = true
+			spot.enter(global_position.x)
 			visible = false
 			velocity = Vector2.ZERO
 			global_position.x = spot.global_position.x
@@ -369,7 +373,6 @@ func _physics_process(delta: float) -> void:
 		_can_dash = true
 		_air_jump = true
 	sneaking = is_on_floor() and Input.is_action_pressed("down") and not _in_water
-	visual.scale.y = move_toward(visual.scale.y, 0.8 if sneaking else 1.0, 4.0 * delta)
 	if Input.is_action_just_pressed("dash") and _can_dash and _dash_left <= -dash_cooldown and _fart_time < 0 and not _in_water:
 		_can_dash = false
 		_dash_left = dash_time
@@ -419,7 +422,7 @@ func _physics_process(delta: float) -> void:
 		Game.sfx("jump", 0.1, 2.0)
 		_buffer = 0
 		_air_jump = false
-		_spawn_ghost()
+		_air_jump_time = 0.0
 	if Input.is_action_just_released("jump") and velocity.y < 0:
 		velocity.y *= jump_cut_mult
 
@@ -649,6 +652,8 @@ func _animate(delta: float, sliding: bool) -> void:
 	_turn_time += delta
 	_hurt_time += delta
 	_jump_off_time += delta
+	_air_jump_time += delta
+	_sneak_time = _sneak_time + delta if sneaking else 0.0
 	_scratch_time += delta
 	_anim_time += delta
 	if on_floor:
@@ -672,6 +677,8 @@ func _animate(delta: float, sliding: bool) -> void:
 		sprite.frame = WALL
 	elif not on_floor and _jump_off_time < 0.35:
 		sprite.frame = JUMP_OFF + mini(int(_jump_off_time * 14), 4)
+	elif not on_floor and _air_jump_time < 0.33:
+		sprite.frame = ANIMS["air_jump"][0] + mini(int(_air_jump_time * ANIMS["air_jump"][2]), 5)
 	elif not on_floor and _climb_fall:
 		_climb_time += delta
 		sprite.frame = ANIMS["fall_climb"][0] + mini(int(_climb_time * 10), 3)
@@ -681,6 +688,13 @@ func _animate(delta: float, sliding: bool) -> void:
 			sprite.frame = JUMP + (1 if velocity.y < -100 else 2 if velocity.y < 0 else 3)
 		else:
 			_play("fall")
+	elif sneaking:   # crouched: low walk, or the last crouch frame standing still
+		if _sneak_time < 0.2:
+			sprite.frame = ANIMS["crouch"][0] + mini(int(_sneak_time * ANIMS["crouch"][2]), 2)
+		elif absf(velocity.x) > 5:
+			_play("sneak")
+		else:
+			sprite.frame = ANIMS["crouch"][0] + 2
 	elif _turn_time < 0.12:
 		sprite.frame = TURN + int(_turn_time / 0.06)
 	elif absf(velocity.x) > 5:
