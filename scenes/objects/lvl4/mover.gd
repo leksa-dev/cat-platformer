@@ -14,6 +14,8 @@ extends AnimatableBody2D
 @export var speed := 30.0
 @export var size_mult := 1.0  # the block drawn and its one-way top made this many times wider (and taller)
 @export var phase := 0.0  # 0..1 of the cycle, so neighbours don't move in step
+@export var top_span := Vector2.ZERO  # main top only over this x range of the art (px); zero = the whole width
+@export var extra_tops: Array[Vector3] = []  # more one-way tops on the art (a boat's roof): (x from, x to, y) in art px
 
 var _start := Vector2.ZERO
 var _t := 0.0
@@ -42,8 +44,19 @@ func _build() -> void:
 	var shape := CollisionShape2D.new()
 	shape.shape = rect
 	shape.position = Vector2(0, 3)
+	if top_span != Vector2.ZERO:
+		rect.size.x = (top_span.y - top_span.x) / 3.0 * size_mult
+		shape.position.x = -w / 2 + (top_span.x + top_span.y) / 6.0 * size_mult
 	shape.one_way_collision = true
 	add_child(shape)
+	for top in extra_tops:
+		var r := RectangleShape2D.new()
+		r.size = Vector2((top.y - top.x) / 3.0 * size_mult, 6)
+		var s := CollisionShape2D.new()
+		s.shape = r
+		s.position = sprite.position + Vector2((top.x + top.y) / 6.0, top.z / 3.0) * size_mult + Vector2(0, 3)
+		s.one_way_collision = true
+		add_child(s)
 
 
 func _physics_process(delta: float) -> void:

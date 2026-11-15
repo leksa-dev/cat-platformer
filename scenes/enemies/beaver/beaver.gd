@@ -1,21 +1,30 @@
 extends "res://scenes/enemies/enemy.gd"
-# Beaver boss at the end of level 4: waits in its arena; once the cat walks in, the camera locks to the arena, a wall shuts
-# the way back and a boss HP bar shows. Cycles: throws a branch in an arc at the cat -> paws the ground and charges across
-# the arena (dazed against the wall, an opening to scratch it) -> tail slam that hurts close by. Below half HP it throws
-# three branches and charges faster. Beaten, the camera and wall free up and the nodes in group "boss_reward" appear.
+# Beaver boss at the end of level 4: waits in its arena (two banks round a pool); once the cat walks in, the camera locks to
+# the arena, a wall shuts the way back and a boss HP bar shows.
+# On a bank: throws a branch in an arc at the cat (three when below half HP) -> paws the ground and charges (a wall leaves it
+# dazed) -> dives into the pool. Landing back on a bank it is dazed for a moment, then tail-slams close by and starts over.
+# In the pool it swims under the surface where claws can't reach it, follows the cat from below and leaps out at it (twice
+# at most, then onto a bank, where it lands dazed). A cat that falls in is chased and bitten.
+# Beaten, the camera and wall free up and the nodes in group "boss_reward" appear.
 
 const STICK := preload("res://scenes/enemies/beaver/stick.gd")
 
 @export var arena_left := 0.0
 @export var arena_right := 0.0
+@export var pool_left := 0.0
+@export var pool_right := 0.0
+@export var water_top := 296.0
 @export var charge_speed := 150.0
 @export var charge_damage := 2
+@export var bite_damage := 2
 
-enum { WAIT, IDLE, THROW, WINDUP, CHARGE, DAZED, TAIL }
+enum { WAIT, IDLE, THROW, WINDUP, CHARGE, DAZED, TAIL, DIVE, SWIM, LEAP }
 var _state := WAIT
 var _timer := 0.0
 var _next := THROW
 var _thrown := 0
+var _leaps := 0
+var _bite_cd := 0.0
 var _wall: StaticBody2D
 var _bar: ProgressBar
 var _ui: CanvasLayer
@@ -39,6 +48,7 @@ func _ai(delta: float) -> void:
 		return
 	var d := cat.global_position - global_position
 	_timer -= delta
+	_bite_cd -= delta
 	var angry := hp <= max_hp / 2
 	match _state:
 		WAIT:
@@ -50,12 +60,7 @@ func _ai(delta: float) -> void:
 			face(d.x)
 			play("idle")
 			if _timer <= 0:
-				_state = _next
-				_timer = 9.0 / anim_fps
-				_thrown = 0
-				if _state == WINDUP:
-					_timer = 0.5
-				play("throw" if _state == THROW else "tail" if _state == TAIL else "idle", false)
+				_begin(_next)
 		THROW:
 			velocity.x = 0
 			play("throw", false)
@@ -67,30 +72,27 @@ func _ai(delta: float) -> void:
 				_rest(WINDUP)
 		WINDUP:
 			velocity.x = 0
-			face(d.x)
+			play("idle")
 			sprite.position.x = sin(_timer * 60.0) * 1.0
 			if _timer <= 0:
 				sprite.position.x = 0.0
-				_state = CHARGE
-				_timer = 3.0
-				play("charge")
-				anim_fps = 14.0
+				_begin(CHARGE)
 		CHARGE:
 			velocity.x = facing * charge_speed * (1.3 if angry else 1.0)
 			play("charge")
 			hit_cat_in(Rect2(4, -22, 26, 20), charge_damage)
 			var x := global_position.x
-			if is_on_wall() or _timer <= 0 or (facing < 0 and x < arena_left + 24) or (facing > 0 and x > arena_right - 24):
-				anim_fps = 8.0
+			if is_on_wall() or (facing < 0 and x < arena_left + 24) or (facing > 0 and x > arena_right - 24):
 				Game.sfx("enemy_hit", 0.1, -6.0)
-				_state = DAZED
-				_timer = 1.6
-				play("hurt")
+				_begin(DAZED)
+				_next = DIVE
+			elif not ground_ahead() or _timer <= 0:
+				_begin(DIVE)
 		DAZED:
 			velocity.x = 0
 			play("hurt")
 			if _timer <= 0:
-				_rest(TAIL)
+				_rest(_next)
 		TAIL:
 			velocity.x = 0
 			play("tail", false)
@@ -99,6 +101,78 @@ func _ai(delta: float) -> void:
 				hit_cat_in(Rect2(-40, -16, 80, 16), 1)  # the slam reaches both sides
 			if _timer <= 0:
 				_rest(THROW)
+		DIVE:  # run off the bank into the pool
+			play("run")
+			face((pool_left + pool_right) / 2.0 - global_position.x)
+			velocity.x = facing * 90.0
+			if in_water():
+				_begin(SWIM)
+		SWIM:
+			_swim(cat)
+		LEAP:
+			play("charge")
+			hit_cat_in(Rect2(-14, -26, 30, 26), bite_damage)
+			if is_on_floor():
+				_leaps = 0
+				_begin(DAZED)
+				_timer = 1.0
+				_next = TAIL
+			elif (in_water() and velocity.y > 0) or _timer <= 0:
+				_leaps += 1
+				_begin(SWIM)
+
+
+func _swim(cat: Node2D) -> void:
+	var cat_wet: bool = cat.get("_in_water") == true
+	var target := Vector2(clampf(cat.global_position.x, pool_left + 18, pool_right - 18), water_top + 18)
+	var speed := 70.0
+	if cat_wet:  # a cat in the water is easy prey
+		target = cat.global_position + Vector2(0, 6)
+		speed = 110.0
+		if _bite_cd <= 0 and hit_cat_in(Rect2(-6, -22, 30, 22), bite_damage):
+			_bite_cd = 1.0
+			play("throw", false)
+	velocity = (target - global_position).normalized() * minf(speed, (target - global_position).length() * 4.0)
+	face(cat.global_position.x - global_position.x)
+	if _bite_cd <= 0.6:
+		play("run")
+	if _timer <= 0 and not cat_wet:
+		_leap(cat)
+
+
+func _leap(cat: Node2D) -> void:
+	var to: Vector2 = cat.global_position
+	var over_pool := to.x > pool_left and to.x < pool_right
+	if _leaps >= 2 or not over_pool:  # out onto the bank nearest the cat
+		var left_bank := to.x < (pool_left + pool_right) / 2.0
+		to = Vector2(clampf(to.x, arena_left + 30, pool_left - 20) if left_bank else clampf(to.x, pool_right + 20, arena_right - 30), water_top - 24)
+	var t := 0.8
+	velocity = Vector2((to.x - global_position.x) / t, (to.y - global_position.y - 0.5 * gravity * t * t) / t)
+	face(velocity.x)
+	_begin(LEAP)
+
+
+func _begin(state: int) -> void:
+	_state = state
+	flying = state == SWIM
+	sprite.modulate = Color(0.5, 0.65, 0.85, 0.7) if state == SWIM else Color.WHITE  # under the surface
+	match state:
+		THROW:
+			_timer = 9.0 / anim_fps
+			_thrown = 0
+		WINDUP:
+			_timer = 0.5
+			face(find_cat().global_position.x - global_position.x)
+		CHARGE:
+			_timer = 3.0
+		DAZED:
+			_timer = 1.6
+		TAIL:
+			_timer = 9.0 / anim_fps
+		SWIM:
+			_timer = 1.6 if hp <= max_hp / 2 else 2.2
+		LEAP:
+			_timer = 2.0
 
 
 func _rest(next: int) -> void:
@@ -121,8 +195,7 @@ func _throw(target: Vector2, i: int) -> void:
 
 func _start_fight() -> void:
 	var level := get_tree().current_scene
-	_state = IDLE
-	_next = THROW
+	_rest(THROW)
 	_timer = 1.0
 	if level.has_method("enter_room"):
 		level.enter_room(Rect2(arena_left, -1000, arena_right - arena_left, 1000 + level._default_bottom))
@@ -153,11 +226,11 @@ func _start_fight() -> void:
 	_ui.add_child(label)
 	_ui.add_child(_bar)
 	add_child(_ui)
-	Game.hint.emit("Bóbr broni kładki! Uważaj na gałęzie i szarżę, drap go, gdy jest oszołomiony.")
+	Game.hint.emit("Bóbr broni kładki! Pod wodą jest nietykalny. Nie wpadaj do wody, drap go, gdy jest oszołomiony.")
 
 
 func hurt(amount: int, from: Vector2, stun := 0.0) -> void:
-	if _state == WAIT:
+	if _state == WAIT or _state == SWIM:
 		return
 	super.hurt(amount, from, stun)
 	if _bar:
@@ -165,6 +238,8 @@ func hurt(amount: int, from: Vector2, stun := 0.0) -> void:
 
 
 func _on_defeated() -> void:
+	flying = false
+	sprite.modulate = Color.WHITE
 	var level := get_tree().current_scene
 	if level.has_method("leave_room"):
 		level.leave_room()

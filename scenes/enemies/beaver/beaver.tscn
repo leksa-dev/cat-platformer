@@ -14,7 +14,7 @@ max_hp = 10
 contact_damage = 1
 hurt_invuln = 0.6
 knockback = 0.0
-water_behavior = 1
+water_behavior = 0
 
 [node name="Sprite" type="Sprite2D" parent="."]
 scale = Vector2(0.42, 0.42)

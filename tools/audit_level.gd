@@ -95,11 +95,14 @@ func _initialize() -> void:
 			pillar_h[surfaces.size()] = n.height_tiles * 16.0
 			surfaces.append({"x0": n.global_position.x - w / 2 + 1, "x1": n.global_position.x + w / 2 - 1, "y": n.global_position.y, "kind": "pillar", "name": str(n.name)})
 		elif sc.ends_with("mover.gd"):
-			var mw: float = n.texture.get_width() / 3.0 * n.size_mult
 			var dirn: Vector2 = n.direction.normalized()
-			for f in [0.0, 0.5, 1.0]:   # the ends and the middle of its path, as separate surfaces
-				var at: Vector2 = n.global_position + dirn * n.distance * f
-				surfaces.append({"x0": at.x - mw / 2 + 2, "x1": at.x + mw / 2 - 2, "y": at.y, "kind": "mover", "name": str(n.name)})
+			for sh in n.get_children():   # every one-way top it built (a boat's deck and roof)
+				if not (sh is CollisionShape2D and sh.shape is RectangleShape2D):
+					continue
+				for f in [0.0, 0.5, 1.0]:   # the ends and the middle of its path, as separate surfaces
+					var at: Vector2 = n.global_position + dirn * n.distance * f + sh.position - Vector2(0, 3)
+					var hw: float = sh.shape.size.x / 2
+					surfaces.append({"x0": at.x - hw, "x1": at.x + hw, "y": at.y, "kind": "mover", "name": str(n.name)})
 		elif sc.ends_with("crumble.gd"):
 			var w: float = n.texture.get_width() / 3.0 if n.texture else n.width_tiles * 16.0
 			surfaces.append({"x0": n.global_position.x, "x1": n.global_position.x + w, "y": n.global_position.y, "kind": "crumble", "name": str(n.name)})
