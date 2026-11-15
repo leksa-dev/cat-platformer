@@ -23,6 +23,10 @@ extends StaticBody2D
 		_build()
 @export var body_inset := 8.0
 @export var gap_x := INF   # x (local, px) of a climbable pole running through the block: the body leaves a gap there
+@export var size_mult := 1.0:  # the art drawn this many times bigger (smaller below 1), with its top and body to match
+	set(value):
+		size_mult = value
+		_build()
 @export var count := 1:  # the block repeated side by side, for longer platforms (footbridge deck, long ledges)
 	set(value):
 		count = maxi(value, 1)
@@ -38,14 +42,14 @@ func _build() -> void:
 		return
 	for c in get_children():
 		c.free()
-	var piece := texture.get_width() / 3.0 if texture else ledge_width
+	var piece := texture.get_width() / 3.0 * size_mult if texture else ledge_width
 	var w := piece * count
 	for i in count if texture else 0:
 		var sprite := Sprite2D.new()
 		sprite.texture = texture
 		sprite.centered = false
-		sprite.scale = Vector2.ONE / 3
-		sprite.position = Vector2(-w / 2 + i * piece, -surface)
+		sprite.scale = Vector2.ONE / 3 * size_mult
+		sprite.position = Vector2(-w / 2 + i * piece, -surface * size_mult)
 		add_child(sprite)
 	var rect := RectangleShape2D.new()
 	rect.size = Vector2(w - 4, 6)
@@ -56,7 +60,7 @@ func _build() -> void:
 	add_child(shape)
 	var depth := body_depth
 	if depth < 0:
-		depth = maxf(texture.get_height() / 3.0 - surface - 8.0, 0.0) if texture else 0.0
+		depth = maxf((texture.get_height() / 3.0 - surface) * size_mult - 8.0, 0.0) if texture else 0.0
 	if depth > 0:
 		var x0 := -w / 2 + 2 + body_inset
 		var x1 := w / 2 - 2 - body_inset

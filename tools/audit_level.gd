@@ -87,7 +87,7 @@ func _initialize() -> void:
 				var gp: Vector2 = sh.global_position
 				poles.append({"x": gp.x, "y0": gp.y - sh.shape.size.y / 2, "y1": gp.y + sh.shape.size.y / 2, "name": str(n.name)})
 		elif sc.ends_with("float_platform.gd"):
-			var piece: float = n.texture.get_width() / 3.0 if n.texture else n.ledge_width
+			var piece: float = n.texture.get_width() / 3.0 * n.size_mult if n.texture else n.ledge_width
 			var w: float = piece * n.count
 			surfaces.append({"x0": n.global_position.x - w / 2 + 2, "x1": n.global_position.x + w / 2 - 2, "y": n.global_position.y, "kind": "block", "name": str(n.name)})
 		elif sc.ends_with("pillar.gd"):

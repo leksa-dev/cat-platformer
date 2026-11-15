@@ -25,6 +25,7 @@ var _next := THROW
 var _thrown := 0
 var _leaps := 0
 var _bite_cd := 0.0
+var _leap_vx := 0.0  # kept through the leap: scraping the pool wall on the way up must not stop it short of the bank
 var _wall: StaticBody2D
 var _bar: ProgressBar
 var _ui: CanvasLayer
@@ -50,6 +51,8 @@ func _ai(delta: float) -> void:
 	_timer -= delta
 	_bite_cd -= delta
 	var angry := hp <= max_hp / 2
+	if _state != WAIT and _state != SWIM and in_water() and not (_state == LEAP and velocity.y < 0):
+		_begin(SWIM)  # knocked into the pool (or landed short): swim, never walk the bed like a bank
 	match _state:
 		WAIT:
 			velocity.x = 0
@@ -111,6 +114,7 @@ func _ai(delta: float) -> void:
 			_swim(cat)
 		LEAP:
 			play("charge")
+			velocity.x = _leap_vx
 			hit_cat_in(Rect2(-14, -26, 30, 26), bite_damage)
 			if is_on_floor():
 				_leaps = 0
@@ -148,6 +152,7 @@ func _leap(cat: Node2D) -> void:
 		to = Vector2(clampf(to.x, arena_left + 30, pool_left - 20) if left_bank else clampf(to.x, pool_right + 20, arena_right - 30), water_top - 24)
 	var t := 0.8
 	velocity = Vector2((to.x - global_position.x) / t, (to.y - global_position.y - 0.5 * gravity * t * t) / t)
+	_leap_vx = velocity.x
 	face(velocity.x)
 	_begin(LEAP)
 
@@ -199,6 +204,10 @@ func _start_fight() -> void:
 	_timer = 1.0
 	if level.has_method("enter_room"):
 		level.enter_room(Rect2(arena_left, -1000, arena_right - arena_left, 1000 + level._default_bottom))
+	for n in level.level_objects():  # the arena's ledges are the cat's refuge: the beaver leaps through them, never lands on one
+		if n is StaticBody2D and n.get_script() and n.get_script().resource_path.ends_with("float_platform.gd") \
+				and n.global_position.x > arena_left and n.global_position.x < arena_right:
+			add_collision_exception_with(n)
 	_wall = StaticBody2D.new()  # shuts the way back
 	var shape := CollisionShape2D.new()
 	shape.shape = RectangleShape2D.new()
