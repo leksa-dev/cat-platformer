@@ -7,8 +7,6 @@ extends Area2D
 @export var room := Rect2()
 @export_range(-1, 1) var push_dir := 0
 @export var size := Vector2(16, 16)  # trigger area, top-left at the node
-@export var door := false  # a drawn door: only "down" at it opens it (walking past does nothing); `label` is written above
-@export var label := ""
 @export var pipe_mouth := false  # draw an open pipe end (sewers), opening against push_dir
 
 var _push := 0.0
@@ -24,8 +22,6 @@ func _ready() -> void:
 	shape.shape = rect
 	shape.position = size / 2
 	add_child(shape)
-	if door:
-		_draw_door()
 	if pipe_mouth:
 		var sprite := Sprite2D.new()
 		sprite.texture = preload("res://assets/game/lvl3/pipe_mouth.png")
@@ -38,39 +34,14 @@ func _ready() -> void:
 	body_entered.connect(func(body): if push_dir == 0 and body.is_in_group("player"): warp(body))
 
 
-func _draw_door() -> void:
-	var frame := ColorRect.new()
-	frame.color = Color(0.85, 0.8, 0.62)
-	frame.position = Vector2(-2, -2)
-	frame.size = size + Vector2(4, 2)
-	frame.z_index = -1
-	add_child(frame)
-	var inside := ColorRect.new()
-	inside.color = Color(0.08, 0.07, 0.1)
-	inside.size = size
-	inside.z_index = -1
-	add_child(inside)
-	if label != "":
-		var text := Label.new()
-		text.text = label
-		text.add_theme_font_size_override("font_size", 8)
-		text.add_theme_color_override("font_outline_color", Color.BLACK)
-		text.add_theme_constant_override("outline_size", 3)
-		text.position = Vector2(size.x / 2 - 40, -26)
-		text.size = Vector2(80, 22)
-		text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		text.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
-		add_child(text)
-
-
 func _physics_process(delta: float) -> void:
-	if push_dir == 0 and not door:
+	if push_dir == 0:
 		return
 	var cat: Node2D = null
 	for body in get_overlapping_bodies():
 		if body.is_in_group("player"):
 			cat = body
-	var pushing := cat != null and not door and Input.get_axis("left", "right") == push_dir
+	var pushing := cat != null and Input.get_axis("left", "right") == push_dir
 	_push = _push + delta if pushing else 0.0
 	if cat and (_push > 0.15 or Input.is_action_just_pressed("down")):
 		_push = 0.0

@@ -112,5 +112,3 @@ Cel poziomu: dojść do legowiska. Pasek HP (6) i 3 życia (serduszka). Wrogowie
 - `scripts/game.gd` — życia, komunikaty, przejścia między poziomami, klawisze, flagi DEV (`god_mode`, `fly_mode`)
 - `scenes/ui/` — menu główne, pauza, menu DEV (`dev.gd`), HUD
 - `assets/game/` — gotowa grafika używana w grze (podglądy w `assets/` zostają jako wzór stylu)
-
-- [x] **Poligon (poziom testowy mechanizmów)** — `scenes/level/level_test.tscn` (generator `tools/build_test_level.py --force` + `tools/paint_test_level.gd`, po wygenerowaniu edytowany ręcznie w Godocie): hub z 7 drzwiami (naciśnij ↓) i 7 pokojami (ruch, wspinanie, platformy, przeszkody, woda i surfing, wrogowie i broń, sekrety) co 84 kolumny, szare pudło + tabliczki (`sign.tscn`), drzwi = `warp.gd` z `door = true`; otwierany tylko z dev menu (POLIGON ▸ ze stacjami), `Game.TEST_INDEX = 99`, poza `LEVELS`

@@ -10,8 +10,6 @@ signal device_changed  # the player switched between keyboard and pad: on-screen
 const START_LIVES := 3
 const MENU := "res://scenes/ui/main_menu.tscn"
 const VICTORY := "res://scenes/ui/victory.tscn"
-const TEST_LEVEL := "res://scenes/level/level_test.tscn"  # the mechanics test level: opened from the dev menu only, not in the campaign
-const TEST_INDEX := 99  # its level_index (outside LEVELS, so it never counts towards grades or the save)
 const LEVELS := ["res://scenes/level/level_01.tscn", "res://scenes/level/level_02.tscn", "res://scenes/level/level_03.tscn", "res://scenes/level/level_04.tscn"]
 
 var lives := START_LIVES
@@ -300,15 +298,6 @@ func _store_setting(section: String, key: String, value: Variant) -> void:
 func toggle_fullscreen() -> void:
 	var full := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if full else DisplayServer.WINDOW_MODE_FULLSCREEN)
-
-
-func load_test_level(spawn := Vector2.INF) -> void:
-	get_tree().paused = false
-	level_index = TEST_INDEX
-	collected.erase(TEST_INDEX)
-	killed.erase(TEST_INDEX)
-	checkpoint = spawn
-	get_tree().change_scene_to_file(TEST_LEVEL)
 
 
 func load_level(index: int) -> void:

@@ -4,7 +4,6 @@ extends Node2D
 @onready var cat: CharacterBody2D = $Cat
 
 @export var background_scroll := 0.2  # background moves slower than the level -> depth
-@export var title := ""  # banner text; empty = "POZIOM n"
 @export var music := "forest"  # assets/game/audio/music_<name>.wav
 @export var backdrop: Texture2D  # dark earth tiled below backdrop_top, so pits don't show the sky/forest layers
 @export var backdrop_top := 236.0

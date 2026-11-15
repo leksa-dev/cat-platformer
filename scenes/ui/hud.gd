@@ -11,8 +11,7 @@ func _ready() -> void:
 	Game.level_done.connect(_on_level_done)
 	refresh_hearts()
 	update_dev_badge()
-	var title = get_parent().get("title")   # levels outside the campaign (the test level) name themselves
-	_show_banner(title if title else tr("POZIOM %d") % (Game.level_index + 1))
+	_show_banner(tr("POZIOM %d") % (Game.level_index + 1))
 
 
 func update_dev_badge() -> void:
