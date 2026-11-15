@@ -15,6 +15,8 @@ var path := ""
 var _xr: XRInterface
 var _sub: SubViewport
 var _env: Environment
+var _screen: MeshInstance3D
+var _cam: XRCamera3D
 
 
 func _ready() -> void:
@@ -37,7 +39,8 @@ func _setup() -> void:
 	add_child(_sub)
 	var origin := XROrigin3D.new()
 	add_child(origin)
-	origin.add_child(XRCamera3D.new())
+	_cam = XRCamera3D.new()
+	origin.add_child(_cam)
 	for hand in ["left_hand", "right_hand"]:
 		var c := XRController3D.new()
 		c.tracker = hand
@@ -46,6 +49,7 @@ func _setup() -> void:
 		c.input_vector2_changed.connect(_stick.bind(hand))
 		origin.add_child(c)
 	var screen := MeshInstance3D.new()
+	_screen = screen
 	var quad := QuadMesh.new()
 	quad.size = SCREEN_SIZE
 	screen.mesh = quad
@@ -55,8 +59,11 @@ func _setup() -> void:
 	mat.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR
 	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	screen.material_override = mat
-	screen.position = Vector3(0, 1.5, -SCREEN_DISTANCE)
 	add_child(screen)
+	for sig in ["session_focussed", "pose_recentered"]:  # the tracking space starts at an arbitrary heading: put the screen where the player looks
+		if _xr.has_signal(sig):
+			_xr.connect(sig, _place_screen_soon)
+	_place_screen_soon()
 	_env = Environment.new()
 	_env.background_mode = Environment.BG_COLOR
 	var we := WorldEnvironment.new()
@@ -65,6 +72,22 @@ func _setup() -> void:
 	Game.background_changed.connect(_apply_passthrough)
 	_apply_passthrough()
 	_adopt_first_scene.call_deferred()
+
+
+func _place_screen_soon() -> void:
+	for delay in [0.2, 1.0]:  # the head pose is not valid right at the start
+		get_tree().create_timer(delay).timeout.connect(_place_screen)
+
+
+# straight ahead of where the headset points now, at eye height, facing the player
+func _place_screen() -> void:
+	var head := _cam.global_transform
+	var forward := -head.basis.z
+	forward.y = 0.0
+	if forward.length() < 0.01:
+		return
+	_screen.global_position = head.origin + forward.normalized() * SCREEN_DISTANCE
+	_screen.look_at(head.origin, Vector3.UP, true)
 
 
 # the engine already put the main scene (title screen) under the root; move it into the screen
@@ -95,12 +118,16 @@ func _input(event: InputEvent) -> void:
 
 func _apply_passthrough() -> void:
 	var ar: bool = not Game.show_background
-	var modes := _xr.get_supported_environment_blend_modes()
-	if ar and modes.has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
+	if ar and _xr.is_passthrough_supported():
+		ar = _xr.start_passthrough()
+	elif ar and _xr.get_supported_environment_blend_modes().has(XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND):
 		_xr.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_ALPHA_BLEND
 	else:
-		ar = false
+		if _xr.is_passthrough_enabled():
+			_xr.stop_passthrough()
 		_xr.environment_blend_mode = XRInterface.XR_ENV_BLEND_MODE_OPAQUE
+		ar = false
+	print("Vr: passthrough=", ar, " supported=", _xr.is_passthrough_supported(), " blend modes=", _xr.get_supported_environment_blend_modes())
 	get_tree().root.transparent_bg = ar
 	_sub.transparent_bg = ar
 	_env.background_color = Color(0, 0, 0, 0) if ar else Color(0.03, 0.04, 0.07)
