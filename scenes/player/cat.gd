@@ -73,11 +73,9 @@ var _surfing := false
 var _surf_air := false
 var _surf_time := 0.0
 var _drink_time := -1.0  # seconds into the drink at the bar, < 0 when not drinking
-var sneaking := false  # holding down on the ground: slow, enemies notice it only up close (enemy.gd cat_unseen)
 var _hidden_in: Node2D = null  # hiding spot the cat sits in (box, bush): invisible, enemies don't see it
 var _air_jump := true  # bought double jump: one extra jump per air time, refilled like the dash
 var _air_jump_time := 1.0  # since the double jump: the spin frames
-var _sneak_time := 0.0  # since the cat crouched down
 var at_bar := false  # standing at the bar counter: jump orders another drink instead
 var _drank := false
 var _land_time := 1.0  # since touching the ground
@@ -98,7 +96,7 @@ const ANIMS := {"idle": [0, 4, 5.0], "yarn": [5, 6, 6.0], "walk": [11, 8, 12.0],
 	# from assets/cat_scratch_climb.png
 	"climb_up": [82, 8, 12.0], "climb_down": [90, 8, 12.0], "climb_idle": [98, 4, 5.0], "fall_climb": [115, 4, 10.0],
 	# from assets/lvl4/new_sprites/cat_extra.png (tools/pack_new_sprites.py)
-	"crouch": [127, 3, 14.0], "sneak": [130, 8, 10.0], "air_jump": [138, 6, 18.0]}
+	"air_jump": [138, 6, 18.0]}   # (127-137: crouch and sneak frames, unused since sneaking was dropped)
 const SCRATCH_GROUND := 68  # 8 frames: ready, wind-up, 4 swipes, recover x2
 const SCRATCH_AIR := 76  # 6 frames: ready, wind-up, 3 swipes, recover
 const REACH_UP := 102  # 4 frames grabbing a climbable, then REACH_DOWN (4) when grabbing it going down
@@ -373,7 +371,6 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() or is_on_wall():
 		_can_dash = true
 		_air_jump = true
-	sneaking = is_on_floor() and Input.is_action_pressed("down") and not _in_water
 	if Input.is_action_just_pressed("dash") and _can_dash and _dash_left <= -dash_cooldown and _fart_time < 0 and not _in_water:
 		_can_dash = false
 		_dash_left = dash_time
@@ -446,7 +443,7 @@ func _physics_process(delta: float) -> void:
 	if _lock <= 0:
 		var dir := Input.get_axis("left", "right") if _fart_time < 0 and _throw_time < 0 else 0.0
 		if dir:
-			velocity.x = move_toward(velocity.x, dir * run_speed * _boost(catnip_speed_mult) * (water_speed_mult if _in_water else 1.0) * (0.4 if sneaking else 1.0), acceleration * delta)
+			velocity.x = move_toward(velocity.x, dir * run_speed * _boost(catnip_speed_mult) * (water_speed_mult if _in_water else 1.0), acceleration * delta)
 			if signf(dir) != visual.scale.x and is_on_floor():
 				_turn_time = 0.0
 			visual.scale.x = signf(dir)
@@ -655,7 +652,6 @@ func _animate(delta: float, sliding: bool) -> void:
 	_hurt_time += delta
 	_jump_off_time += delta
 	_air_jump_time += delta
-	_sneak_time = _sneak_time + delta if sneaking else 0.0
 	_scratch_time += delta
 	_anim_time += delta
 	if on_floor:
@@ -690,13 +686,6 @@ func _animate(delta: float, sliding: bool) -> void:
 			sprite.frame = JUMP + (1 if velocity.y < -100 else 2 if velocity.y < 0 else 3)
 		else:
 			_play("fall")
-	elif sneaking:   # crouched: low walk, or the last crouch frame standing still
-		if _sneak_time < 0.2:
-			sprite.frame = ANIMS["crouch"][0] + mini(int(_sneak_time * ANIMS["crouch"][2]), 2)
-		elif absf(velocity.x) > 5:
-			_play("sneak")
-		else:
-			sprite.frame = ANIMS["crouch"][0] + 2
 	elif _turn_time < 0.12:
 		sprite.frame = TURN + int(_turn_time / 0.06)
 	elif absf(velocity.x) > 5:

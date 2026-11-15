@@ -132,16 +132,13 @@ func _animate(delta: float) -> void:
 
 # --- helpers for subclasses ---
 
-const SNEAK_NOTICE := 40.0  # a sneaking cat is noticed only this close
-
-
-func to_cat() -> Vector2:  # vector to the cat, or far away if there is none or it can't be seen (pipe, hiding spot, sneaking past)
+func to_cat() -> Vector2:  # vector to the cat, or far away if there is none or it can't be seen (pipe, hiding spot)
 	var cat := find_cat()
 	return cat.global_position - global_position if cat and not cat_unseen(cat) else Vector2(INF, INF)
 
 
 func cat_unseen(cat: Node2D) -> bool:
-	return not cat.visible or (cat.get("sneaking") and cat.global_position.distance_to(global_position) > SNEAK_NOTICE)
+	return not cat.visible
 
 
 func face(dir_x: float) -> void:
